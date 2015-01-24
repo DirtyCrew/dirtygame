@@ -35,7 +35,7 @@ public class GameManager {
                     return;
                 }
 
-                nextState = new PlayState(this, 10000);
+                nextState = new PlayState(this, 180000);
                 break;
             case Start:
                 if(currentState.getClass() == StartState.class) {

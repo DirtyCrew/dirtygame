@@ -122,7 +122,6 @@ public class Map {
 
 
     public float getWidth(){
-        DLog.debug("mapDims.x:"+mapDims.x+"  tileMeterDims.x:" + tileMeterDims.x);
         return mapDims.x * tileMeterDims.x;
     }
 

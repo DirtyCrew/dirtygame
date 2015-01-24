@@ -28,7 +28,7 @@ public class KoopaKoopa extends Entity {
     {
         this.body = body;
         eventHandler = e;
-        EventHandler.Event event = new KoopaTimedEvent();
+        KoopaTimedEvent event = new KoopaTimedEvent();
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);

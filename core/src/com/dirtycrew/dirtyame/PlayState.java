@@ -17,8 +17,9 @@ public class PlayState implements IGameState {
 
     Player player;
     OrthographicCamera camera;
-    TiledMap tiledMap;
-    TiledMapRenderer tiledMapRenderer;
+    Map map;
+//    TiledMap tiledMap;
+//    TiledMapRenderer tiledMapRenderer;
 
 
     @Override
@@ -31,8 +32,7 @@ public class PlayState implements IGameState {
     @Override
     public void render(Dirty game) {
 
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        map.drawMap(camera);
 
         game.batch.setProjectionMatrix(camera.combined);
 
@@ -62,8 +62,6 @@ public class PlayState implements IGameState {
         fixtureDef.restitution = 1f; // Make it bounce a little bit
         playerBody.createFixture(fixtureDef);
 
-
-
         BodyDef boxBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.StaticBody;
         boxBodyDef.position.set(200, 0);
@@ -87,8 +85,7 @@ public class PlayState implements IGameState {
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
-        tiledMap = new TmxMapLoader().load("example_map.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        map = new Map("example_map.tmx", game.world);
     }
 
     @Override

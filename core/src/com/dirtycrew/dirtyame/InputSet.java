@@ -10,14 +10,10 @@ import com.badlogic.gdx.controllers.PovDirection;
 public class InputSet{
     Controller controller;
     private boolean isController; //otherwise keyboard
-    private int keyboardRight;
-    private int keyboardLeft;
+    private int right;
+    private int left;
     private int jump;
     private int attack;
-//    private PovDirection dpadRight;
-//    private PovDirection dpadLeft;
-    private int dpadRight;
-    private int dpadLeft;
     private boolean rightActive;
     private boolean leftActive;
     private boolean jumpActive;
@@ -25,8 +21,8 @@ public class InputSet{
 
     public InputSet(int right, int left, int jump, int attack){
         isController = false;
-        keyboardRight = right;
-        keyboardLeft = left;
+        this.right = right;
+        this.left = left;
         this.jump = jump;
         this.attack = attack;
         rightActive = true;
@@ -37,8 +33,8 @@ public class InputSet{
     public InputSet(Controller controller, int right, int left, int jump, int attack){
         this.controller = controller;
         isController = true;
-        dpadRight = right;
-        dpadLeft = left;
+        this.right = right;
+        this.left = left;
         this.jump = jump;
         this.attack = attack;
         rightActive = true;
@@ -105,9 +101,9 @@ public class InputSet{
         if (!rightActive)
             return false;
         if (isController){
-            return controller.getButton(dpadRight);
+            return controller.getButton(right);
         } else {
-            return Gdx.input.isKeyPressed(keyboardRight);
+            return Gdx.input.isKeyPressed(right);
         }
     }
 
@@ -115,9 +111,9 @@ public class InputSet{
         if (!leftActive)
             return false;
         if (isController){
-            return controller.getButton(dpadLeft);
+            return controller.getButton(left);
         } else {
-            return Gdx.input.isKeyPressed(keyboardLeft);
+            return Gdx.input.isKeyPressed(left);
         }
     }
 

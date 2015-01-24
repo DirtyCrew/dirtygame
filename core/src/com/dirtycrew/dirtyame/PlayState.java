@@ -24,9 +24,11 @@ public class PlayState implements IGameState {
 
     Player player;
     List<Entity> entityList = new ArrayList<Entity>();
+    List<Entity> toRemove = new ArrayList<Entity>();
     List<Sprite> renderList = new ArrayList<Sprite>();
     OrthographicCamera camera;
     Map map;
+    World world;
 
     TiledMapRenderer tiledMapRenderer;
     InputController inputController;
@@ -34,6 +36,11 @@ public class PlayState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
+        for(Entity entity : toRemove) {
+            killEntity(entity);
+        }
+        toRemove.clear();
+
         player.update(delta);
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
         //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
@@ -120,7 +127,6 @@ public class PlayState implements IGameState {
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);
-        fixture.
 
         playerBody.setFixedRotation(true);
 
@@ -154,8 +160,20 @@ public class PlayState implements IGameState {
 
     }
 
+    public void killEntity(Entity e) {
+        if(e instanceof KoopaKoopa) {
+            KoopaKoopa k = (KoopaKoopa)e;
+            renderList.remove(k.sprite);
+            world.destroyBody(k.body);
+
+            entityList.remove(e);
+
+        }
+    }
+
     @Override
     public void init(final Dirty game) {
+        world = game.world;
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
@@ -172,6 +190,12 @@ public class PlayState implements IGameState {
         game.world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
+                if(contact.isTouching() == false) {
+                    return;
+                }
+
+
+
                 Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
@@ -185,15 +209,29 @@ public class PlayState implements IGameState {
                             game.gameManager.transitionToState(game.finishState);
 
                         }
-                    } else if(e instanceof  KoopaKoopa) {
-                        contact.getWorldManifold().
+                    } else if(e instanceof KoopaKoopa) {
+                        Vector2 up = new Vector2(0, 1);
+                        Vector2 down = new Vector2(0, -1);
+                        Vector2 right = new Vector2(1,0);
+                        Vector2 left = new Vector2(-1,0);
+
+                        Vector2 contactNormal = contact.getWorldManifold().getNormal();
+                        if(up.dot(contactNormal) > 0) {
+                            game.gameManager.transitionToState(game.finishState);
+                        } else if (down.dot(contactNormal) > 0) {
+                            toRemove.add(e);
+                        } else if(right.dot(contactNormal) > 0) {
+                            game.gameManager.transitionToState(game.finishState);
+                        } else if(left.dot(contactNormal) > 0) {
+                            game.gameManager.transitionToState(game.finishState);
+                        }
+
                     }
                 }
             }
 
             @Override
             public void endContact(Contact contact) {
-
             }
 
             @Override

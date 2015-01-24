@@ -42,6 +42,11 @@ public class Dirty extends ApplicationAdapter {
 		playState = new PlayState();
 		finishState = new FinishState();
 		gameManager.transitionToState(playState);
+		debugRenderer.setDrawContacts(true);
+		debugRenderer.setDrawVelocities(true);
+		debugRenderer.setDrawBodies(true);
+		debugRenderer.setDrawJoints(true);
+		debugRenderer.setDrawAABBs(true);
 	}
 
 	private void doUpdate() {

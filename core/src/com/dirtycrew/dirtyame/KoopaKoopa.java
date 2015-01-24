@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 public class KoopaKoopa extends Entity {
 
-    private Body body;
+    public Body body;
     public Sprite sprite;
     private static final float MAX_JUMP_VELOCITY = 30;
     private static final float JUMP_FORCE = 1000;
@@ -43,14 +43,13 @@ public class KoopaKoopa extends Entity {
 
         if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement)
         {
-            DLog.debug("Left");
+
           //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             body.applyLinearImpulse(-HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
 
         }
         else if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY && !changeMovement)
         {
-            DLog.debug("Right");
             //body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
             body.applyLinearImpulse(HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
         }

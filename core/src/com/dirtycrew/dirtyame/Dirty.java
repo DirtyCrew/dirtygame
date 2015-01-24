@@ -39,7 +39,7 @@ public class Dirty extends ApplicationAdapter {
 		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
 		gameManager = new GameManager(this);
 		startState = new StartState();
-		playState = new PlayState();
+		playState = new PlayState(10000);
 		finishState = new FinishState();
 		gameManager.transitionToState(playState);
 	}

@@ -30,5 +30,8 @@ public class Timer{
 
     }
 
-
+    public long timeRemainingInMilliseconds(){
+        long endTime = System.currentTimeMillis();
+        return (endTime - beginTime);
+    }
 }

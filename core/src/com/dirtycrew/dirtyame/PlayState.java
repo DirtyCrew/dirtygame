@@ -3,9 +3,12 @@ package com.dirtycrew.dirtyame;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -22,11 +25,21 @@ public class PlayState implements IGameState {
     Player player;
     KoopaKoopa koopa;
     OrthographicCamera camera;
+    OrthographicCamera hudCamera;
+    SpriteBatch hudBatch;
     Map map;
 
     TiledMapRenderer tiledMapRenderer;
     InputController inputController;
     EventHandler eventHandler;
+
+    BitmapFont font;
+    Timer timer;
+    long timeForLevel;
+
+    public PlayState(long time){
+        timeForLevel = time;
+    }
 
     @Override
     public void update(Dirty game, float delta) {
@@ -48,9 +61,19 @@ public class PlayState implements IGameState {
         game.batch.begin();
         player.sprite.draw(game.batch);
         koopa.sprite.draw(game.batch);
+//        font.draw(game.batch, "Hello World", 0, 0);
         game.batch.end();
 
         game.debugRenderer.render(game.world, camera.combined);
+
+        hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        hudCamera.update();
+        hudBatch.setProjectionMatrix(hudCamera.projection);
+        hudBatch.begin();
+        font.setScale(0.2f);
+        String timerString = "Time: " + timer.timeRemainingInMilliseconds();
+        font.draw(hudBatch, timerString, -(Constants.VIEWPORT_WIDTH / 2.0f), (Constants.VIEWPORT_HEIGHT / 2.0f));
+        hudBatch.end();
     }
 
 
@@ -109,7 +132,16 @@ public class PlayState implements IGameState {
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
+        font = new BitmapFont();
+        font.setColor(Color.RED);
 
+        hudBatch = new SpriteBatch();
+
+        EventHandler.Event event = new EventHandler.Event();
+        event.setState("Timer");
+        Listener listener = new Listener();
+        eventHandler.subscribe(event, listener);
+        timer = new Timer(timeForLevel, eventHandler, event);
 
         //Creating Enemy
         BodyDef koopaBodyDef = new BodyDef();
@@ -143,4 +175,14 @@ public class PlayState implements IGameState {
     public void shutdown() {
 
     }
+
+    private class Listener implements EventHandler.EventListener{
+
+        @Override
+        public void onEvent(EventHandler.Event e)
+        {
+            //failed the stage
+            System.out.println("Failed");
+        }
+    };
 }

@@ -2,14 +2,17 @@ package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * Created by z084254 on 1/23/15.
  */
-public class Player {
-    private static Body body;
+public class Player extends Entity {
+    private Body body;
+    public Sprite sprite;
     private static final float JUMP_VELOCITY = 50;
     private static final float MAX_HORIZONTAL_VELOCITY = 100;
     private static final float HORIZONTAL_FORCE = 1000;
@@ -21,11 +24,11 @@ public class Player {
         return body.getPosition();
     }
 
-    public Player (Body newBody){
+
+    public Player (Body newBody) {
         body = newBody;
     }
-
-    public void update(float deltaTime, Map map){
+    public void update(float deltaTime) {
         if (deltaTime == 0) return;
 
 //        // check input and apply to velocity & state
@@ -35,7 +38,7 @@ public class Player {
 
         boolean stop = true;
         if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) {
-            if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY*-1) {
+            if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1) {
                 body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             }
             stop = false;
@@ -47,23 +50,12 @@ public class Player {
             }
             stop = false;
         }
-        if (stop){
+        if (stop) {
             if (body.getLinearVelocity().x > 0) {
                 body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
-            }else if (body.getLinearVelocity().x < 0){
+            } else if (body.getLinearVelocity().x < 0) {
                 body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
             }
         }
-
-//        position.x += velocity.x;
-//        if (position.x < 0){
-//            position.x = 0;
-//            velocity.x = 0;
-//        }
-//        if ((position.x + PLAYER_WIDTH) > map.getWidth()){
-//            position.x = map.getWidth() - PLAYER_WIDTH;
-//            velocity.x = 0;
-//        }
-//        position.y += velocity.y;
     }
 }

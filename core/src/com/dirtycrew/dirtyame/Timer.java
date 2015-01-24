@@ -30,5 +30,14 @@ public class Timer{
 
     }
 
-
+    public long timeRemainingInMilliseconds(){
+        long endTime = System.currentTimeMillis();
+        long remainingTimeIn = (waitTimer - (endTime - beginTime));
+        if(remainingTimeIn <= 0){
+            return 0;
+        }
+        else{
+            return remainingTimeIn;
+        }
+    }
 }

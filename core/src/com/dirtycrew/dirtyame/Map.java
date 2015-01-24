@@ -31,6 +31,7 @@ public class Map {
     int tilePixelWidth;
     int tileMeterHeight;
 
+    public Vector2 spawnLocation = new Vector2(0, 0);
 
     //Methods
     public Map(String tiledMapPath, World world) {
@@ -54,11 +55,15 @@ public class Map {
                 TiledMapTile mapTile = cell.getTile();
                 MapProperties properties = mapTile.getProperties();
                 Object collidableCell = properties.get("collidable");
+                Object spawnCell = properties.get("spawn");
 
                 System.out.printf("x: %d y: %d\n", x, y);
+                Vector2 tilePos = new Vector2(x * tileMeterDims.x, y * tileMeterDims.y);
+                if(spawnCell != null) {
+                    this.spawnLocation = tilePos;
+                }
 
                 if(collidableCell != null){
-                    Vector2 tilePos = new Vector2(x * tileMeterDims.x, y * tileMeterDims.y);
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();

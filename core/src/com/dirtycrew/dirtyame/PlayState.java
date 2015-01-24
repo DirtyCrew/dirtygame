@@ -27,6 +27,7 @@ public class PlayState implements IGameState {
     @Override
     public void update(Dirty game, float delta) {
         player.update(delta);
+        camera.position.set(player.body.getPosition(), 0.f);
         camera.update();
 
     }
@@ -46,9 +47,8 @@ public class PlayState implements IGameState {
 
 
     void createPlayer(World world) {
-        float csd = Constants.ASPECT_RATIO;
         Vector2 playerDims = new Vector2(1.f, 1.f);
-        Vector2 playerCenter = new Vector2(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
+        Vector2 playerCenter = new Vector2(map.spawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
         Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims);
 
@@ -84,13 +84,15 @@ public class PlayState implements IGameState {
 
     @Override
     public void init(Dirty game) {
+        map = new Map("Lonely_Trees.tmx", game.world);
+
         createPlayer(game.world);
 
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
-        map = new Map("Lonely_Trees.tmx", game.world);
+
     }
 
     @Override

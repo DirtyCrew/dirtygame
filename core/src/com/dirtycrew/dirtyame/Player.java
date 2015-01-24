@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
  * Created by z084254 on 1/23/15.
  */
 public class Player extends Entity {
-    private Body body;
+    public Body body;
     public Sprite sprite;
     private static final float MAX_JUMP_VELOCITY = 30;
     private static final float JUMP_FORCE = 1000;

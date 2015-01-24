@@ -11,9 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-
+	
 	private static Player player = new Player();
 	private OrthographicCamera camera;
+	Map map;
 
 	@Override
 	public void create () {
@@ -26,7 +27,26 @@ public class Dirty extends ApplicationAdapter {
 		camera.update();
 
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+
+		byte[][] byteMapArray = {
+				{0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+		};
+
+		map = new Map(byteMapArray, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+//		img = new Texture("badlogic.jpg");
 	}
 
 	@Override
@@ -39,7 +59,10 @@ public class Dirty extends ApplicationAdapter {
 		// update the player (process input, collision detection, position update)
 		player.update(deltaTime);
 		batch.begin();
-		batch.draw(img, player.getPosition().x, player.getPosition().y);
+		//batch.draw(img, player.getPosition().x, player.getPosition().y);
+
+		map.drawMap(batch);
+
 		batch.end();
 	}
 

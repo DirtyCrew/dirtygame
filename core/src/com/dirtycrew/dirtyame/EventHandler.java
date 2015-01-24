@@ -1,14 +1,18 @@
 package com.dirtycrew.dirtyame;
 
-import javax.swing.event.EventListenerList;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by Kern on 1/23/2015.
  */
 public class EventHandler {
 
-    Map<Class<?>,List<EventListener>> eventHandlers = new HashMap<Class<?>, List<EventListener>>();
+    Map<Class, List<EventListener>> eventHandlers = new HashMap<Class, List<EventListener>>();
+
 
     public interface EventListener
     {

@@ -41,6 +41,7 @@ public class Dirty extends ApplicationAdapter {
 		startState = new StartState();
 		playState = new PlayState();
 		finishState = new FinishState();
+		gameManager.transitionToState(playState);
 	}
 
 	private void doUpdate() {

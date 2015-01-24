@@ -25,9 +25,6 @@ public class Dirty extends ApplicationAdapter {
 
 	IGameState currentState;
 	GameManager gameManager;
-	StartState startState;
-	PlayState playState;
-	FinishState finishState;
 
 	@Override
 	public void create () {
@@ -38,23 +35,25 @@ public class Dirty extends ApplicationAdapter {
 
 		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
 		gameManager = new GameManager(this);
-		startState = new StartState();
-		playState = new PlayState();
-		finishState = new FinishState();
-		gameManager.transitionToState(playState);
+		gameManager.changeState(GameManager.GameState.Play);
+		debugRenderer.setDrawContacts(true);
+		debugRenderer.setDrawVelocities(true);
+		debugRenderer.setDrawBodies(true);
+		debugRenderer.setDrawJoints(true);
+		debugRenderer.setDrawAABBs(true);
 	}
 
 	private void doUpdate() {
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			gameManager.transitionToState(this.startState);
+			gameManager.changeState(GameManager.GameState.Start);
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			gameManager.transitionToState(this.playState);
+			gameManager.changeState(GameManager.GameState.Play);
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.transitionToState(this.finishState);
+			gameManager.changeState(GameManager.GameState.Finish);
 		}
 
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());

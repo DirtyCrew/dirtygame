@@ -3,13 +3,15 @@ package com.dirtycrew.dirtyame;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Input.Keys;
@@ -24,16 +26,33 @@ public class PlayState implements IGameState {
 
     Player player;
     List<Entity> entityList = new ArrayList<Entity>();
+    List<Entity> toRemove = new ArrayList<Entity>();
     List<Sprite> renderList = new ArrayList<Sprite>();
     OrthographicCamera camera;
+    OrthographicCamera hudCamera;
+    SpriteBatch hudBatch;
     Map map;
+    World world;
 
     TiledMapRenderer tiledMapRenderer;
     InputController inputController;
     EventHandler eventHandler;
 
+    BitmapFont font;
+    Timer deathTimer;
+    long timeForLevel;
+    GameManager gameManager;
+    FinishState finishState;
+
+    public PlayState(GameManager gameManager, long time){
+        this.gameManager = gameManager;
+        timeForLevel = time;
+    }
+
     @Override
     public void update(Dirty game, float delta) {
+        cleanUpOrphans();
+
         player.update(delta);
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
         //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
@@ -45,11 +64,14 @@ public class PlayState implements IGameState {
             camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
         }
         camera.update();
+
+        deathTimer.update();
+
         for(Entity e : entityList) {
-            if (e instanceof Attack && ((Attack) e).destroy){
-                //
-            }
             e.update(delta);
+            if (e instanceof Attack && ((Attack) e).destroy){
+                killEntity(e);
+            }
         }
     }
 
@@ -59,6 +81,10 @@ public class PlayState implements IGameState {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+
+        player.sprite.draw(game.batch);
+
+//        font.draw(game.batch, "Hello World", 0, 0);
         for(Sprite s : renderList) {
             s.draw(game.batch);
         }
@@ -66,6 +92,17 @@ public class PlayState implements IGameState {
         game.batch.end();
 
         game.debugRenderer.render(game.world, camera.combined);
+
+        hudCamera.update();
+        hudBatch.setProjectionMatrix(hudCamera.projection);
+        hudBatch.begin();
+        font.setScale(0.2f);
+        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
+        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
+        String str = String.format("m %d s %02d", minutes, seconds);
+        String timerString = "Death Timer: " + str;
+        font.draw(hudBatch, timerString, -(Constants.VIEWPORT_WIDTH / 2.0f), (Constants.VIEWPORT_HEIGHT / 2.0f));
+        hudBatch.end();
     }
 
     KoopaKoopa createKoopaKoopa(World world, Vector2 pos) {
@@ -156,13 +193,37 @@ public class PlayState implements IGameState {
 
     }
 
+    private void cleanUpOrphans() {
+        for(Entity e : toRemove) {
+            if (e instanceof KoopaKoopa) {
+                KoopaKoopa k = (KoopaKoopa) e;
+                renderList.remove(k.sprite);
+                world.destroyBody(k.body);
+                entityList.remove(e);
+            } else if (e instanceof Player) {
+                Player k = (Player) e;
+                renderList.remove(k.sprite);
+                world.destroyBody(k.body);
+                entityList.remove(e);
+            }
+        }
+        toRemove.clear();;
+    }
+    public void killEntity(Entity e) {
+        toRemove.add(e);
+
+    }
+
     @Override
     public void init(final Dirty game) {
+        world = game.world;
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
         map = new Map("Lonely_Trees.tmx", game.world);
+
+        finishState = new FinishState();
 
         createPlayer(game.world);
 
@@ -171,9 +232,29 @@ public class PlayState implements IGameState {
             createKoopaKoopa(game.world, pos);
         }
 
+
+        hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+
+        hudBatch = new SpriteBatch();
+
+        EventHandler.Event event = new deathTimer();
+        event.setState("Death Timer");
+        Listener listener = new Listener();
+        eventHandler.subscribe(event, listener);
+        deathTimer = new Timer(timeForLevel, eventHandler, event);
+
         game.world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
+                if(contact.isTouching() == false) {
+                    return;
+                }
+
+
+
                 Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
@@ -184,17 +265,34 @@ public class PlayState implements IGameState {
 
                     if(e instanceof Map.Tile) {
                         if (((Map.Tile) e).isDeath) {
-                            game.gameManager.transitionToState(game.finishState);
-
+                            gameManager.changeState(GameManager.GameState.Finish);
                         }
+
+                    } else if(e instanceof KoopaKoopa) {
+                        Vector2 up = new Vector2(0, 1);
+                        Vector2 down = new Vector2(0, -1);
+                        Vector2 right = new Vector2(1,0);
+                        Vector2 left = new Vector2(-1,0);
+
+                        Vector2 contactNormal = contact.getWorldManifold().getNormal();
+                        if(up.dot(contactNormal) > 0) {
+                            gameManager.changeState(GameManager.GameState.Finish);
+                        } else if (down.dot(contactNormal) > 0) {
+                            toRemove.add(e);
+                        } else if(right.dot(contactNormal) > 0) {
+                            gameManager.changeState(GameManager.GameState.Finish);
+                        } else if(left.dot(contactNormal) > 0) {
+                            gameManager.changeState(GameManager.GameState.Finish);
+                        }
+
                     } else if(e instanceof  KoopaKoopa) {
+
                     }
                 }
             }
 
             @Override
             public void endContact(Contact contact) {
-
             }
 
             @Override
@@ -207,13 +305,27 @@ public class PlayState implements IGameState {
 
             }
         });
-
-
-
     }
 
     @Override
     public void shutdown() {
+        killEntity(player);
+        cleanUpOrphans();
+        entityList.clear();
+    }
+
+    private class deathTimer extends EventHandler.Event{
 
     }
+
+    private class Listener implements EventHandler.EventListener{
+
+        @Override
+        public void onEvent(EventHandler.Event e)
+        {
+            //failed the stage
+            System.out.println("Failed");
+            gameManager.changeState(GameManager.GameState.Finish);
+        }
+    };
 }

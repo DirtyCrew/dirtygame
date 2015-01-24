@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 public class KoopaKoopa extends Entity {
 
-    private Body body;
+    public Body body;
     public Sprite sprite;
     private static final float MAX_JUMP_VELOCITY = 30;
     private static final float JUMP_FORCE = 1000;
@@ -28,7 +28,7 @@ public class KoopaKoopa extends Entity {
     {
         this.body = body;
         eventHandler = e;
-        EventHandler.Event event = new EventHandler.Event();
+        KoopaTimedEvent event = new KoopaTimedEvent();
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);
@@ -43,20 +43,24 @@ public class KoopaKoopa extends Entity {
 
         if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement)
         {
-            DLog.debug("Left");
+
           //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             body.applyLinearImpulse(-HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
 
         }
         else if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY && !changeMovement)
         {
-            DLog.debug("Right");
             //body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
             body.applyLinearImpulse(HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
         }
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+
+    }
+
+
+    private class KoopaTimedEvent extends EventHandler.Event{
 
     }
 

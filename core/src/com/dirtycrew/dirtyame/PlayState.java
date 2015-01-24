@@ -14,13 +14,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Input.Keys;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by sturm on 1/24/15.
  */
 public class PlayState implements IGameState {
 
     Player player;
-    KoopaKoopa koopa;
+    List<Entity> entityList = new ArrayList<Entity>();
+    List<Sprite> renderList = new ArrayList<Sprite>();
     OrthographicCamera camera;
     Map map;
 
@@ -31,32 +35,70 @@ public class PlayState implements IGameState {
     @Override
     public void update(Dirty game, float delta) {
         player.update(delta);
+        camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
+        DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
 
-        camera.position.set(player.body.getPosition(), 0.f);
-
-        koopa.update(delta);
+        if (camera.position.x < Constants.VIEWPORT_WIDTH / 2){
+            camera.position.set(Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
+        }
+        if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2){
+            camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
+        }
         camera.update();
-
+        for(Entity e : entityList) {
+            e.update(delta);
+        }
     }
 
     @Override
     public void render(Dirty game) {
-
         map.drawMap(camera);
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        player.sprite.draw(game.batch);
-        koopa.sprite.draw(game.batch);
+        for(Sprite s : renderList) {
+            s.draw(game.batch);
+        }
+
         game.batch.end();
 
         game.debugRenderer.render(game.world, camera.combined);
     }
 
+    KoopaKoopa createKoopaKoopa(World world, Vector2 pos) {
+        //Creating Enemy
+        BodyDef koopaBodyDef = new BodyDef();
+        koopaBodyDef.fixedRotation = true;
+        koopaBodyDef.type = BodyDef.BodyType.DynamicBody;
+        koopaBodyDef.position.set(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
+        Body koopaBody = world.createBody(koopaBodyDef);
+        PolygonShape koopaBox = new PolygonShape();
+        koopaBox.setAsBox(Conversions.convertToMeters(32) / 2.f, Conversions.convertToMeters(32) / 2.f);
 
-    void createPlayer(World world) {
+        FixtureDef koopafixtureDef = new FixtureDef();
+        koopafixtureDef.shape = koopaBox;
+        koopafixtureDef.density = 0.5f;
+        koopafixtureDef.friction = 0.001f;
+        koopafixtureDef.restitution = 0; // Make it bounce a little bit
+        koopaBody.createFixture(koopafixtureDef);
+
+        Texture koopaTexture = new Texture("badlogic.jpg");
+        KoopaKoopa koopa = new KoopaKoopa(koopaBody,eventHandler);
+        koopa.sprite = new Sprite(koopaTexture);
+        koopa.sprite.setPosition(pos.x, pos.y);
+        koopa.sprite.setSize(1,1);
+
+        entityList.add(koopa);
+        renderList.add(koopa.sprite);
+
+        return koopa;
+    }
+
+
+    Player createPlayer(World world) {
+
         Vector2 playerDims = new Vector2(1.f, 1.f);
-        Vector2 playerCenter = new Vector2(map.spawnLocation);
+        Vector2 playerCenter = new Vector2(map.playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
         Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims);
 
@@ -75,6 +117,7 @@ public class PlayState implements IGameState {
         fixtureDef.friction = 0.001f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         playerBody.createFixture(fixtureDef);
+
         playerBody.setFixedRotation(true);
 
         inputController = new InputController();
@@ -90,50 +133,38 @@ public class PlayState implements IGameState {
 
         // create player
         Texture playerTexture = new Texture("badlogic.jpg");
-        player = new Player(playerBody, inputController);
+        player = new Player(playerBody, inputController, camera);
         player.sprite = new Sprite(playerTexture);
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);
+
+        // Player is special..dont add to entity list
+
+
+        renderList.add(player.sprite);
+
+        return player;
+
 
     }
 
     @Override
     public void init(Dirty game) {
         eventHandler = new EventHandler();
-
+        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
+        camera.update();
         map = new Map("Lonely_Trees.tmx", game.world);
 
         createPlayer(game.world);
 
-        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-        camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
-        camera.update();
 
 
-
-        //Creating Enemy
-        BodyDef koopaBodyDef = new BodyDef();
-        koopaBodyDef.fixedRotation = true;
-        koopaBodyDef.type = BodyDef.BodyType.DynamicBody;
-        koopaBodyDef.position.set(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
-        Body koopaBody = game.world.createBody(koopaBodyDef);
-        PolygonShape koopaBox = new PolygonShape();
-        koopaBox.setAsBox(Conversions.convertToMeters(32) / 2.f, Conversions.convertToMeters(32) / 2.f);
-
-        FixtureDef koopafixtureDef = new FixtureDef();
-        koopafixtureDef.shape = koopaBox;
-        koopafixtureDef.density = 0.5f;
-        koopafixtureDef.friction = 0.001f;
-        koopafixtureDef.restitution = 0; // Make it bounce a little bit
-        koopaBody.createFixture(koopafixtureDef);
-
-        Texture koopaTexture = new Texture("badlogic.jpg");
-        koopa = new KoopaKoopa(koopaBody,eventHandler);
-        koopa.sprite = new Sprite(koopaTexture);
-        koopa.sprite.setPosition(40, 30);
-        koopa.sprite.setSize(1,1);
 
         //End Creating Enemy
+        for(Vector2 pos : map.monsterSpawnLocations) {
+            createKoopaKoopa(game.world, pos);
+        }
 
 
 

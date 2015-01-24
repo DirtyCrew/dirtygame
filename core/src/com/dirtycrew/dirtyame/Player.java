@@ -2,6 +2,7 @@ package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -20,14 +21,17 @@ public class Player extends Entity {
     private static final float HORIZONTAL_FORCE = 20;
     private boolean canJump = true;
     public InputController inputController;
+    public OrthographicCamera camera;
 
 
-    public Player (Body newBody, InputController newInputController) {
+    public Player (Body newBody, InputController newInputController, OrthographicCamera camera) {
         body = newBody;
         inputController = newInputController;
+        this.camera = camera;
     }
 
     public void update(float deltaTime) {
+
         //if (deltaTime == 0) return;
 
 //        // check input and apply to velocity & state
@@ -64,5 +68,6 @@ public class Player extends Entity {
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+
     }
 }

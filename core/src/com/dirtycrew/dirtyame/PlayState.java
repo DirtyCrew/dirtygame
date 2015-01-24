@@ -18,15 +18,18 @@ import com.badlogic.gdx.Input.Keys;
 public class PlayState implements IGameState {
 
     Player player;
+    KoopaKoopa koopa;
     OrthographicCamera camera;
     Map map;
 
     TiledMapRenderer tiledMapRenderer;
     InputController inputController;
+    EventHandler eventHandler;
 
     @Override
     public void update(Dirty game, float delta) {
         player.update(delta);
+        koopa.update(delta);
         camera.update();
 
     }
@@ -39,6 +42,7 @@ public class PlayState implements IGameState {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         player.sprite.draw(game.batch);
+        koopa.sprite.draw(game.batch);
         game.batch.end();
 
         game.debugRenderer.render(game.world, camera.combined);
@@ -48,6 +52,9 @@ public class PlayState implements IGameState {
 
     @Override
     public void init(Dirty game) {
+        //Event Handler
+        eventHandler = new EventHandler();
+
         // First we create a body definition
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -78,6 +85,31 @@ public class PlayState implements IGameState {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
+
+
+        //Creating Enemy
+        BodyDef koopaBodyDef = new BodyDef();
+        koopaBodyDef.fixedRotation = true;
+        koopaBodyDef.type = BodyDef.BodyType.DynamicBody;
+        koopaBodyDef.position.set(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
+        Body koopaBody = game.world.createBody(koopaBodyDef);
+        PolygonShape koopaBox = new PolygonShape();
+        koopaBox.setAsBox(Conversions.convertToMeters(32) / 2.f, Conversions.convertToMeters(32) / 2.f);
+
+        FixtureDef koopafixtureDef = new FixtureDef();
+        koopafixtureDef.shape = koopaBox;
+        koopafixtureDef.density = 0.5f;
+        koopafixtureDef.friction = 0.001f;
+        koopafixtureDef.restitution = 0; // Make it bounce a little bit
+        koopaBody.createFixture(koopafixtureDef);
+
+        Texture koopaTexture = new Texture("badlogic.jpg");
+        koopa = new KoopaKoopa(koopaBody,eventHandler);
+        koopa.sprite = new Sprite(koopaTexture);
+        koopa.sprite.setPosition(40, 30);
+        koopa.sprite.setSize(32 * Constants.METERS_PER_PIXEL, 32 * Constants.METERS_PER_PIXEL);
+
+        //End Creating Enemy
 
         map = new Map("example_map.tmx", game.world);
     }

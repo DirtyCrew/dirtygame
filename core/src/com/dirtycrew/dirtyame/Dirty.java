@@ -24,6 +24,10 @@ public class Dirty extends ApplicationAdapter {
 	Box2DDebugRenderer debugRenderer;
 
 	IGameState currentState;
+	GameManager gameManager;
+	StartState startState;
+	PlayState playState;
+	FinishState finishState;
 
 	@Override
 	public void create () {
@@ -33,12 +37,26 @@ public class Dirty extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
-		currentState = new PlayState();
-		currentState.init(this);
+		gameManager = new GameManager(this);
+		startState = new StartState();
+		playState = new PlayState();
+		finishState = new FinishState();
 	}
 
 	private void doUpdate() {
-		currentState.update(this, Gdx.graphics.getDeltaTime());
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			gameManager.transitionToState(this.startState);
+		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			gameManager.transitionToState(this.playState);
+		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			gameManager.transitionToState(this.finishState);
+		}
+
+		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
 		world.step(1/60f, 6, 2);
 	}
 
@@ -46,7 +64,7 @@ public class Dirty extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		currentState.render(this);
+		gameManager.getState().render(this);
 	}
 
 	@Override

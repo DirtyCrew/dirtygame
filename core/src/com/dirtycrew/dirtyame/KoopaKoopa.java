@@ -28,7 +28,7 @@ public class KoopaKoopa extends Entity {
     {
         this.body = body;
         eventHandler = e;
-        EventHandler.Event event = new EventHandler.Event();
+        EventHandler.Event event = new KoopaTimedEvent();
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);
@@ -57,6 +57,11 @@ public class KoopaKoopa extends Entity {
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+
+    }
+
+
+    private class KoopaTimedEvent extends EventHandler.Event{
 
     }
 

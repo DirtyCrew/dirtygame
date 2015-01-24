@@ -36,7 +36,7 @@ public class PlayState implements IGameState {
     public void update(Dirty game, float delta) {
         player.update(delta);
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
-        DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
+        //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
 
         if (camera.position.x < Constants.VIEWPORT_WIDTH / 2){
             camera.position.set(Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
@@ -108,6 +108,7 @@ public class PlayState implements IGameState {
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
         playerBodyDef.position.set(playerCenter);
+        playerBodyDef.linearDamping = 0f;
         Body playerBody = world.createBody(playerBodyDef);
         PolygonShape playerBox = new PolygonShape();
         playerBox.setAsBox(playerBodyDims.x, playerBodyDims.y);
@@ -116,7 +117,7 @@ public class PlayState implements IGameState {
 
         fixtureDef.shape = playerBox;
         fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.001f;
+        fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);
         fixture.

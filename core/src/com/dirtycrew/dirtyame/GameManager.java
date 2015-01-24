@@ -7,6 +7,11 @@ import com.badlogic.gdx.Game;
  */
 public class GameManager {
 
+    public enum GameState {
+        Start,
+        Play,
+        Finish
+    }
     //Attributes
     IGameState currentState;
     Dirty game;
@@ -22,9 +27,34 @@ public class GameManager {
         return this.currentState;
     }
 
-    public void transitionToState(IGameState gameState){
-        this.currentState.shutdown();
-        this.currentState = gameState;
-        this.currentState.init(this.game);
+    public void changeState(GameState state) {
+        IGameState nextState = null;
+        switch(state) {
+            case Play:
+                if(currentState.getClass() == PlayState.class) {
+                    return;
+                }
+
+                nextState = new PlayState(this, 10000);
+                break;
+            case Start:
+                if(currentState.getClass() == StartState.class) {
+                    return;
+                }
+
+                nextState = new StartState();
+                break;
+            case Finish:
+                if(currentState.getClass() == FinishState.class) {
+                    return;
+                }
+
+                nextState = new FinishState();
+                break;
+        }
+
+        currentState.shutdown();
+        nextState.init(game);
+        currentState = nextState;
     }
 }

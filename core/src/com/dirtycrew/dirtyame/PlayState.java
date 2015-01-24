@@ -9,10 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Input.Keys;
@@ -53,7 +52,7 @@ public class PlayState implements IGameState {
     @Override
     public void update(Dirty game, float delta) {
         for(Entity entity : toRemove) {
-            killEntity(entity);
+            killEntity(entity, true);
         }
         toRemove.clear();
 
@@ -193,14 +192,25 @@ public class PlayState implements IGameState {
 
     }
 
-    public void killEntity(Entity e) {
+    public void killEntity(Entity e, boolean remove) {
         if(e instanceof KoopaKoopa) {
             KoopaKoopa k = (KoopaKoopa)e;
+
             renderList.remove(k.sprite);
+
             world.destroyBody(k.body);
+            if(remove) {
+                entityList.remove(e);
+            }
+        } else if(e instanceof Player) {
+            Player k = (Player)e;
 
-            entityList.remove(e);
+                renderList.remove(k.sprite);
 
+            world.destroyBody(k.body);
+            if(remove) {
+                entityList.remove(e);
+            }
         }
     }
 
@@ -255,7 +265,7 @@ public class PlayState implements IGameState {
 
                     if(e instanceof Map.Tile) {
                         if (((Map.Tile) e).isDeath) {
-                            game.gameManager.transitionToState(game.finishState);
+                            gameManager.changeState(GameManager.GameState.Finish);
                         }
 
                     } else if(e instanceof KoopaKoopa) {
@@ -266,13 +276,13 @@ public class PlayState implements IGameState {
 
                         Vector2 contactNormal = contact.getWorldManifold().getNormal();
                         if(up.dot(contactNormal) > 0) {
-                            game.gameManager.transitionToState(game.finishState);
+                            gameManager.changeState(GameManager.GameState.Finish);
                         } else if (down.dot(contactNormal) > 0) {
                             toRemove.add(e);
                         } else if(right.dot(contactNormal) > 0) {
-                            game.gameManager.transitionToState(game.finishState);
+                            gameManager.changeState(GameManager.GameState.Finish);
                         } else if(left.dot(contactNormal) > 0) {
-                            game.gameManager.transitionToState(game.finishState);
+                            gameManager.changeState(GameManager.GameState.Finish);
                         }
 
                     }
@@ -297,7 +307,11 @@ public class PlayState implements IGameState {
 
     @Override
     public void shutdown() {
-//        eventHandler.subscribe(event, listener);
+        for(Entity entity : entityList) {
+            killEntity(entity, false);
+        }
+        killEntity(player, false);
+        entityList.clear();
     }
 
     private class deathTimer extends EventHandler.Event{
@@ -311,7 +325,7 @@ public class PlayState implements IGameState {
         {
             //failed the stage
             System.out.println("Failed");
-            gameManager.transitionToState(finishState);
+            gameManager.changeState(GameManager.GameState.Finish);
         }
     };
 }

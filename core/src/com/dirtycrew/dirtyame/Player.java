@@ -15,10 +15,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Player extends Entity {
     public Body body;
     public Sprite sprite;
-    private static final float MAX_JUMP_VELOCITY = 30;
-    private static final float JUMP_FORCE = 1000;
-    private static final float MAX_HORIZONTAL_VELOCITY = 100;
-    private static final float HORIZONTAL_FORCE = 1000;
+    private static final float JUMP_FORCE = 350;
+    private static final float MAX_HORIZONTAL_VELOCITY = 60;
+    private static final float HORIZONTAL_FORCE = 30;
     private static final float GRAVITY = 10;
     private boolean canJump = true;
     public InputController inputController;
@@ -51,21 +50,16 @@ public class Player extends Entity {
             stop = false;
         }
         if (inputController.isJumpPressed()){
-            if(canJump)
+            if(body.getLinearVelocity().y == 0)
             {
                 body.applyForceToCenter(0,JUMP_FORCE,false);
-                if(body.getLinearVelocity().y >= MAX_JUMP_VELOCITY)
-                {
-                    canJump = false;
-                }
             }
-
         }
+        //TODO: Implement stopping with friction instead
         if (stop) {
-            if (body.getLinearVelocity().x > 0) {
-                body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
-            } else if (body.getLinearVelocity().x < 0) {
-                body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
+            if (body.getLinearVelocity().x != 0) {
+                Vector2 stopHorizontal = new Vector2(0, body.getLinearVelocity().y);
+                body.setLinearVelocity(stopHorizontal);
             }
         }
 

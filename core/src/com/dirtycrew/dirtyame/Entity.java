@@ -11,6 +11,10 @@ public abstract class Entity {
 
     public abstract void update(float delta);
 
+    public void onCollide(Entity e) {
+
+    }
+
     public long getId() {
         return id;
     }

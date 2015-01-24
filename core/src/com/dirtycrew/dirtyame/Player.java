@@ -30,6 +30,11 @@ public class Player extends Entity {
         this.camera = camera;
     }
 
+    @Override
+    public void onCollide(Entity e) {
+        super.onCollide(e);
+    }
+
     public void update(float deltaTime) {
 
         //if (deltaTime == 0) return;

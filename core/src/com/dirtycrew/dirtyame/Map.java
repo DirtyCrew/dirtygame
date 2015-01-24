@@ -28,14 +28,17 @@ public class Map {
     TiledMapRenderer tiledMapRenderer;
     Vector2 tileMeterDims;
     Vector2 mapDims;
-    int mapWidth;
-    int mapHeight;
-    int tilePixelWidth;
-    int tileMeterHeight;
 
     public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
+    public class Tile extends Entity {
+        public boolean isDeath = false;
+        @Override
+        public void update(float delta) {
+            // noop
+        }
+    }
     //Methods
     public Map(String tiledMapPath, World world) {
         tiledMap = new TmxMapLoader().load(tiledMapPath);
@@ -60,7 +63,7 @@ public class Map {
                 MapProperties properties = mapTile.getProperties();
                 Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
-
+                Object deathTile = properties.get("death");
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
                 System.out.printf("x: %d y: %d\n", x, y);
@@ -74,6 +77,11 @@ public class Map {
                 }
 
                 if(collidableCell != null){
+                    Tile tile = new Tile();
+                    if(deathTile != null) {
+                        tile.isDeath = true;
+                    }
+
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();
@@ -91,6 +99,8 @@ public class Map {
                     fixtureDef.friction = 0.0f;
                     fixtureDef.restitution = 0.01f; // Make it bounce a little bit
                     groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
                 }
             }
         }

@@ -91,6 +91,8 @@ public class PlayState implements IGameState {
         entityList.add(koopa);
         renderList.add(koopa.sprite);
 
+        koopaBody.setUserData(koopa);
+
         return koopa;
     }
 
@@ -116,7 +118,8 @@ public class PlayState implements IGameState {
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.001f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
-        playerBody.createFixture(fixtureDef);
+        Fixture fixture = playerBody.createFixture(fixtureDef);
+        fixture.
 
         playerBody.setFixedRotation(true);
 
@@ -143,13 +146,15 @@ public class PlayState implements IGameState {
 
         renderList.add(player.sprite);
 
+        playerBody.setUserData(player);
+
         return player;
 
 
     }
 
     @Override
-    public void init(Dirty game) {
+    public void init(final Dirty game) {
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
@@ -158,13 +163,48 @@ public class PlayState implements IGameState {
 
         createPlayer(game.world);
 
-
-
-
         //End Creating Enemy
         for(Vector2 pos : map.monsterSpawnLocations) {
             createKoopaKoopa(game.world, pos);
         }
+
+        game.world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
+                Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
+                if(e1 != player && e2 != player) {
+                    // other things colliding
+                } else {
+                    Player p = e1 == player ? (Player)e1 : (Player)e2;
+                    Entity e = p == e1 ? e2 : e1;
+
+                    if(e instanceof Map.Tile) {
+                        if (((Map.Tile) e).isDeath) {
+                            game.gameManager.transitionToState(game.finishState);
+
+                        }
+                    } else if(e instanceof  KoopaKoopa) {
+                        contact.getWorldManifold().
+                    }
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
 
 
 

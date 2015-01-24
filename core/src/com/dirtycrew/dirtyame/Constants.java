@@ -18,8 +18,8 @@ public class Constants {
      */
     public final static float FROM_METERS_TO_PIXEL = 32.f;
     public final static float FROM_PIXELS_TO_METER = 1/32.f;
-    public final static int VIEWPORT_WIDTH = 64;
-    public final static int VIEWPORT_HEIGHT = (int)(64.f * ASPECT_RATIO);
+    public final static int VIEWPORT_WIDTH = 128;
+    public final static int VIEWPORT_HEIGHT = (int)(128.f * ASPECT_RATIO);
 
     
     public final static Vector2 GRAVITY = new Vector2(0, -30);

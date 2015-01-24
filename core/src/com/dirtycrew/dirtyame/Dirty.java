@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 	World world;
@@ -27,7 +28,7 @@ public class Dirty extends ApplicationAdapter {
 	@Override
 	public void create () {
 		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		world = new World(new Vector2(0, 0), false);
+		world = new World(new Vector2(0, -18f), false);
 		debugRenderer = new Box2DDebugRenderer();
 		batch = new SpriteBatch();
 

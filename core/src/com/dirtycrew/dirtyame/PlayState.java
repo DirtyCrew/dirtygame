@@ -52,14 +52,14 @@ public class PlayState implements IGameState {
         // First we create a body definition
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
-        playerBodyDef.position.set(0, 0);
+        playerBodyDef.position.set(100,200);
         Body playerBody = game.world.createBody(playerBodyDef);
         PolygonShape playerBox = new PolygonShape();
         playerBox.setAsBox(25, 25);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = playerBox;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = 0.0f;
         fixtureDef.friction = 0.1f;
         fixtureDef.restitution = .5f; // Make it bounce a little bit
         playerBody.createFixture(fixtureDef);
@@ -68,7 +68,7 @@ public class PlayState implements IGameState {
 
         BodyDef boxBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.StaticBody;
-        boxBodyDef.position.set(200, 0);
+        boxBodyDef.position.set(100, 190);
         Body blockBody = game.world.createBody(boxBodyDef);
         PolygonShape blockBox = new PolygonShape();
         blockBox.setAsBox(25, 25);
@@ -84,7 +84,7 @@ public class PlayState implements IGameState {
         Texture playerTexture = new Texture("badlogic.jpg");
         player = new Player(playerBody, inputController);
         player.sprite = new Sprite(playerTexture);
-        player.sprite.setPosition(0, 0);
+        player.sprite.setPosition(Conversions.fltPhysicsToSprite(playerBody.getPosition().x), Conversions.fltPhysicsToSprite(playerBody.getPosition().y));
         player.sprite.setSize(50, 50);
 
         float viewportWidth = 800;

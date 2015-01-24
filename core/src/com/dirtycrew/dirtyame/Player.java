@@ -38,7 +38,7 @@ public class Player extends Entity {
 //        }
         boolean stop = true;
         if (inputController.isLeftPressed()) {
-            if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1) {
+            if (body.getLinearVelocity().x >= MAX_HORIZONTAL_VELOCITY * -1) {
                 body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             }
             stop = false;

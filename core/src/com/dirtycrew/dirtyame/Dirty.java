@@ -58,7 +58,8 @@ public class Dirty extends ApplicationAdapter {
 		}
 
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
-		world.step(1/60f, 6, 2);
+		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+		//world.clearForces();
 	}
 
 	private void doRender() {

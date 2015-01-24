@@ -2,6 +2,7 @@ package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -15,61 +16,87 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Player extends Entity {
     public Body body;
     public Sprite sprite;
-    private static final float MAX_JUMP_VELOCITY = 30;
-    private static final float JUMP_FORCE = 1000;
-    private static final float MAX_HORIZONTAL_VELOCITY = 100;
-    private static final float HORIZONTAL_FORCE = 1000;
-    private static final float GRAVITY = 10;
+    private static final float JUMP_IMPULSE = 8;
+    private static final float MAX_HORIZONTAL_VELOCITY = 15;
+    private static final float AIR_HORIZONTAL_FORCE = 7;
+    private static final float GROUND_HORIZONTAL_FORCE = 14;
+    private static final float AIR_SLOWDOWN_MULTIPLIER = .96f;
+    private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
     private boolean canJump = true;
     public InputController inputController;
+    public OrthographicCamera camera;
 
 
-    public Player (Body newBody, InputController newInputController) {
+    public Player (Body newBody, InputController newInputController, OrthographicCamera camera) {
         body = newBody;
         inputController = newInputController;
+        this.camera = camera;
+    }
+
+    @Override
+    public void onCollide(Entity e) {
+        super.onCollide(e);
     }
 
     public void update(float deltaTime) {
-        //if (deltaTime == 0) return;
 
-//        // check input and apply to velocity & state
-//        if ((Gdx.input.isKeyPressed(Keys.SPACE)) && (position.y == 0)) {
-//            velocity.y += JUMP_VELOCITY;
-//        }
+        if (deltaTime == 0) return;
+
         boolean stop = true;
         if (inputController.isLeftPressed()) {
             if (body.getLinearVelocity().x >= MAX_HORIZONTAL_VELOCITY * -1) {
-                body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
+                if (body.getLinearVelocity().x > 0){
+                    if (onGround()){
+                        body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                    }else{
+                        body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                    }
+                }
+                if (onGround()) {
+                    body.applyForceToCenter(-GROUND_HORIZONTAL_FORCE, 0.0f, true);
+                }else{
+                    body.applyForceToCenter(-AIR_HORIZONTAL_FORCE, 0.0f, true);
+                }
             }
             stop = false;
         }
 
         if (inputController.isRightPressed()) {
+            if (body.getLinearVelocity().x < 0){
+                if (onGround()){
+                    body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                }else{
+                    body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                }
+            }
             if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY) {
-                body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
+                if (onGround()) {
+                    body.applyForceToCenter(GROUND_HORIZONTAL_FORCE, 0.0f, true);
+                }else{
+                    body.applyForceToCenter(AIR_HORIZONTAL_FORCE, 0.0f, true);
+                }
             }
             stop = false;
         }
+        if (stop){
+            if (onGround()){
+                body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+            }else{
+                body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+            }
+
+        }
         if (inputController.isJumpPressed()){
-            if(canJump)
+            if (onGround())
             {
-                body.applyForceToCenter(0,JUMP_FORCE,false);
-                if(body.getLinearVelocity().y >= MAX_JUMP_VELOCITY)
-                {
-                    canJump = false;
-                }
-            }
-
-        }
-        if (stop) {
-            if (body.getLinearVelocity().x > 0) {
-                body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
-            } else if (body.getLinearVelocity().x < 0) {
-                body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
+                body.applyLinearImpulse(0f,JUMP_IMPULSE,body.getLocalCenter().x, body.getLocalCenter().y, true);
+                //body.applyForceToCenter(0,JUMP_FORCE,false);
             }
         }
-
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+    }
+    public boolean onGround(){
+        return (body.getLinearVelocity().y == 0);
     }
 }

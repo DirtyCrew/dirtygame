@@ -14,6 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.maps.tiled.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Jared on 1/23/15.
@@ -25,13 +28,17 @@ public class Map {
     TiledMapRenderer tiledMapRenderer;
     Vector2 tileMeterDims;
     Vector2 mapDims;
-    int mapWidth;
-    int mapHeight;
-    int tilePixelWidth;
-    int tileMeterHeight;
 
-    public Vector2 spawnLocation = new Vector2(0, 0);
+    public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
+    public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
+    public class Tile extends Entity {
+        public boolean isDeath = false;
+        @Override
+        public void update(float delta) {
+            // noop
+        }
+    }
     //Methods
     public Map(String tiledMapPath, World world) {
         tiledMap = new TmxMapLoader().load(tiledMapPath);
@@ -39,9 +46,10 @@ public class Map {
 
         TiledMapTileSet tileset =  tiledMap.getTileSets().getTileSet("Block Tileset");
         MapProperties prop = tiledMap.getProperties();
+        int w = prop.get("width", Integer.class);
+        int h =prop.get("height", Integer.class);
+        mapDims = new Vector2(w, h);
 
-        mapDims = new Vector2(Conversions.convertToMeters(prop.get("width", Integer.class)),
-                Conversions.convertToMeters(prop.get("height", Integer.class)));
         tileMeterDims = new Vector2(Conversions.convertToMeters(prop.get("tilewidth", Integer.class)),
                 Conversions.convertToMeters(prop.get("tileheight", Integer.class)));
 
@@ -54,15 +62,26 @@ public class Map {
                 TiledMapTile mapTile = cell.getTile();
                 MapProperties properties = mapTile.getProperties();
                 Object collidableCell = properties.get("collidable");
-                Object spawnCell = properties.get("spawn");
+                String sc = properties.get("spawn", String.class);
+                Object deathTile = properties.get("death");
+                Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
                 System.out.printf("x: %d y: %d\n", x, y);
                 Vector2 tilePos = new Vector2(x * tileMeterDims.x, y * tileMeterDims.y);
                 if(spawnCell != null) {
-                    this.spawnLocation = tilePos;
+                    if(spawnCell == 1) {
+                        this.playerSpawnLocation = tilePos;
+                    } else if(spawnCell == 2) {
+                        this.monsterSpawnLocations.add(tilePos);
+                    }
                 }
 
                 if(collidableCell != null){
+                    Tile tile = new Tile();
+                    if(deathTile != null) {
+                        tile.isDeath = true;
+                    }
+
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();
@@ -80,6 +99,8 @@ public class Map {
                     fixtureDef.friction = 0.0f;
                     fixtureDef.restitution = 0.01f; // Make it bounce a little bit
                     groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
                 }
             }
         }
@@ -107,6 +128,11 @@ public class Map {
 //
 //            }
 //        }
+    }
+
+
+    public float getWidth(){
+        return mapDims.x * tileMeterDims.x;
     }
 
     public void drawMap(OrthographicCamera camera) {

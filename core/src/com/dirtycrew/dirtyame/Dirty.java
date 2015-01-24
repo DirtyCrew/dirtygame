@@ -77,6 +77,9 @@ public class Dirty extends ApplicationAdapter {
 	}
 
 
+	public abstract class Entity {
+		public abstract void update();
+	}
 
 	private static class PlayState implements IGameState {
 
@@ -87,6 +90,7 @@ public class Dirty extends ApplicationAdapter {
 
 		@Override
 		public void update(Dirty game, float delta) {
+
 			camera.update();
 
 		}
@@ -101,10 +105,6 @@ public class Dirty extends ApplicationAdapter {
 			game.batch.begin();
 			player.sprite.draw(game.batch);
 			game.batch.end();
-
-
-
-
 		}
 
 		@Override
@@ -115,6 +115,8 @@ public class Dirty extends ApplicationAdapter {
 			player.sprite = new Sprite(playerTexture);
 			player.sprite.setPosition(0, 0);
 			player.sprite.setSize(50, 50);
+
+			player.inputController = new InputController();
 
 			float viewportWidth = 800;
 			float viewportHeight = 600;
@@ -140,7 +142,7 @@ public class Dirty extends ApplicationAdapter {
 		Gdx.graphics.setDisplayMode(1024, 768, false);
 		currentState = new PlayState();
 		currentState.init();
-		
+
 		batch = new SpriteBatch();
 
 

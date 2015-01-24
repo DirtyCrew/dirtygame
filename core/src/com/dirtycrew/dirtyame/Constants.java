@@ -20,5 +20,5 @@ public class Constants {
     public final static float FROM_PIXELS_TO_METER = 1/32.f;
     public final static int VIEWPORT_WIDTH = 16;
     public final static int VIEWPORT_HEIGHT = (int)(16.f * ASPECT_RATIO);
-    public final static Vector2 GRAVITY = new Vector2(0, 0);
+    public final static Vector2 GRAVITY = new Vector2(0, -18);
 }

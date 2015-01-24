@@ -2,15 +2,17 @@ package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Color;
 
 /**
  * Created by Jared on 1/24/15.
  */
 public class StartState implements IGameState {
 
+
     @Override
     public void init(Dirty game){
-
     }
 
     @Override

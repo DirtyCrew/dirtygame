@@ -51,10 +51,7 @@ public class PlayState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
-        for(Entity entity : toRemove) {
-            killEntity(entity, true);
-        }
-        toRemove.clear();
+        cleanUpOrphans();
 
         player.update(delta);
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
@@ -192,26 +189,25 @@ public class PlayState implements IGameState {
 
     }
 
-    public void killEntity(Entity e, boolean remove) {
-        if(e instanceof KoopaKoopa) {
-            KoopaKoopa k = (KoopaKoopa)e;
-
-            renderList.remove(k.sprite);
-
-            world.destroyBody(k.body);
-            if(remove) {
-                entityList.remove(e);
-            }
-        } else if(e instanceof Player) {
-            Player k = (Player)e;
-
+    private void cleanUpOrphans() {
+        for(Entity e : toRemove) {
+            if (e instanceof KoopaKoopa) {
+                KoopaKoopa k = (KoopaKoopa) e;
                 renderList.remove(k.sprite);
-
-            world.destroyBody(k.body);
-            if(remove) {
+                world.destroyBody(k.body);
+                entityList.remove(e);
+            } else if (e instanceof Player) {
+                Player k = (Player) e;
+                renderList.remove(k.sprite);
+                world.destroyBody(k.body);
                 entityList.remove(e);
             }
         }
+        toRemove.clear();;
+    }
+    public void killEntity(Entity e) {
+        toRemove.add(e);
+
     }
 
     @Override
@@ -307,10 +303,8 @@ public class PlayState implements IGameState {
 
     @Override
     public void shutdown() {
-        for(Entity entity : entityList) {
-            killEntity(entity, false);
-        }
-        killEntity(player, false);
+        killEntity(player);
+        cleanUpOrphans();
         entityList.clear();
     }
 

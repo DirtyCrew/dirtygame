@@ -72,4 +72,8 @@ public class Map {
             }
         }
     }
+
+    public int getWidth(){
+        return MAP_TILE_WIDTH * cols;
+    }
 }

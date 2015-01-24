@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -18,6 +22,9 @@ public class Dirty extends ApplicationAdapter {
 	Map map1;
 	Map map2;
 	GameState gameState;
+
+	TiledMap tiledMap;
+	TiledMapRenderer tiledMapRenderer;
 
 	private static byte[][] byteMapArray1 = {
 			{0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
@@ -59,7 +66,7 @@ public class Dirty extends ApplicationAdapter {
 
 		// create an orthographic camera, shows us 30x20 units of the world
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 30, 20);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 
 		batch = new SpriteBatch();
@@ -69,6 +76,9 @@ public class Dirty extends ApplicationAdapter {
 		map2 = new Map(byteMapArray2, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		gameState = new GameState(player, map1);
+
+		tiledMap = new TmxMapLoader().load("example_map.tmx");
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 //		img = new Texture("badlogic.jpg");
 	}
@@ -93,7 +103,10 @@ public class Dirty extends ApplicationAdapter {
 		batch.begin();
 		//batch.draw(img, player.getPosition().x, player.getPosition().y);
 
-		gameState.map.drawMap(batch);
+//		gameState.map.drawMap(batch);
+
+		tiledMapRenderer.setView(camera);
+		tiledMapRenderer.render();
 
 		batch.end();
 	}

@@ -85,8 +85,7 @@ public class Dirty extends ApplicationAdapter {
 
 		Player player;
 		OrthographicCamera camera;
-		TiledMap tiledMap;
-		TiledMapRenderer tiledMapRenderer;
+		Map map;
 
 		@Override
 		public void update(Dirty game, float delta) {
@@ -97,8 +96,7 @@ public class Dirty extends ApplicationAdapter {
 
 		@Override
 		public void render(Dirty game) {
-			tiledMapRenderer.setView(camera);
-			tiledMapRenderer.render();
+			map.drawMap(camera);
 
 			game.batch.setProjectionMatrix(camera.combined);
 
@@ -116,16 +114,13 @@ public class Dirty extends ApplicationAdapter {
 			player.sprite.setPosition(0, 0);
 			player.sprite.setSize(50, 50);
 
-			player.inputController = new InputController();
-
 			float viewportWidth = 800;
 			float viewportHeight = 600;
 			camera = new OrthographicCamera(viewportWidth, viewportHeight);
 			camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
 			camera.update();
 
-			tiledMap = new TmxMapLoader().load("example_map.tmx");
-			tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+			map = new Map("example_map.tmx");
 		}
 
 		@Override
@@ -143,9 +138,9 @@ public class Dirty extends ApplicationAdapter {
 		currentState = new PlayState();
 		currentState.init();
 
+		map1 = new Map("example_map.tmx");
+
 		batch = new SpriteBatch();
-
-
 	}
 
 	@Override

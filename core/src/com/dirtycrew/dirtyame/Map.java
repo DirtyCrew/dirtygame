@@ -44,20 +44,18 @@ public class Map {
                 if(collidableCell != null){
 
                     BodyDef playerBodyDef = new BodyDef();
-                    playerBodyDef.type = BodyDef.BodyType.DynamicBody;
-                    playerBodyDef.position.set(x * 32, y * 32); //////
-                    Body playerBody = world.createBody(playerBodyDef);
-                    PolygonShape playerBox = new PolygonShape();
-                    playerBox.setAsBox(32, 32); ///////
+                    playerBodyDef.type = BodyDef.BodyType.StaticBody;
+                    playerBodyDef.position.set(x * 32, y * 32);
+                    Body groundBody = world.createBody(playerBodyDef);
+                    PolygonShape groundBox = new PolygonShape();
+                    groundBox.setAsBox(16, 16);
 
                     FixtureDef fixtureDef = new FixtureDef();
-                    fixtureDef.shape = playerBox;
+                    fixtureDef.shape = groundBox;
                     fixtureDef.density = 0.0f;
                     fixtureDef.friction = 0.0f;
                     fixtureDef.restitution = 1f; // Make it bounce a little bit
-                    playerBody.createFixture(fixtureDef);
-
-
+                    groundBody.createFixture(fixtureDef);
                 }
             }
         }

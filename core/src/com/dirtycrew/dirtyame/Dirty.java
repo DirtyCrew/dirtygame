@@ -15,6 +15,10 @@ public class Dirty extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		DLog.error("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}

@@ -1,21 +1,38 @@
+package com.dirtycrew.dirtyame;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 
 /**
  * Created by sturm on 1/23/15.
  */
-public class Logger {
-    private final static String TAG = "Dirty";
-    
+public class DLog {
+    enum Channel {
+        GAME,
+        GRAPHICS,
+        PHYSICS
+    }
+
+
     static {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     public static void debug(String msg, Object... objs) {
-        Gdx.app.debug(TAG, buildMessage(msg, objs));
+        debug(Channel.GAME, msg, objs);
     }
+    public static void debug(Channel channel, String msg, Object... objs) {
+        String tag = channel.name();
+        Gdx.app.debug(tag, buildMessage(msg, objs));
+    }
+
     public static void error(String msg, Object... objs) {
-        Gdx.app.error(TAG, buildMessage(msg, objs));
+        error(Channel.GAME, msg, objs);
+    }
+
+    public static void error(Channel channel, String msg, Object... objs) {
+        String tag = channel.name();
+        Gdx.app.error(tag, buildMessage(msg, objs));
     }
 
     private static String buildMessage(String message, Object... objects) {

@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.sun.tools.internal.jxc.ap.Const;
 
 
 public class Dirty extends ApplicationAdapter {
@@ -28,11 +29,11 @@ public class Dirty extends ApplicationAdapter {
 	@Override
 	public void create () {
 		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		world = new World(new Vector2(0, -18f), false);
+		world = new World(Constants.GRAVITY, false);
 		debugRenderer = new Box2DDebugRenderer();
 		batch = new SpriteBatch();
 
-		Gdx.graphics.setDisplayMode(1024, 768, false);
+		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
 		currentState = new PlayState();
 		currentState.init(this);
 	}

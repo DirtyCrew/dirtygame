@@ -9,6 +9,14 @@ import java.util.Vector;
  */
 public class Conversions {
 
+    public static float convertToPixels(float meters) {
+        return meters * Constants.PIXELS_PER_METER;
+    }
+
+    public static float convertToMeters(float pixels) {
+        return pixels * Constants.METERS_PER_PIXEL;
+    }
+
     public static Vector2 vctSpriteToPhysics(Vector2 sprite)
     {
         Vector2 tmpVCT = new Vector2((sprite.x + 25),(sprite.y + 25));

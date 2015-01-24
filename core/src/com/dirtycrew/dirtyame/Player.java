@@ -75,6 +75,6 @@ public class Player extends Entity {
             }
         }
 
-        sprite.setPosition(getSpritePosition().x,getSpritePosition().y);
+        sprite.setPosition(body.getPosition().x - 16 * Constants.METERS_PER_PIXEL, body.getPosition().y - 16 * Constants.METERS_PER_PIXEL);
     }
 }

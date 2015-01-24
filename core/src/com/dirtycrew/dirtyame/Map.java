@@ -27,7 +27,7 @@ public class Map {
     //Methods
     public Map(String tiledMapPath, World world) {
         tiledMap = new TmxMapLoader().load(tiledMapPath);
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.METERS_PER_PIXEL);
 
         TiledMapTileSet tileset =  tiledMap.getTileSets().getTileSet("Block Tileset");
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
@@ -45,10 +45,10 @@ public class Map {
 
                     BodyDef playerBodyDef = new BodyDef();
                     playerBodyDef.type = BodyDef.BodyType.StaticBody;
-                    playerBodyDef.position.set(x * 32, y * 32);
+                    playerBodyDef.position.set(Conversions.convertToMeters(x * 32) + Conversions.convertToMeters(32)/2.f, Conversions.convertToMeters(y * 32) + Conversions.convertToMeters(32)/2.f);
                     Body groundBody = world.createBody(playerBodyDef);
                     PolygonShape groundBox = new PolygonShape();
-                    groundBox.setAsBox(16, 16);
+                    groundBox.setAsBox(Conversions.convertToMeters(16), Conversions.convertToMeters(16));
 
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = groundBox;

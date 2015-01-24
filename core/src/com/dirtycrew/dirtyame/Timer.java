@@ -25,7 +25,9 @@ public class Timer{
         if((endTime - beginTime) > waitTimer)
         {
             e.fireEvent(event);
+            beginTime = endTime;
         }
+
     }
 
 

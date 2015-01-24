@@ -15,10 +15,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Player extends Entity {
     public Body body;
     public Sprite sprite;
-    private static final float JUMP_FORCE = 350;
-    private static final float MAX_HORIZONTAL_VELOCITY = 60;
-    private static final float HORIZONTAL_FORCE = 30;
-    private static final float GRAVITY = 10;
+    private static final float JUMP_FORCE = 410;
+    private static final float MAX_HORIZONTAL_VELOCITY = 20;
+    private static final float HORIZONTAL_FORCE = 20;
     private boolean canJump = true;
     public InputController inputController;
 
@@ -37,7 +36,7 @@ public class Player extends Entity {
 //        }
         boolean stop = true;
         if (inputController.isLeftPressed()) {
-            if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1) {
+            if (body.getLinearVelocity().x >= MAX_HORIZONTAL_VELOCITY * -1) {
                 body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             }
             stop = false;

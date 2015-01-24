@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <tile id="69">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="229">
+   <properties>
+    <property name="collidable" value=""/>
+   </properties>
+  </tile>
+  <tile id="230">
+   <properties>
+    <property name="collidable" value=""/>
+   </properties>
+  </tile>
+  <tile id="291">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="292">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="293">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="300">
+   <properties>
+    <property name="collidable" value=""/>
+   </properties>
+  </tile>
+  <tile id="323">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="324">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="325">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="352">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="353">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="356">
+   <properties>
+    <property name="collidable" value=""/>
+   </properties>
+  </tile>
+  <tile id="365">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="388">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="389">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="400">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="419">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="449">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="459">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="769" name="Tileset2" tilewidth="32" tileheight="32">
+  <image source="free-2d-game-tiles-post-pic-1.bmp" width="588" height="981"/>
+  <tile id="462">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="463">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="464">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="465">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="466">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="467">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="480">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="481">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="482">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="483">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="484">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="485">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="498">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="499">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="500">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="501">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="502">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="503">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="516">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="517">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="518">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="519">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="520">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="521">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="534">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="535">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="536">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="537">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="538">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="539">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztWElyE0EQ1PiCpXcAgRxwZTuDbX2A7QaBCHThFxDWkSdw4xtwYf2I/Qp6wlNBOlU13bMgC8iMyBjN1t1T2ZXVrbPJZHI2AmfVOU8n47CtD++ad6+tjehZ63u/2j6n1e/+u8aTv+2g4XQgTyl22I/14fVr9DSKnvfuW/83qu0S9UCWxszTp/7G+QCyFhZfbJvjb/3P6bxrLmJ79flxtV2aHsySuEVzGuM31Pewrfr89t5kcifxbuK9xPt7m+O2d7rmY02v/chTXveg1z7et7a9eOM8q7/vCtHTx/OwPkTfwTx5lMb/OPFJ4tPEZ3v+uGct8yiqSzW99j1P6Uuv/TpuJw0jv+L5Fc1N1ofzvi89fUr8Br2sS03nvmZN7D1PGbteYM55foXfhnPO0xb1wNzgtUpbDFHPSJ9Sv0HPKs3BiHXsPc8Zs16gLqbHvhM/nGscU3zGe49jYfdL1gOeViX1jOteSQ56faKedexPHPapGxFNF84PXuuiHjMnhl7OR15l93PrgUirkhhHdc/z3jbi++zpRk+jvjRdWA/MX2/9x3WQcx69ir8N/dyLc9t8b1trRD7LeZzry2vb9FhXF/09N4/6EDW3I85lz7Nye2beH3BsTb+SfPDih2NgjaJc8OZG5J2sP+qB/r7ooGspvXqOuYCez3Mxt57NrXm8GPbxFGwD76Evej7GNa2Npgf6+6rRZExyPef5ifHm77JvLl0H1c/m9nB99tKoA8fc629O48ytvWqaHujv60YTo9fXqupGr55zbHCeYK7z7xzrZ3N7uNK8iPKE4+z1hz5YsvYyYk1HXzFG+7sc10Cvnnu10PKac71LzpewRNdS7Q+CcWG+epzS0drDmm57hTHGOoW2vXrOPm6ehGOL1rF/A71cQs6DI+phe4XFCJxD25g3mH+8zrUxsX+VeHvf/0zGaCPXbtuYeQ2CayzbK6xG4KJpl/OG19VePHjPkfPGvvXZWyt19T4ei8U1Gqcd8X3Pr46r37VkPQJXzZHzBvcfqAnuJ0wHzO2cN/YltmNzoY8vcTvROOfVxfmHz6MeQ/4LQV5NvJZ4vdpcq61IjxmNLZqfudqR06uNXttd/BF17MPIr4b8F4J8kPgw8bDy84b352N4zpg1hT2sxB+75hQy8qs+uR7ptKx8T+BvwrXnEM8piVmXetLVH9FbuzLyq655jr7E95Z0vqg2/4ex7xh7TzBUX3u/zYO4L8sr9J+uR9ZjkeHzxBdwjr7Ezy7pfFVt/g9j/efyGH9HxwOnrSFa5uqVN86hR9ZjFdB0uJl4i+4tg3f4+trpw/rP5bGX09HxMlg6ttJjtL5lHexo9182cX9F70XXmccTcSjfpDgeVefr2sN0/jYd3zXX7Pr7wlh/qP4Nfirgn+r7M8T9yGF9/ecOxOh/1QOPRumxG3ooP3ZLD+XH5ejxMUPpsV09viR+TfyW+D3xB12THtJDekgP6bGblB67x8vQQnrsHqXHbnFMPQRBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARhF/ELPqytOg==
+  </data>
+ </layer>
+</map>

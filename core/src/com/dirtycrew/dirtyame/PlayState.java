@@ -45,24 +45,29 @@ public class PlayState implements IGameState {
     }
 
 
+    void createPlayer(World world) {
+        float csd = Constants.ASPECT_RATIO;
+        Vector2 playerDims = new Vector2(1.f, 1.f);
+        Vector2 playerCenter = new Vector2(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
+        Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
+        Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims);
 
-    @Override
-    public void init(Dirty game) {
         // First we create a body definition
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyDef.BodyType.DynamicBody;
-        playerBodyDef.position.set(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
-        Body playerBody = game.world.createBody(playerBodyDef);
+        playerBodyDef.position.set(playerCenter);
+        Body playerBody = world.createBody(playerBodyDef);
         PolygonShape playerBox = new PolygonShape();
-        playerBox.setAsBox(Conversions.convertToMeters(32) / 2.f, Conversions.convertToMeters(32) / 2.f);
+        playerBox.setAsBox(playerBodyDims.x, playerBodyDims.y);
 
         FixtureDef fixtureDef = new FixtureDef();
+
         fixtureDef.shape = playerBox;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.001f;
-        fixtureDef.restitution = .2f; // Make it bounce a little bit
+        fixtureDef.restitution = .001f; // Make it bounce a little bit
         playerBody.createFixture(fixtureDef);
-
+        playerBody.setFixedRotation(true);
 
         inputController = new InputController();
         inputController.inputSets.add(new InputSet(Keys.RIGHT, Keys.LEFT, Keys.UP, Keys.DOWN));
@@ -72,14 +77,20 @@ public class PlayState implements IGameState {
         Texture playerTexture = new Texture("badlogic.jpg");
         player = new Player(playerBody, inputController);
         player.sprite = new Sprite(playerTexture);
-        player.sprite.setPosition(40, 30);
-        player.sprite.setSize(32 * Constants.METERS_PER_PIXEL, 32 * Constants.METERS_PER_PIXEL);
+        player.sprite.setPosition(playerPos.x, playerPos.y);
+        player.sprite.setSize(playerDims.x, playerDims.y);
+
+    }
+
+    @Override
+    public void init(Dirty game) {
+        createPlayer(game.world);
 
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
-        map = new Map("example_map.tmx", game.world);
+        map = new Map("Lonely_Trees.tmx", game.world);
     }
 
     @Override

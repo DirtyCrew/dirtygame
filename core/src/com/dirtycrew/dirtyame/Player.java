@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 //import com.sun.javafx.tools.packager.Log;
 
 /**
@@ -20,14 +21,7 @@ public class Player extends Entity {
     private static final float HORIZONTAL_FORCE = 1000;
     private static final float GRAVITY = 10;
     private boolean canJump = true;
-    public static final int PLAYER_WIDTH = 50;
-    public static final int PLAYER_HEIGHT = 50;
     public InputController inputController;
-
-    public Vector2 getPhysicsPosition(){
-        return body.getPosition();
-    }
-    public Vector2 getSpritePosition() { return Conversions.vctPhysicsToSprite(body.getPosition()); }
 
 
     public Player (Body newBody, InputController newInputController) {
@@ -75,6 +69,7 @@ public class Player extends Entity {
             }
         }
 
-        sprite.setPosition(body.getPosition().x - 16 * Constants.METERS_PER_PIXEL, body.getPosition().y - 16 * Constants.METERS_PER_PIXEL);
+        Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
+        sprite.setPosition(spritePos.x, spritePos.y);
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.sun.xml.internal.ws.api.client.SelectOptimalEncodingFeature;
 import com.badlogic.gdx.maps.tiled.*;
@@ -23,13 +24,28 @@ public class Map {
     //Attributes
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
+    Vector2 tileMeterDims;
+    Vector2 mapDims;
+    int mapWidth;
+    int mapHeight;
+    int tilePixelWidth;
+    int tileMeterHeight;
+
 
     //Methods
     public Map(String tiledMapPath, World world) {
         tiledMap = new TmxMapLoader().load(tiledMapPath);
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.METERS_PER_PIXEL);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.FROM_PIXELS_TO_METER);
 
         TiledMapTileSet tileset =  tiledMap.getTileSets().getTileSet("Block Tileset");
+        MapProperties prop = tiledMap.getProperties();
+
+        mapDims = new Vector2(Conversions.convertToMeters(prop.get("width", Integer.class)),
+                Conversions.convertToMeters(prop.get("height", Integer.class)));
+        tileMeterDims = new Vector2(Conversions.convertToMeters(prop.get("tilewidth", Integer.class)),
+                Conversions.convertToMeters(prop.get("tileheight", Integer.class)));
+
+
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         for(int x = 0; x < layer.getWidth();x++){
             for(int y = 0; y < layer.getHeight();y++){
@@ -42,19 +58,23 @@ public class Map {
                 System.out.printf("x: %d y: %d\n", x, y);
 
                 if(collidableCell != null){
+                    Vector2 tilePos = new Vector2(x * tileMeterDims.x, y * tileMeterDims.y);
+                    Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();
                     playerBodyDef.type = BodyDef.BodyType.StaticBody;
-                    playerBodyDef.position.set(Conversions.convertToMeters(x * 32) + Conversions.convertToMeters(32)/2.f, Conversions.convertToMeters(y * 32) + Conversions.convertToMeters(32)/2.f);
+
+                    // cant control tilemap sprite positions, so need to center body def so so thats its bottom left corner is the prigin
+                    playerBodyDef.position.set(tilePos.add(new Vector2(tileMeterDims.x / 2.f, tileMeterDims.y / 2.f)));
                     Body groundBody = world.createBody(playerBodyDef);
                     PolygonShape groundBox = new PolygonShape();
-                    groundBox.setAsBox(Conversions.convertToMeters(16), Conversions.convertToMeters(16));
+                    groundBox.setAsBox(tileBodyDims.x, tileBodyDims.y);
 
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = groundBox;
                     fixtureDef.density = 0.0f;
                     fixtureDef.friction = 0.0f;
-                    fixtureDef.restitution = 1f; // Make it bounce a little bit
+                    fixtureDef.restitution = 0.01f; // Make it bounce a little bit
                     groundBody.createFixture(fixtureDef);
                 }
             }

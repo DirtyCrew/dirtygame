@@ -14,7 +14,7 @@ public class Map {
     private static final int MAP_TILE_HEIGHT = 32;
 
     //Attributes
-    byte[][] map;
+    byte[][] mapArray;
     int screenWidth;
     int screenHeight;
     Sprite[][] spriteMap;
@@ -23,12 +23,12 @@ public class Map {
 
     //Methods
     public Map(byte[][] map, int screenWidth, int screenHeight){
-        this.map = map;
+        this.mapArray = map;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
-        this.rows = this.map.length;
-        this.cols = this.map[0].length;
+        this.rows = this.mapArray.length;
+        this.cols = this.mapArray[0].length;
 
         this.spriteMap = new Sprite[rows][];
         for (int y = 0; y < rows; y++){
@@ -40,7 +40,7 @@ public class Map {
         //Creating sprite map
         for (int y = 0; y < rows; y++){
             for (int x = 0; x < cols; x++){
-                switch (this.map[y][x]){
+                switch (this.mapArray[y][x]){
                     case 0:{
                         break;
                     }
@@ -71,5 +71,9 @@ public class Map {
                 }
             }
         }
+    }
+
+    public void setMap(byte[][] map){
+        this.mapArray = map;
     }
 }

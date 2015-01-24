@@ -34,10 +34,13 @@ public class PlayState implements IGameState {
     EventHandler eventHandler;
 
     BitmapFont font;
-    Timer timer;
+    Timer deathTimer;
     long timeForLevel;
+    GameManager gameManager;
+    FinishState finishState;
 
-    public PlayState(long time){
+    public PlayState(GameManager gameManager, long time){
+        this.gameManager = gameManager;
         timeForLevel = time;
     }
 
@@ -49,6 +52,8 @@ public class PlayState implements IGameState {
 
         koopa.update(delta);
         camera.update();
+
+        deathTimer.update();
 
     }
 
@@ -66,12 +71,14 @@ public class PlayState implements IGameState {
 
         game.debugRenderer.render(game.world, camera.combined);
 
-        hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
         font.setScale(0.2f);
-        String timerString = "Time: " + timer.timeRemainingInMilliseconds();
+        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
+        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
+        String str = String.format("m %d s %02d", minutes, seconds);
+        String timerString = "Death Timer: " + str;
         font.draw(hudBatch, timerString, -(Constants.VIEWPORT_WIDTH / 2.0f), (Constants.VIEWPORT_HEIGHT / 2.0f));
         hudBatch.end();
     }
@@ -126,22 +133,26 @@ public class PlayState implements IGameState {
 
         map = new Map("Lonely_Trees.tmx", game.world);
 
+        finishState = new FinishState();
+
         createPlayer(game.world);
 
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
+        hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+
         font = new BitmapFont();
         font.setColor(Color.RED);
 
         hudBatch = new SpriteBatch();
 
-        EventHandler.Event event = new EventHandler.Event();
-        event.setState("Timer");
+        EventHandler.Event event = new deathTimer();
+        event.setState("Death Timer");
         Listener listener = new Listener();
         eventHandler.subscribe(event, listener);
-        timer = new Timer(timeForLevel, eventHandler, event);
+        deathTimer = new Timer(timeForLevel, eventHandler, event);
 
         //Creating Enemy
         BodyDef koopaBodyDef = new BodyDef();
@@ -166,13 +177,14 @@ public class PlayState implements IGameState {
         koopa.sprite.setSize(1,1);
 
         //End Creating Enemy
-
-
-
     }
 
     @Override
     public void shutdown() {
+//        eventHandler.subscribe(event, listener);
+    }
+
+    private class deathTimer extends EventHandler.Event{
 
     }
 
@@ -183,6 +195,7 @@ public class PlayState implements IGameState {
         {
             //failed the stage
             System.out.println("Failed");
+            gameManager.transitionToState(finishState);
         }
     };
 }

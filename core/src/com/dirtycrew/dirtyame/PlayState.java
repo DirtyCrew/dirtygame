@@ -46,6 +46,9 @@ public class PlayState implements IGameState {
         }
         camera.update();
         for(Entity e : entityList) {
+            if (e instanceof Attack && ((Attack) e).destroy){
+                //
+            }
             e.update(delta);
         }
     }
@@ -118,9 +121,8 @@ public class PlayState implements IGameState {
         fixtureDef.shape = playerBox;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = .001f; // Make it bounce a little bit
+        fixtureDef.restitution = 0.01f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);
-        fixture.
 
         playerBody.setFixedRotation(true);
 
@@ -186,7 +188,6 @@ public class PlayState implements IGameState {
 
                         }
                     } else if(e instanceof  KoopaKoopa) {
-                        contact.getWorldManifold().
                     }
                 }
             }

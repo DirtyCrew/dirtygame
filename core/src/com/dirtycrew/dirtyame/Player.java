@@ -24,14 +24,13 @@ public class Player extends Entity {
     private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
     private boolean canJump = true;
     public InputController inputController;
-    public OrthographicCamera camera;
 
 
-    public Player (Body newBody, InputController newInputController, OrthographicCamera camera) {
+    public Player (Body newBody, InputController newInputController) {
         body = newBody;
         inputController = newInputController;
-        this.camera = camera;
     }
+
 
     @Override
     public void onCollide(Entity e) {

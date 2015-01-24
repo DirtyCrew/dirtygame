@@ -10,7 +10,9 @@ public abstract class Entity {
     }
 
     public abstract void update(float delta);
+    public void dispose() {
 
+    }
     public void onCollide(Entity e) {
 
     }

@@ -120,8 +120,6 @@ public class PlayState implements IGameState {
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);
-        fixture.
-
         playerBody.setFixedRotation(true);
 
         inputController = new InputController();
@@ -186,7 +184,7 @@ public class PlayState implements IGameState {
 
                         }
                     } else if(e instanceof  KoopaKoopa) {
-                        contact.getWorldManifold().
+                        
                     }
                 }
             }

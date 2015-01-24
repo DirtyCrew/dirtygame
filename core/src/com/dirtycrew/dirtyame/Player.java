@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.sun.javafx.tools.packager.Log;
+//import com.sun.javafx.tools.packager.Log;
 
 /**
  * Created by z084254 on 1/23/15.
@@ -14,17 +14,20 @@ import com.sun.javafx.tools.packager.Log;
 public class Player extends Entity {
     private Body body;
     public Sprite sprite;
-    private static final float JUMP_VELOCITY = 1000;
+    private static final float MAX_JUMP_VELOCITY = 30;
+    private static final float JUMP_FORCE = 1000;
     private static final float MAX_HORIZONTAL_VELOCITY = 100;
     private static final float HORIZONTAL_FORCE = 1000;
     private static final float GRAVITY = 10;
+    private boolean canJump = true;
     public static final int PLAYER_WIDTH = 50;
     public static final int PLAYER_HEIGHT = 50;
     public InputController inputController;
 
-    public Vector2 getPosition(){
+    public Vector2 getPhysicsPosition(){
         return body.getPosition();
     }
+    public Vector2 getSpritePosition() { return Conversions.vctPhysicsToSprite(body.getPosition()); }
 
 
     public Player (Body newBody, InputController newInputController) {
@@ -54,7 +57,15 @@ public class Player extends Entity {
             stop = false;
         }
         if (inputController.isJumpPressed()){
-            body.applyForceToCenter(0, JUMP_VELOCITY, true);
+            if(canJump)
+            {
+                body.applyForceToCenter(0,JUMP_FORCE,false);
+                if(body.getLinearVelocity().y >= MAX_JUMP_VELOCITY)
+                {
+                    canJump = false;
+                }
+            }
+
         }
         if (stop) {
             if (body.getLinearVelocity().x > 0) {
@@ -63,5 +74,7 @@ public class Player extends Entity {
                 body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
             }
         }
+
+        sprite.setPosition(getSpritePosition().x,getSpritePosition().y);
     }
 }

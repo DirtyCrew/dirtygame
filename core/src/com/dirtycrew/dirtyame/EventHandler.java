@@ -37,7 +37,7 @@ public class EventHandler {
 
 
 
-    public void suscribe(Event e, EventListener listener)
+    public void subscribe(Event e, EventListener listener)
     {
         if(!eventHandlers.containsKey(e.getClass()))
         {
@@ -47,7 +47,7 @@ public class EventHandler {
         eventHandlers.get(e.getClass()).add(listener);
     }
 
-    public void unsuscribe(Event e,EventListener listener)
+    public void unsubscribe(Event e, EventListener listener)
     {
         if(!eventHandlers.containsKey(e.getClass()))
         {

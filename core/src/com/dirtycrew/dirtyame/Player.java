@@ -12,8 +12,10 @@ public class Player {
     private Vector2 velocity = new Vector2(0,0);
 
     private static final float JUMP_VELOCITY = 50;
-    private static final float MAX_HORIZONTAL_VELOCITY = 2;
+    private static final float MAX_HORIZONTAL_VELOCITY = 5;
     private static final float GRAVITY = 10;
+    public static final int PLAYER_WIDTH = 50;
+    public static final int PLAYER_HEIGHT = 50;
 
     public Vector2 getPosition(){
         return position;
@@ -32,7 +34,7 @@ public class Player {
         position.y = 0;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime, Map map){
         if (deltaTime == 0) return;
 
         //Apply VERY SIMPLE gravity
@@ -64,6 +66,10 @@ public class Player {
         position.x += velocity.x;
         if (position.x < 0){
             position.x = 0;
+            velocity.x = 0;
+        }
+        if ((position.x + PLAYER_WIDTH) > map.getWidth()){
+            position.x = map.getWidth() - PLAYER_WIDTH;
             velocity.x = 0;
         }
         position.y += velocity.y;

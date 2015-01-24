@@ -18,7 +18,7 @@ public class InputController {
 
     public boolean isRightPressed(){
         for (InputSet set:inputSets){
-            if (set.isRightActive() && Gdx.input.isKeyPressed(set.getRight())){
+            if (set.isRightPressed()){
                 return true;
             }
         }
@@ -27,7 +27,7 @@ public class InputController {
 
     public boolean isLeftPressed(){
         for (InputSet set:inputSets){
-            if (set.isLeftActive() && Gdx.input.isKeyPressed(set.getLeft())){
+            if (set.isLeftPressed()){
                 return true;
             }
         }
@@ -36,7 +36,7 @@ public class InputController {
 
     public boolean isJumpPressed(){
         for (InputSet set:inputSets){
-            if (set.isJumpActive() && Gdx.input.isKeyPressed(set.getJump())){
+            if (set.isJumpPressed()){
                 return true;
             }
         }
@@ -45,7 +45,7 @@ public class InputController {
 
     public boolean isAttackPressed(){
         for (InputSet set:inputSets){
-            if (set.isAttackActive() && Gdx.input.isKeyPressed(set.getAttack())){
+            if (set.isAttackPressed()){
                 return true;
             }
         }

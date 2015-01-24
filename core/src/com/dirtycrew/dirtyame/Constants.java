@@ -22,5 +22,5 @@ public class Constants {
     public final static int VIEWPORT_HEIGHT = (int)(64.f * ASPECT_RATIO);
 
     
-    public final static Vector2 GRAVITY = new Vector2(0, -18);
+    public final static Vector2 GRAVITY = new Vector2(0, -30);
 }

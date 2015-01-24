@@ -2,6 +2,8 @@ package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -10,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player {
     private Vector2 position = new Vector2(0,0);
     private Vector2 velocity = new Vector2(0,0);
-
+    public Sprite sprite;
     private static final float JUMP_VELOCITY = 50;
     private static final float MAX_HORIZONTAL_VELOCITY = 5;
     private static final float GRAVITY = 10;
@@ -25,8 +27,7 @@ public class Player {
         return velocity;
     }
 
-    public Player (){
-
+    public Player() {
         velocity.x = 0;
         velocity.y = 0;
 
@@ -68,10 +69,10 @@ public class Player {
             position.x = 0;
             velocity.x = 0;
         }
-        if ((position.x + PLAYER_WIDTH) > map.getWidth()){
-            position.x = map.getWidth() - PLAYER_WIDTH;
-            velocity.x = 0;
-        }
+//        if ((position.x + PLAYER_WIDTH) > map.getWidth()){
+//            position.x = map.getWidth() - PLAYER_WIDTH;
+//            velocity.x = 0;
+//        }
         position.y += velocity.y;
     }
 }

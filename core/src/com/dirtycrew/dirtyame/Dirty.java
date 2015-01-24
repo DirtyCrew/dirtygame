@@ -20,13 +20,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 
+	public abstract class Entity {
+		public abstract void update();
+	}
 
-
-
-
-
-
-
+	Map map1;
+	
 	IGameState currentState;
 
 	@Override
@@ -36,9 +35,9 @@ public class Dirty extends ApplicationAdapter {
 		currentState = new PlayState();
 		currentState.init();
 
+		map1 = new Map("example_map.tmx");
+
 		batch = new SpriteBatch();
-
-
 	}
 
 	private void doUpdate() {

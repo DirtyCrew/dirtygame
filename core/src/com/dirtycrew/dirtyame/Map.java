@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
-import com.sun.xml.internal.ws.api.client.SelectOptimalEncodingFeature;
 import com.badlogic.gdx.maps.tiled.*;
 
 

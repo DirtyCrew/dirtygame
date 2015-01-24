@@ -1,6 +1,8 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -76,7 +78,14 @@ public class PlayState implements IGameState {
 
         inputController = new InputController();
         inputController.inputSets.add(new InputSet(Keys.RIGHT, Keys.LEFT, Keys.UP, Keys.DOWN));
-        inputController.inputSets.add(new InputSet(Keys.D, Keys.A, Keys.W, Keys.S));
+        if(Controllers.getControllers().size == 0)
+        {
+            inputController.inputSets.add(new InputSet(Keys.D, Keys.A, Keys.W, Keys.S));
+        }
+        else
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
+        XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_RB));
+
 
         // create player
         Texture playerTexture = new Texture("badlogic.jpg");

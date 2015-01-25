@@ -27,6 +27,7 @@ public class GameManager {
         this.currentState = startState;
         this.nextState = startState;
         this.currentStateObj = getState(startState);
+        currentStateObj.init(game);
         this.game = game;
     }
 
@@ -69,9 +70,8 @@ public class GameManager {
     }
     public void update() {
         if(nextState != currentState) {
-            currentStateObj = getState(nextState);
             currentStateObj.shutdown();
-
+            currentStateObj = getState(nextState);
             currentStateObj.init(game);
             currentState = nextState;
         }

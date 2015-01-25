@@ -29,7 +29,7 @@ public class Dirty extends ApplicationAdapter {
 		if(Config.FULLSCREEN) {
 			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
 		} else {
-			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, true);
+			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
 		}
 		gameManager = new GameManager(this, GameManager.GameState.Tutorial);
 	}

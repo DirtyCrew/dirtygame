@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="75" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <tile id="71">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="183">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="215">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="218">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="75" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/hAlUBAAAAAAAAAAAAAAAAAMA3OpgAAQ==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="75" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2msKgkAYRuFPF9VlB62g26+W6VJaTmMwIIZ0ksloPA+8PxM8jFFgExFNwXWFr1fjsi7qNLzXTRuxTdul7VtbjQ3v9Zj6nNLOaZe064e9sjW0ops6f1kXdfaa02rq/GW24s9hjZ16c541W/Fnze92f1+9M7fH+LNDtbcq6R7PXre8wpf/mW+0qpWtOFtxfafDAquB54qzFWcrzlacrThbcbbipv7/6pWdOFtxtuJsxdmKsxVnK85WnK04W3G24mzF2YqzFWcrzlacrThbcbbibMXlVku8//Hv75B4rjhbcbbibMWVfL99DXsAPmYpyw==
+  </data>
+ </layer>
+</map>

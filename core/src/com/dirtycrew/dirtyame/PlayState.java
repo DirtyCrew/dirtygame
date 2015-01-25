@@ -323,7 +323,7 @@ public class PlayState implements IGameState {
 
                     if(e instanceof Map.Tile) {
                         if (((Map.Tile) e).isDeath) {
-                            gameManager.changeState(GameManager.GameState.Finish);
+                            gameManager.changeState(GameManager.GameState.Fail);
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
@@ -334,14 +334,14 @@ public class PlayState implements IGameState {
 
                         Vector2 contactNormal = contact.getWorldManifold().getNormal();
                         if(up.dot(contactNormal) > 0) { // entity landed ontop of player
-                            gameManager.changeState(GameManager.GameState.Finish);
+                            gameManager.changeState(GameManager.GameState.Fail);
                         } else if (down.dot(contactNormal) > 0) { // player on entity
                             killEntity(e);
                             player.body.applyLinearImpulse(0f,player.JUMP_IMPULSE*2,player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
                         } else if(right.dot(contactNormal) > 0) { // entity hit player on right
-                            gameManager.changeState(GameManager.GameState.Finish);
+                            gameManager.changeState(GameManager.GameState.Fail);
                         } else if(left.dot(contactNormal) > 0) { // entity hit player on left
-                            gameManager.changeState(GameManager.GameState.Finish);
+                            gameManager.changeState(GameManager.GameState.Fail);
                         }
 
                     }

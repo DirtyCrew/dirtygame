@@ -51,6 +51,9 @@ public class GameManager {
                 case Finish:
                     currentStateObj = new FinishState();
                     break;
+                case Fail:
+                    currentStateObj = new FailState();
+                    break;
             }
             currentStateObj.init(game);
             currentState = nextState;

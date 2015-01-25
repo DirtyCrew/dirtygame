@@ -111,10 +111,7 @@ public class PlayState implements IGameState {
         }
 
         game.batch.end();
-
-
-        debugRenderer.render(world, camera.combined);
-
+        
 
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);

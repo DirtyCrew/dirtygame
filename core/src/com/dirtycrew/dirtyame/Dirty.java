@@ -1,5 +1,6 @@
 package com.dirtycrew.dirtyame;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,28 +21,25 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
-
-
-	IGameState currentState;
 	GameManager gameManager;
 
 	@Override
 	public void create () {
 		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
 		batch = new SpriteBatch();
-
-		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
+		if(Config.FULLSCREEN) {
+			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
+		} else {
+			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, true);
+		}
 		gameManager = new GameManager(this);
-//		gameManager.changeState(GameManager.GameState.Play);
-//		debugRenderer.setDrawContacts(true);
-//		debugRenderer.setDrawVelocities(true);
-//		debugRenderer.setDrawBodies(true);
-//		debugRenderer.setDrawJoints(true);
-//		debugRenderer.setDrawAABBs(true);
 	}
 
 	private void doUpdate() {
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
 			gameManager.changeState(GameManager.GameState.Start);
 		}

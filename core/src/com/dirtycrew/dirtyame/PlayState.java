@@ -81,7 +81,7 @@ public class PlayState implements IGameState {
 
     private void switchMusic()
     {
-        int song = (new Random().nextInt()) % 7;
+        int song = (new Random()).nextInt(7);
         
         switch (song){
             case 0:{

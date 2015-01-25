@@ -1,9 +1,18 @@
 package com.dirtycrew.dirtyame;
 
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
+import com.badlogic.gdx.audio.AudioDevice;
+import com.badlogic.gdx.audio.AudioRecorder;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.files.FileHandleStream;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,8 +26,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Input.Keys;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
 
 /**
  * Created by sturm on 1/24/15.
@@ -35,7 +46,7 @@ public class PlayState implements IGameState {
     //Map map;
     World world;
     BetterThanBrandonsTimer timer;
-
+    Music music;
     EventHandler eventHandler;
 
     BitmapFont deathTimerFont;
@@ -53,7 +64,7 @@ public class PlayState implements IGameState {
     public PlayState(GameManager gameManager, long time){
         this.gameManager = gameManager;
         timeForLevel = time;
-
+        music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
     }
 
     @Override
@@ -362,6 +373,11 @@ public class PlayState implements IGameState {
 
             }
         });
+
+        //Begin Music
+        music.setLooping(true);
+        music.setVolume(50);
+        music.play();
     }
 
     @Override
@@ -370,6 +386,11 @@ public class PlayState implements IGameState {
             killEntity(e);
         }
         cleanUpOrphans();
+
+        //Destroy Music
+        music.stop();
+        music.dispose();
+
         entityList.clear();
     }
 
@@ -387,4 +408,11 @@ public class PlayState implements IGameState {
             gameManager.changeState(GameManager.GameState.Finish);
         }
     };
+
+    private class onFinishMusicListener implements Music.OnCompletionListener{
+
+        @Override
+        public void onCompletion(Music music) {
+        }
+    }
 }

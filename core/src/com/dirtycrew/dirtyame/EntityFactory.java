@@ -39,7 +39,7 @@ public class EntityFactory {
         koopa.sprite = new Sprite(koopaTexture);
         koopa.sprite.setPosition(pos.x, pos.y);
         koopa.sprite.setSize(2.f, 2.f);
-        koopa.sprite.setRegion(0,0,64,64);
+        koopa.sprite.setRegion(0, 0, 64, 64);
 
         return koopa;
     }
@@ -74,7 +74,6 @@ public class EntityFactory {
         playerBody.setFixedRotation(true);
 
         InputController inputController = new InputController();
-        inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
         if(Controllers.getControllers().size == 0)
         {
             inputController.inputSets.add(new InputSet(Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S));
@@ -82,6 +81,8 @@ public class EntityFactory {
         else
             inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
+        inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
+
         inputController.randomizeControls();
 
         // create player

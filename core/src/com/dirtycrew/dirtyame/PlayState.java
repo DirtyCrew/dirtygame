@@ -133,33 +133,38 @@ public class PlayState implements IGameState {
         BitmapFont.TextBounds playerControlBoundsAttack = playerControlFont.getBounds(attack);
 
         float playerControlHeight = (-(Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom) + playerControlBoundsJump.height;
-
-        playerControlFont.setColor(Color.GREEN);
+        InputSet first = player.inputController.inputSets.get(0);
+        InputSet second = player.inputController.inputSets.get(1);
+        playerControlFont.setColor(first.isJumpActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, jump,
                 (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom),
                 playerControlHeight);
-        playerControlFont.setColor(Color.RED);
+        playerControlFont.setColor(first.isLeftActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, left,
                 (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + 20,
                 playerControlHeight);
-        playerControlFont.setColor(Color.GREEN);
+        playerControlFont.setColor(first.isRightActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, right,
                 (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + playerControlBoundsLeft.width + 80,
                 playerControlHeight);
-        playerControlFont.setColor(Color.RED);
+        playerControlFont.setColor(first.isAttackActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, attack,
                 (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + playerControlBoundsLeft.width + playerControlBoundsRight.width + 40,
                 playerControlHeight);
 
+        playerControlFont.setColor(second.isJumpActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, jump,
                 ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - playerControlBoundsLeft.width - playerControlBoundsRight.width,
                 playerControlHeight);
+        playerControlFont.setColor(second.isLeftActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, left,
                 ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - playerControlBoundsLeft.width - 40,
                 playerControlHeight);
+        playerControlFont.setColor(second.isRightActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, right,
                 ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - 80,
                 playerControlHeight);
+        playerControlFont.setColor(second.isAttackActive() ? Color.GREEN : Color.RED);
         playerControlFont.draw(hudBatch, attack,
                 ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width,
                 playerControlHeight);

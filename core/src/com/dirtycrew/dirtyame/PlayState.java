@@ -323,10 +323,24 @@ public class PlayState implements IGameState {
                 if(e1 != player && e2 != player) {
                     if(e1 instanceof Attack || e2 instanceof Attack){
                         if (e1 instanceof KoopaKoopa || e1 instanceof Bee){
-                            killEntity(e1);
+                            if(e1 instanceof KoopaKoopa) {
+                                ((KoopaKoopa) e1).decrementHitPoints();
+                                if(((KoopaKoopa) e1).isDead()) {
+                                    killEntity(e1);
+                                }
+                            } else {
+                                killEntity(e1);
+                            }
                         }
                         if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
-                            killEntity(e2);
+                            if(e2 instanceof KoopaKoopa) {
+                                ((KoopaKoopa) e2).decrementHitPoints();
+                                if(((KoopaKoopa) e2).isDead()) {
+                                    killEntity(e2);
+                                }
+                            } else {
+                                killEntity(e2);
+                            }
                         }
                     }
                     // other things colliding

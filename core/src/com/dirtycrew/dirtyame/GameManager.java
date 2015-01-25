@@ -21,6 +21,8 @@ public class GameManager {
     GameState nextState;
     Dirty game;
     int mapNumber;
+    long startTime;
+    long numDeaths;
 
     //Methods
     public GameManager(Dirty game, GameState startState){
@@ -29,6 +31,8 @@ public class GameManager {
         this.currentStateObj = getState(startState);
         currentStateObj.init(game);
         this.game = game;
+        startTime = System.currentTimeMillis();
+        numDeaths = 0;
     }
 
     public IGameState getState(){

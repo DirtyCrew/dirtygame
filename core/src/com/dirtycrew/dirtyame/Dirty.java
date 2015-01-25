@@ -25,7 +25,6 @@ public class Dirty extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
 		if(Config.FULLSCREEN) {
 			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);

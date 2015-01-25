@@ -6,7 +6,4 @@ package com.dirtycrew.dirtyame;
 public class Config {
     public static boolean FULLSCREEN = true;
     public static boolean RANDOMIZE = false;
-    static {
-        DLog.debug("Config value: Randomize set to: {}", RANDOMIZE);
-    }
 }

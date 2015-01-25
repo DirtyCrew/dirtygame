@@ -25,8 +25,15 @@ public class KoopaKoopa extends Entity {
     BetterThanBrandonsTimer timer2;
     Random random;
     private int walkingFrame;
+    private int totalHitPoints = 1;
 
 
+
+    public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2, int totalHitPoints) {
+        this(body, timer2);
+        this.totalHitPoints = totalHitPoints;
+
+    }
     public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2)
     {
         random = new Random();
@@ -41,6 +48,15 @@ public class KoopaKoopa extends Entity {
             }
         });
         walkingFrame = 0;
+
+    }
+
+    public void decrementHitPoints() {
+        totalHitPoints--;
+    }
+
+    public boolean isDead() {
+        return totalHitPoints <= 0;
     }
 
     @Override

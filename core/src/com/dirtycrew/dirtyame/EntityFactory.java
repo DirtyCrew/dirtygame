@@ -35,7 +35,7 @@ public class EntityFactory {
         koopaBody.createFixture(koopafixtureDef);
 
         Texture koopaTexture = new Texture("knight_6.png");
-        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer);
+        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer, 2);
         koopa.sprite = new Sprite(koopaTexture);
         koopa.sprite.setPosition(pos.x, pos.y);
         koopa.sprite.setSize(2.f, 2.f);

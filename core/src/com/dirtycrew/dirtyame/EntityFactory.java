@@ -97,7 +97,7 @@ public class EntityFactory {
         FixtureDef platformfixtureDef = new FixtureDef();
         platformfixtureDef.shape = platformBox;
         platformfixtureDef.density = 0.9f;
-        platformfixtureDef.friction = 0.001f;
+        platformfixtureDef.friction = 0f;
         platformfixtureDef.restitution = 0; // Make it bounce a little bit
         platformBody.createFixture(platformfixtureDef);
 

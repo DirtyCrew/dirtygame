@@ -14,6 +14,7 @@ public class InputSet{
     private int left;
     private int jump;
     private int attack;
+    private int volume;
     private boolean rightActive;
     private boolean leftActive;
     private boolean jumpActive;
@@ -41,6 +42,11 @@ public class InputSet{
         leftActive = true;
         jumpActive = true;
         attackActive = true;
+    }
+
+    public InputSet(int volume)
+    {
+        this.volume = volume;
     }
 
     public boolean isAttackActive() {
@@ -127,5 +133,9 @@ public class InputSet{
         } else {
             return Gdx.input.isKeyPressed(attack);
         }
+    }
+
+    public boolean isVolumePressed(){
+        return Gdx.input.isKeyPressed(volume);
     }
 }

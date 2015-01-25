@@ -37,14 +37,14 @@ public class FinishState implements IGameState {
         if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             game.gameManager.changeState(GameManager.GameState.Start);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch(Exception e) {
 
             }
         } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             game.gameManager.changeState(GameManager.GameState.Play, game.map);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch(Exception e) {
 
             }
@@ -64,14 +64,14 @@ public class FinishState implements IGameState {
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
 
-        Texture texture = new Texture("restart_image.png");
+        Texture texture = new Texture("win_screen.png");
         Sprite backgroundSprite = new Sprite(texture);
-        backgroundSprite.setSize(10, 5);
-        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.setSize(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        backgroundSprite.setPosition(-Constants.VIEWPORT_WIDTH/2, -Constants.VIEWPORT_HEIGHT/2);
         backgroundSprite.draw(hudBatch);
 
-        font.setScale(0.5f);
-        font.draw(hudBatch, "Winner", 0, 0);
+//        font.setScale(0.5f);
+//        font.draw(hudBatch, "Winner", 0, 0);
         hudBatch.end();
     }
 

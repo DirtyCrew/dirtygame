@@ -29,6 +29,7 @@ import com.badlogic.gdx.Input.Keys;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.FileHandler;
 
 /**
@@ -48,7 +49,7 @@ public class PlayState implements IGameState {
     Box2DDebugRenderer debugRenderer;
 
     BetterThanBrandonsTimer timer;
-    Music music;
+    private Music music;
     EventHandler eventHandler;
 
     BitmapFont deathTimerFont;
@@ -74,8 +75,48 @@ public class PlayState implements IGameState {
         timeForLevel = time;
         inputController = new InputController();
         inputController.inputSets.add(new InputSet(Input.Keys.SPACE));
-        music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
+        switchMusic();
         this.mapNumber = mapNumber;
+    }
+
+    private void switchMusic()
+    {
+        int song = (new Random().nextInt()) % 7;
+        
+        switch (song){
+            case 0:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
+                break;
+            }
+            case 1:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("02 Underclocked (underunderclocked mix).mp3", Files.FileType.Internal));
+                break;
+            }
+            case 2:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("03 Chibi Ninja.mp3", Files.FileType.Internal));
+                break;
+            }
+            case 3:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("06 Searching.mp3", Files.FileType.Internal));
+                break;
+            }
+            case 4:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("10 Arpanauts.mp3", Files.FileType.Internal));
+                break;
+            }
+            case 5:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("Jumpshot.mp3", Files.FileType.Internal));
+                break;
+            }
+            case 6:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("Prologue.mp3", Files.FileType.Internal));
+                break;
+            }
+            default:{
+                music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
+                break;
+            }
+        }
     }
 
     @Override
@@ -468,11 +509,20 @@ public class PlayState implements IGameState {
                         Vector2 down = new Vector2(0, -1);
 
                         float d =  l.dot(down);
+                        DLog.debug("{}", d);
+                        if(d >= 0.75f) {
+                            if(e instanceof  KoopaKoopa) {
+                                ((KoopaKoopa) e).decrementHitPoints();
+                                if(((KoopaKoopa) e).isDead()) {
+                                    killEntity(e);
+                                    player.dieSound.play();
+                                }
+                            } else {
+                                killEntity(e);
+                                player.dieSound.play();
+                            }
 
-                        if(d > 0.50) {
-                            killEntity(e);
-                            player.dieSound.play();
-                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
+                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 1.5f, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
 
                         } else {
                             gameManager.changeState(GameManager.GameState.Fail);

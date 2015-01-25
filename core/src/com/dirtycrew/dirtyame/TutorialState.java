@@ -38,6 +38,12 @@ public class TutorialState implements IGameState  {
     public void update(Dirty game, float delta) {
         if(System.currentTimeMillis() - start >= duration || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             game.gameManager.changeState(GameManager.GameState.Config);
+
+            try {
+                Thread.sleep(200);
+            } catch(Exception e) {
+
+            }
         }
     }
 

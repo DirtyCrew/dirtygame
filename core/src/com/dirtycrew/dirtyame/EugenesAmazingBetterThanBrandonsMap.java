@@ -51,7 +51,7 @@ public class EugenesAmazingBetterThanBrandonsMap {
                 TiledMapTile mapTile = cell.getTile();
                 int tileId = mapTile.getId();
                 MapProperties properties = mapTile.getProperties();
-                Object collidableCell = properties.get("colliadable");
+                Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
                 boolean isBouncy = properties.get("bouncy") != null ? true : false;

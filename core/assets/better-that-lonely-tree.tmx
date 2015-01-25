@@ -45,7 +45,7 @@
   </tile>
   <tile id="330">
    <properties>
-    <property name="colliadable" value="1"/>
+    <property name="collidable" value="1"/>
     <property name="death" value="1"/>
    </properties>
   </tile>
@@ -80,7 +80,7 @@
    eJztmr9u1DAcxx0mGIDXgAU2CjxAoaKUjQITC0JHAekmngAkQL1nKOKPVChdu3aqWgmJkTcA+gTHyM9KwvmM7Th3zt3X1+/wVaXYcT6fxHbi+nqF2lqRXJSckRwrtXUk2Zb0MipD46EHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDj+Zzr5xSaklyVXJNcl2So8dd4V6X3JPclzzI1COHsq7adfXFHD1cfTFHj0XpV6Gyp4VSdVJ75DC3xnggzq2ue4vUr2LLXPc2Rw/0cU6Pk+WxYczrOs8l9rmuOmgeO8L0zsiu5dEv1EM5tm/WkXP2c/PQ58Z4uOb9eXv0J/Bwzfvz9pjkeaD3q5M2Ppqu2cUayyx/K1zvjXxwjA9XnbbX7GKNNY8+0HW/QuCpy1x9L0cPV9/L0WNR+lUqj2Wl1A3JqhqtwfSxW9Wxpnb3lH/tNuvnMZB3g10mx6LmyGEGHmdlzJ2TnA+sl9vwuOamLjz65ftQ1R6P5NgludblRB6uuSmlx2PpGy+L8WzIsdtynTXJnRYeerwswnz1Y0E8hgviMW2Z7pexHp7v6U7S1mPYwsOzHk0e7aHvb8hDl4cc99T4WtksPy7P7TzaY9jgMWzwGHo8tst2p47nnTaWSfpV7Dg/Ktv2Jrbfe9Z6U4+PWI/jchx5k3qMdOXh2Y/6l9RjJKXHkhp9f8d846QYP3VSeqwbHiuje++tHxo/EySZxwvDI1Sv/hsaP23T1fgI1VsrxsdKikzjsVb8/24JnVuvbVc80Wtc+7t+Fll1vCNDHvr/uXoN0qvyxIpei+j/N96UtkNJ1Xdi+lXsucK9r9MVz6w8UMtey3viTaJ19iRlbX6zEGrzsPpO0PuXz4py33KWHm1+sxDjofc1NsVhkMCjX4TXPF2U1R6DymM34FHvOetn1g+0a9abtYfei/rqeB4/pexXteYx64TaNeulYm3aA27yMNudp0fTHnAuHtP2q5DHcvVd8sp6Z9sef1T3cyCfx2Qe9u9s6nltWo/f1TrTvPYXT2Lq2PU+Wvkm2bSy66in87khn4ycLu/Z2LUPPYmpY9f7bmXH42HX0zloiHnNC0W5zszRw3T5CyWM188=
   </data>
  </layer>
- <layer name="Collision Layer" width="50" height="200" opacity="0">
+ <layer name="Collision Layer" width="50" height="200" opacity="0.25">
   <properties>
    <property name="spawn" value="1"/>
   </properties>

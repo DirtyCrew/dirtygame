@@ -81,8 +81,8 @@ public class EntityFactory {
         }
         else
             inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
-                    XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_RB));
-
+                    XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
+        inputController.randomizeControls();
 
         // create player
         Texture playerTexture = new Texture("player.png");

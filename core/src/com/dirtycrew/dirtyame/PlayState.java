@@ -148,9 +148,7 @@ public class PlayState implements IGameState {
     @Override
     public void render(Dirty game) {
         map.drawMap(camera);
-        debugRenderer.setDrawAABBs(true);
-        debugRenderer.setDrawBodies(true);
-        debugRenderer.render(world, camera.combined);
+        
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 

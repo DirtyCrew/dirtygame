@@ -125,6 +125,8 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     groundBody.createFixture(fixtureDef);
                     groundBody.setUserData(tile);
 
+                    es.dispose();
+
                 }
             }
         }

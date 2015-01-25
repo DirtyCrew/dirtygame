@@ -21,6 +21,8 @@ public class Player extends Entity {
     public boolean facingRight;
     private static final int leftAnimate = 9;
     private static final int rightAnimate = 11;
+    private static final int[] jumpAnimate = new int[]{5,20};
+    private boolean isJumping = false;
     private int currentAnimateX = 0;
     private int currentAnimateY = 0;
     private static final float SHOT_COOLDOWN = 500f;
@@ -53,7 +55,7 @@ public class Player extends Entity {
         this.timer = timer;
         random = new Random();
 
-        timer.startRecurringRandomTimer(15000, 5000, listener);
+       timer.startRecurringRandomTimer(15000, 5000, listener);
     }
 
 
@@ -87,12 +89,14 @@ public class Player extends Entity {
                 if (body.getLinearVelocity().x > 0){
                     if (onGround()){
                         body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
+                        isJumping =false;
                     }else{
                         body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                     }
                 }
                 if (onGround()) {
                     body.applyForceToCenter(-GROUND_HORIZONTAL_FORCE, GROUND_FLOATING, true);
+                    isJumping = false;
                 }else{
                     body.applyForceToCenter(-AIR_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }
@@ -112,6 +116,7 @@ public class Player extends Entity {
             if (body.getLinearVelocity().x < 0){
                 if (onGround()){
                     body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
+                    isJumping = false;
                 }else{
                     body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                 }
@@ -119,6 +124,7 @@ public class Player extends Entity {
             if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY) {
                 if (onGround()) {
                     body.applyForceToCenter(GROUND_HORIZONTAL_FORCE, GROUND_FLOATING, true);
+                    isJumping = false;
                 }else{
                     body.applyForceToCenter(AIR_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }
@@ -131,6 +137,7 @@ public class Player extends Entity {
         if (stop){
             if (onGround()){
                 body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                isJumping = false;
             }else{
                 body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
             }
@@ -140,6 +147,7 @@ public class Player extends Entity {
             if (onGround())
             {
                 body.applyLinearImpulse(0f,JUMP_IMPULSE,body.getLocalCenter().x, body.getLocalCenter().y, true);
+                isJumping = true;
                 //body.applyForceToCenter(0,JUMP_FORCE,false);
             }
         }
@@ -151,17 +159,28 @@ public class Player extends Entity {
             }
         }
 
-        if(facingRight)
+        Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
+        sprite.setPosition(spritePos.x, spritePos.y);
+
+        if(!isJumping)
         {
-            currentAnimateY = rightAnimate;
+            if(facingRight)
+            {
+                currentAnimateY = rightAnimate;
+            }
+            else
+            {
+                currentAnimateY = leftAnimate;
+            }
+            sprite.setRegion(currentAnimateX * 64,currentAnimateY * 64,64,64);
         }
         else
         {
-            currentAnimateY = leftAnimate;
+            sprite.setRegion(jumpAnimate[0] * 64,jumpAnimate[1] * 64, 64,64);
         }
-        Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
-        sprite.setPosition(spritePos.x, spritePos.y);
-        sprite.setRegion(currentAnimateX * 64,currentAnimateY * 64,64,64);
+
+
+
     }
     public boolean onGround(){
         return (body.getLinearVelocity().y == 0);
@@ -174,9 +193,5 @@ public class Player extends Entity {
     public void setAttacking(boolean attack) {
         this.isAttacking = attack;
     }
-
-    private void setAnimation(Vector2 velocity, Vector2 lastVelocity)
-    {
-
-    }
+    
 }

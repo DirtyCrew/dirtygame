@@ -23,6 +23,7 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
     Vector2 mapDims;
 
     private List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
+    private List<MovingPlatformData> movingPlatformSpawns = new ArrayList<MovingPlatformData>();
     private List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
     private Vector2 playerSpawnLocation = new Vector2(0, 0);
 
@@ -56,6 +57,11 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
                 Object deathTile = properties.get("death");
                 boolean isBouncy = properties.get("bouncy") != null ? true : false;
                 boolean isWin = properties.get("win") != null ? true : false;
+                String movingString = properties.get("moving", String.class);
+                Integer moving = movingString != null ? Integer.valueOf(movingString) : null ;
+                String movementDurationString = properties.get("movementDuration", String.class);
+                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : null ;
+                boolean oppositeStart = properties.get("oppositeStart") != null ? true : false ;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -68,6 +74,10 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
                     } else if (spawnCell == 3) {
                         this.beeSpawnLocations.add(tilePos);
                     }
+                }
+                if (moving != null){
+                    MovingPlatformData data = new MovingPlatformData(tilePos, movementDuration, moving==1, oppositeStart);
+                    this.getMovingPlatformSpawns().add(data);
                 }
                 if(collidableCell != null){
                     Map.Tile tile = new Map.Tile();
@@ -181,6 +191,8 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
     public List<Vector2> getBeeSpawnLocations(){
         return beeSpawnLocations;
     }
+
+    public List<MovingPlatformData> getMovingPlatformSpawns() { return movingPlatformSpawns; }
 
     public Vector2 getPlayerSpawnLocation(){
         return playerSpawnLocation;

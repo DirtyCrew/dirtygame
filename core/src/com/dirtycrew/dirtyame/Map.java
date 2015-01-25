@@ -31,6 +31,8 @@ public class Map implements IMap {
 
     public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
     public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
+    public List<MovingPlatformData> movingPlatformSpawns = new ArrayList<MovingPlatformData>();
+
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
     public static class Tile extends Entity {
@@ -68,6 +70,11 @@ public class Map implements IMap {
                 Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
+                String movingString = properties.get("moving", String.class);
+                Integer moving = movingString != null ? Integer.valueOf(movingString) : null ;
+                String movementDurationString = properties.get("movementDuration", String.class);
+                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : null ;
+                boolean oppositeStart = properties.get("oppositeStart") != null ? true : false ;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -80,6 +87,10 @@ public class Map implements IMap {
                     } else if (spawnCell == 3) {
                         this.beeSpawnLocations.add(tilePos);
                     }
+                }
+                if (moving != null){
+                    MovingPlatformData data = new MovingPlatformData(tilePos, movementDuration, moving==1, oppositeStart);
+                    this.getMovingPlatformSpawns().add(data);
                 }
                 if(collidableCell != null){
                     Tile tile = new Tile();
@@ -193,6 +204,8 @@ public class Map implements IMap {
     public List<Vector2> getBeeSpawnLocations(){
         return beeSpawnLocations;
     }
+
+    public List<MovingPlatformData> getMovingPlatformSpawns() { return movingPlatformSpawns; }
 
     public Vector2 getPlayerSpawnLocation(){
         return playerSpawnLocation;

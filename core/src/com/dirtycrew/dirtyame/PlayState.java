@@ -275,7 +275,12 @@ public class PlayState implements IGameState {
                 renderList.remove(bee.sprite);
                 world.destroyBody(bee.body);
                 entityList.remove(e);
-            } else {
+            } else if(e instanceof MovingPlatform) {
+                MovingPlatform platform = (MovingPlatform) e;
+                renderList.remove(platform.sprite);
+                world.destroyBody(platform.body);
+                entityList.remove(e);
+            }else {
                 continue;
             }
         }
@@ -336,6 +341,13 @@ public class PlayState implements IGameState {
             renderList.add(bee.sprite);
             entityList.add(bee);
             bee.body.setUserData(bee);
+        }
+
+        for(MovingPlatformData data : map.getMovingPlatformSpawns()){
+            MovingPlatform platform = EntityFactory.createMovingPlatform(world,data,timer);
+            renderList.add(platform.sprite);
+            entityList.add(platform);
+            platform.body.setUserData(platform);
         }
 
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);

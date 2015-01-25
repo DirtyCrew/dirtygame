@@ -51,10 +51,11 @@ public class EugenesAmazingBetterThanBrandonsMap {
                 TiledMapTile mapTile = cell.getTile();
                 int tileId = mapTile.getId();
                 MapProperties properties = mapTile.getProperties();
-                Object collidableCell = properties.get("colliadable");
+                Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
                 boolean isBouncy = properties.get("bouncy") != null ? true : false;
+                boolean isWin = properties.get("win") != null ? true : false;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -73,6 +74,9 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     if(deathTile != null) {
                         tile.isDeath = true;
                     }
+                    if(isWin) {
+                        tile.isWin = true;
+                    }
                     tile.id = tileId;
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
@@ -82,11 +86,18 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     // cant control tilemap sprite positions, so need to center body def so so thats its bottom left corner is the prigin
                     playerBodyDef.position.set(tilePos.add(new Vector2(tileMeterDims.x / 2.f, tileMeterDims.y / 2.f)));
                     Body groundBody = world.createBody(playerBodyDef);
-                    PolygonShape groundBox = new PolygonShape();
-                    groundBox.setAsBox(tileBodyDims.x, tileBodyDims.y);
+                    //PolygonShape groundBox = new PolygonShape();
+                    Vector2 ll = new Vector2(0 - tileBodyDims.x,0 - tileBodyDims.y);
+                    Vector2 lr = new Vector2(tileBodyDims.x,0 - tileBodyDims.y);
+                    Vector2 ur = new Vector2(tileBodyDims.x, tileBodyDims.y);
+                    Vector2 ul = new Vector2(0 - tileBodyDims.x, tileBodyDims.y);
+                   // groundBox.setAsBox(tileBodyDims.x, tileBodyDims.y);
+                    //Bottom
+                    EdgeShape es = new EdgeShape();
+                    es.set(ll,lr);
 
                     FixtureDef fixtureDef = new FixtureDef();
-                    fixtureDef.shape = groundBox;
+                    fixtureDef.shape = es;
                     fixtureDef.density = 0.0f;
                     fixtureDef.friction = 0.0f;
                     if (isBouncy){
@@ -96,6 +107,29 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     }
                     groundBody.createFixture(fixtureDef);
                     groundBody.setUserData(tile);
+
+                    //Top
+                    es.set(ur,ul);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    //Left
+                    es.set(ul,ll);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    //Right
+                    es.set(lr,ur);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    es.dispose();
 
                 }
             }

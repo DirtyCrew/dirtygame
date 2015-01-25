@@ -22,15 +22,17 @@ public class Player extends Entity {
     private int currentAnimateX = 0;
     private int currentAnimateY = 0;
     private static final float SHOT_COOLDOWN = 500f;
-    private static final float JUMP_IMPULSE = 8;
-    private static final float MAX_HORIZONTAL_VELOCITY = 15;
-    private static final float AIR_HORIZONTAL_FORCE = 7;
-    private static final float GROUND_HORIZONTAL_FORCE = 14;
+    public static final float JUMP_IMPULSE = 8;
+    private static final float MAX_HORIZONTAL_VELOCITY = 12;
+    private static final float AIR_HORIZONTAL_FORCE = 5;
+    private static final float GROUND_HORIZONTAL_FORCE = 10;
     private static final float AIR_SLOWDOWN_MULTIPLIER = .96f;
     private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
     private static final float GROUND_FLOATING = .1f;
     private boolean canJump = true;
     private boolean isAttacking;
+    private int attackingFrame;
+    private int walkingFrame;
     public Long lastAttackTime;
     public InputController inputController;
     public BetterThanBrandonsTimer timer;
@@ -53,7 +55,7 @@ public class Player extends Entity {
         random = new Random();
         jumpAnimationY =  (jumpAnimate[1]);
         jumpAnimationX =  (jumpAnimate[0]);
-
+        attackingFrame = 0;
         if(Config.RANDOMIZE) {
             timer.startRecurringRandomTimer(15000, 5000, listener);
         }
@@ -70,14 +72,22 @@ public class Player extends Entity {
         if (deltaTime == 0) return;
 
         boolean stop = true;
-
+        int framesPerImage = 6;
         if(body.getLinearVelocity().x > 1f || body.getLinearVelocity().x < -1f)
         {
-            currentAnimateX += 1;
-            if (currentAnimateX == 9)
-            {
-                currentAnimateX = 0;
+            if (Math.abs(body.getLinearVelocity().x) > MAX_HORIZONTAL_VELOCITY * .9){
+                framesPerImage = 1;
+            }else if (Math.abs(body.getLinearVelocity().x) > MAX_HORIZONTAL_VELOCITY * .5){
+            framesPerImage = 3;
+            } else {
+                framesPerImage = 6;
             }
+            walkingFrame += 1;
+            if (walkingFrame >= 9*framesPerImage)
+            {
+                walkingFrame = 0;
+            }
+            currentAnimateX = 0 + walkingFrame / framesPerImage;
         }
         else
         {
@@ -105,7 +115,7 @@ public class Player extends Entity {
             if (body.getLinearVelocity().x < 0){
                 if(facingRight)
                 {
-                    currentAnimateX = 0;
+                    walkingFrame = 0;
                 }
                 facingRight = false;
 
@@ -166,15 +176,35 @@ public class Player extends Entity {
         if (inputController.isAttackPressed()){
             if (lastAttackTime == null) {
                 isAttacking = true;
+                attackingFrame = 1;
             }else if (System.currentTimeMillis() - lastAttackTime > SHOT_COOLDOWN ){
                 isAttacking = true;
+                attackingFrame = 1;
             }
         }
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
 
-        if(!isJumping)
+        //final int framesPerImage = 3;
+        if(attackingFrame > 0){
+            if (attackingFrame <= framesPerImage*1) {
+                sprite.setRegion(5 * 64, 13 * 64, 64, 64);
+                attackingFrame++;
+            } else if (attackingFrame <= framesPerImage*2) {
+                sprite.setRegion(4 * 64, 13 * 64, 64, 64);
+                attackingFrame++;
+            } else if (attackingFrame <= framesPerImage*3) {
+                sprite.setRegion(3 * 64, 13 * 64, 64, 64);
+                attackingFrame++;
+            }
+            if (facingRight){
+                sprite.flip(true,false);
+            }
+            if (attackingFrame == framesPerImage*3+1){
+                attackingFrame = 0;
+            }
+        } else if(!isJumping)
         {
             if(facingRight)
             {
@@ -185,8 +215,7 @@ public class Player extends Entity {
                 currentAnimateY = leftAnimate;
             }
             sprite.setRegion(currentAnimateX * 64,currentAnimateY * 64,64,64);
-        }
-        else
+        } else
         {
             sprite.setRegion(jumpAnimationX * 64, jumpAnimationY * 64, 64, 64);
         }

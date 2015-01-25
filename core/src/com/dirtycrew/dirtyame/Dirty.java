@@ -20,8 +20,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
-	World world;
-	Box2DDebugRenderer debugRenderer;
+
 
 	IGameState currentState;
 	GameManager gameManager;
@@ -29,8 +28,7 @@ public class Dirty extends ApplicationAdapter {
 	@Override
 	public void create () {
 		DLog.debug("ScreenWidth: {} ScreenHeight:{}", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		world = new World(Constants.GRAVITY, false);
-		debugRenderer = new Box2DDebugRenderer();
+
 		batch = new SpriteBatch();
 
 		Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
@@ -60,7 +58,7 @@ public class Dirty extends ApplicationAdapter {
 		gameManager.update();
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
 
-		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+
 		//world.clearForces();
 	}
 

@@ -30,7 +30,7 @@ public class KoopaKoopa extends Entity {
     {
         random = new Random();
         this.body = body;
-        changeMovement = !changeMovement;
+        //changeMovement = !changeMovement;
 
         this.timer2 = timer2;
         timer2.startRecurringRandomTimer(3000, 1000, new BetterThanBrandonsTimer.TimerListener() {

@@ -36,10 +36,21 @@ public class FailState implements IGameState {
     public void update(Dirty game, float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             game.gameManager.changeState(GameManager.GameState.Start);
+            try {
+                Thread.sleep(100);
+            } catch(Exception e) {
+
+            }
         } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             game.gameManager.changeState(GameManager.GameState.Play, game.map);
+            try {
+                Thread.sleep(100);
+            } catch(Exception e) {
+
+            }
         }
-        
+
+
     }
 
     @Override

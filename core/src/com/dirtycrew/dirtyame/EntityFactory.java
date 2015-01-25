@@ -120,6 +120,8 @@ public class EntityFactory {
         inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
         if(Config.RANDOMIZE) {
             inputController.randomizeControls();
+        }else{
+            inputController.inputSets.get(1).setAllInactive();
         }
 
         // create player

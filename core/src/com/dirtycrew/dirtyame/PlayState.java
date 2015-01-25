@@ -126,6 +126,12 @@ public class PlayState implements IGameState {
                 -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
                 (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
 
+        String deathCounterString = "Deaths: " + 9999;
+        BitmapFont.TextBounds deathCounterBounds = deathTimerFont.getBounds(deathCounterString);
+        deathTimerFont.draw(hudBatch,
+                deathCounterString,
+                (Constants.SCREEN_WIDTH / 2) - deathCounterBounds.width,
+                (Constants.SCREEN_HEIGHT / 2) - deathCounterBounds.height);
 
         BitmapFont.TextBounds playerControlBoundsJump = playerControlFont.getBounds(jump);
         BitmapFont.TextBounds playerControlBoundsLeft = playerControlFont.getBounds(left);
@@ -303,10 +309,10 @@ public class PlayState implements IGameState {
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
                     if(e1 instanceof Attack || e2 instanceof Attack){
-                        if (e1 instanceof KoopaKoopa){
+                        if (e1 instanceof KoopaKoopa || e2 instanceof Bee){
                             killEntity(e1);
                         }
-                        if (e2 instanceof KoopaKoopa){
+                        if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
                             killEntity(e2);
                         }
                     }

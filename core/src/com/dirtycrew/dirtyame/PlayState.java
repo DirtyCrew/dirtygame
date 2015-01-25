@@ -24,7 +24,7 @@ import java.util.List;
  * Created by sturm on 1/24/15.
  */
 public class PlayState implements IGameState {
-
+    EugenesAmazingBetterThanBrandonsMap map;
     Player player;
     List<Entity> entityList = new ArrayList<Entity>();
     List<Entity> toRemove = new ArrayList<Entity>();
@@ -32,7 +32,7 @@ public class PlayState implements IGameState {
     OrthographicCamera camera;
     OrthographicCamera hudCamera;
     SpriteBatch hudBatch;
-    Map map;
+    //Map map;
     World world;
     BetterThanBrandonsTimer timer;
 
@@ -244,13 +244,15 @@ public class PlayState implements IGameState {
 
     @Override
     public void init(final Dirty game) {
+
         timer = new BetterThanBrandonsTimer();
         world = game.world;
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
-        map = new Map("Lonely_Trees.tmx", game.world);
+       // map = new Map("Lonely_Trees.tmx", game.world);
+        map = new EugenesAmazingBetterThanBrandonsMap(world);
 
 
         player = EntityFactory.createPlayer(game.world, map.playerSpawnLocation, timer);

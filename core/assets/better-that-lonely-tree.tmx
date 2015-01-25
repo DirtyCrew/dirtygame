@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="200" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <tile id="72">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="75">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="202">
+   <properties>
+    <property name="spawn" value="1"/>
+   </properties>
+  </tile>
+  <tile id="206">
+   <properties>
+    <property name="colliadable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="210">
+   <properties>
+    <property name="bouncy" value="1"/>
+   </properties>
+  </tile>
+  <tile id="362">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="363">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="364">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="365">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="552">
+   <properties>
+    <property name="colliadable" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt2r9OwlAUB2A6+ig+gW/gn8ju6mYUNXHyCRxxNVEHFxdFVlcn42Di6BvoI2icvA0YsaG0QGmhfl/yC0NP7j2nLTcMNBoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAkfaj3wAAAAD1cxZyPkYuQi5HrHc/y2YL9JVx/aOULvjvFuX7kuW16gYK4nvfU5f3cl6fZ9b9nfZ6WbLu77TXgZ6VqhsoyFbVDRTkuOoGGMtqyFrIRko2Q06i4tMM6y5Ff7M6ZK9mzjmOosb2Tvjc7WcvkVav5mo9rDkq8yj0/RCn6j7qbjn6zSJrhf4PQg4XfI5ueOfbYYbTBZ/jtD9Hd8Qcrf5/jeJnFp9Tw2riM26wrmydsOfdkOfxFvKeUZN3rTLk2fs/z5H2/s3KpHP8/F5ojqj7nEXDY/Q4Sc04dbNQ1hw/Z9lgijzXBve+TUmemmTddSLPIe1EukPq4txkJGuOp5TkqUnWvSTSSZkjWRfnMSN1mWNwlm8C8saq
+  </data>
+ </layer>
+ <layer name="Collision Layer" width="50" height="200" opacity="0.25">
+  <properties>
+   <property name="spawn" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt10EOhCAMBVDuf7VZuPBCszfqFByxNu8lxAVE+w2gtAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARC2D7ex+FVTJQW5V5pkctVR5D1lz/Krrav8sVXJAdlXWihw8YfSs+48WrSViDTxvDd4rm7W9t3bm6107WS2b61tFckT2qe0eN9tRjmWnL3rGyZSjd0zPuDvclWP2t2Y0x95aiM7DT0+BQU/MqzfnuPK/l8lRNmr5AmvqdvI=
+  </data>
+ </layer>
+ <layer name="Meta" width="50" height="200" visible="0">
+  <properties>
+   <property name="spawn" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzgENAAAIA6D3r2YpY3xOSEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFww7QA8sVMRAMw=
+  </data>
+ </layer>
+</map>

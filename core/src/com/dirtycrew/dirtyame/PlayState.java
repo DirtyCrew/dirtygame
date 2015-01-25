@@ -255,10 +255,10 @@ public class PlayState implements IGameState {
 
         //End Creating Enemy
         for(Vector2 pos : map.monsterSpawnLocations) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
-            renderList.add(koopaKoopa.sprite);
-            entityList.add(koopaKoopa);
-            koopaKoopa.body.setUserData(koopaKoopa);
+//            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
+//            renderList.add(koopaKoopa.sprite);
+//            entityList.add(koopaKoopa);
+//            koopaKoopa.body.setUserData(koopaKoopa);
 
         }
 

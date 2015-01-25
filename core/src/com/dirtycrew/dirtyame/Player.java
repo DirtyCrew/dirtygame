@@ -39,6 +39,8 @@ public class Player extends Entity {
     public InputController inputController;
     public BetterThanBrandonsTimer timer;
     public Random random;
+    int jumpAnimationX;
+    int jumpAnimationY;
     BetterThanBrandonsTimer.TimerListener listener = new BetterThanBrandonsTimer.TimerListener() {
         @Override
         public void onTimerExpired() {
@@ -54,6 +56,8 @@ public class Player extends Entity {
         facingRight = true;
         this.timer = timer;
         random = new Random();
+        jumpAnimationY =  (jumpAnimate[1]);
+        jumpAnimationX =  (jumpAnimate[0]);
 
        timer.startRecurringRandomTimer(15000, 5000, listener);
     }
@@ -148,6 +152,17 @@ public class Player extends Entity {
             {
                 body.applyLinearImpulse(0f,JUMP_IMPULSE,body.getLocalCenter().x, body.getLocalCenter().y, true);
                 isJumping = true;
+                int rand = random.nextInt(3);
+                if(rand == 1) {
+                    jumpAnimationX =  (jumpAnimate[0]);
+                    jumpAnimationY = jumpAnimate[1] - 1;
+                } else if(rand == 2) {
+                    jumpAnimationX =  (jumpAnimate[0]);
+                    jumpAnimationY = jumpAnimate[1];
+                } else {
+                    jumpAnimationX = 5;
+                    jumpAnimationY = 2;
+                }
                 //body.applyForceToCenter(0,JUMP_FORCE,false);
             }
         }
@@ -176,7 +191,7 @@ public class Player extends Entity {
         }
         else
         {
-            sprite.setRegion(jumpAnimate[0] * 64,jumpAnimate[1] * 64, 64,64);
+            sprite.setRegion(jumpAnimationX * 64, jumpAnimationY * 64, 64, 64);
         }
 
 

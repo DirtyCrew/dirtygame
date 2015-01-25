@@ -231,13 +231,13 @@ public class PlayState implements IGameState {
                         Vector2 left = new Vector2(-1,0);
 
                         Vector2 contactNormal = contact.getWorldManifold().getNormal();
-                        if(up.dot(contactNormal) > 0) {
+                        if(up.dot(contactNormal) > 0) { // entity landed ontop of player
                             gameManager.changeState(GameManager.GameState.Finish);
-                        } else if (down.dot(contactNormal) > 0) {
+                        } else if (down.dot(contactNormal) > 0) { // player on entity
                             killEntity(e);
-                        } else if(right.dot(contactNormal) > 0) {
+                        } else if(right.dot(contactNormal) > 0) { // entity hit player on right
                             gameManager.changeState(GameManager.GameState.Finish);
-                        } else if(left.dot(contactNormal) > 0) {
+                        } else if(left.dot(contactNormal) > 0) { // entity hit player on left
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
 

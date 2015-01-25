@@ -54,6 +54,11 @@ public class PlayState implements IGameState {
         cleanUpOrphans();
 
         player.update(delta);
+        if (player.isAttacking()){
+            createAttack(world, player);
+            player.lastAttackTime = System.currentTimeMillis();
+            player.setAttacking(false);
+        }
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
         //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
 
@@ -189,8 +194,37 @@ public class PlayState implements IGameState {
         playerBody.setUserData(player);
 
         return player;
+    }
 
+    Attack createAttack(World world, Player player) {
+        //Creating Enemy
+        BodyDef attackBodyDef = new BodyDef();
+        attackBodyDef.fixedRotation = true;
+        attackBodyDef.type = BodyDef.BodyType.DynamicBody;
+        attackBodyDef.position.set(player.body.getPosition().x + 1f, player.body.getPosition().y);
+        Body attackBody = world.createBody(attackBodyDef);
+        attackBody.setGravityScale(0);
+        PolygonShape attackBox = new PolygonShape();
+        attackBox.setAsBox(Conversions.convertToMeters(32) / 10.f, Conversions.convertToMeters(32) / 10.f);
 
+        FixtureDef attackfixtureDef = new FixtureDef();
+        attackfixtureDef.shape = attackBox;
+        attackfixtureDef.density = 0.0f;
+        attackfixtureDef.friction = 0.001f;
+        attackfixtureDef.restitution = 0; // Make it bounce a little bit
+        attackBody.createFixture(attackfixtureDef);
+
+        Texture attackTexture = new Texture("badlogic.jpg");
+        Attack attack = new Attack(attackBody,eventHandler);
+        attack.sprite = new Sprite(attackTexture);
+        attack.sprite.setPosition(attackBody.getPosition().x, attackBody.getPosition().y);
+        attack.sprite.setSize(.2f,.2f);
+
+        entityList.add(attack);
+        renderList.add(attack.sprite);
+
+        attackBody.setUserData(attack);
+        return attack;
     }
 
     private void cleanUpOrphans() {

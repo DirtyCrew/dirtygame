@@ -11,7 +11,7 @@ public class Attack extends Entity {
 
     private Body body;
     public Sprite sprite;
-    private static final float SHOT_VELOCITY = 10;
+    public static final float SHOT_VELOCITY = 500;
     private static final long SHOT_DURATION_MILLE = 1000;
     public boolean destroy;
     public static final int SHOT_WIDTH = 10;
@@ -38,7 +38,9 @@ public class Attack extends Entity {
     public void update(float delta)
     {
         timer.update();
-
+        if (body.getLinearVelocity().x == 0) {
+            body.applyForceToCenter(SHOT_VELOCITY, 0, true);
+        }
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
 

@@ -309,7 +309,7 @@ public class PlayState implements IGameState {
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
                     if(e1 instanceof Attack || e2 instanceof Attack){
-                        if (e1 instanceof KoopaKoopa || e2 instanceof Bee){
+                        if (e1 instanceof KoopaKoopa || e1 instanceof Bee){
                             killEntity(e1);
                         }
                         if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
@@ -326,7 +326,7 @@ public class PlayState implements IGameState {
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
 
-                    } else if(e instanceof KoopaKoopa) {
+                    } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
                         Vector2 up = new Vector2(0, 1);
                         Vector2 down = new Vector2(0, -1);
                         Vector2 right = new Vector2(1,0);
@@ -337,14 +337,13 @@ public class PlayState implements IGameState {
                             gameManager.changeState(GameManager.GameState.Finish);
                         } else if (down.dot(contactNormal) > 0) { // player on entity
                             killEntity(e);
+                            player.body.applyLinearImpulse(0f,player.JUMP_IMPULSE*2,player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
                         } else if(right.dot(contactNormal) > 0) { // entity hit player on right
                             gameManager.changeState(GameManager.GameState.Finish);
                         } else if(left.dot(contactNormal) > 0) { // entity hit player on left
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
 
-                    } else if(e instanceof Bee) {
-                        gameManager.changeState(GameManager.GameState.Finish);
                     }
                 }
             }

@@ -78,6 +78,39 @@ public class EntityFactory {
         return bee;
     }
 
+    public static MovingPlatform createMovingPlatform(World world, MovingPlatformData data, BetterThanBrandonsTimer timer) {
+        //Creating Enemy
+        BodyDef platformBodyDef = new BodyDef();
+        platformBodyDef.fixedRotation = true;
+        platformBodyDef.type = BodyDef.BodyType.KinematicBody;
+        platformBodyDef.position.set(data.position);
+        Body platformBody = world.createBody(platformBodyDef);
+        platformBody.setGravityScale(0);
+        Vector2[] platformVect = new Vector2[4];
+        platformVect[0] = new Vector2(-1f,.5f);
+        platformVect[1] = new Vector2(1f,.5f);
+        platformVect[2] = new Vector2(-1f,-.5f);
+        platformVect[3] = new Vector2(1f,-.5f);
+        PolygonShape platformBox = new PolygonShape();
+        platformBox.set(platformVect);
+
+        FixtureDef platformfixtureDef = new FixtureDef();
+        platformfixtureDef.shape = platformBox;
+        platformfixtureDef.density = 0.9f;
+        platformfixtureDef.friction = 0.001f;
+        platformfixtureDef.restitution = 0; // Make it bounce a little bit
+        platformBody.createFixture(platformfixtureDef);
+
+        Texture platformTexture = new Texture("platformtiles.bmp");
+        MovingPlatform platform = new MovingPlatform(platformBody,timer, data.horizontal, data.movementDuration, data.oppositeStart);
+        platform.sprite = new Sprite(platformTexture);
+        platform.sprite.setPosition(data.position.x, data.position.y);
+        platform.sprite.setSize(2f, 1f);
+
+        return platform;
+    }
+    
+
     public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer, int numUsers) {
         Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
@@ -142,8 +175,6 @@ public class EntityFactory {
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);
         player.sprite.setRegion(0,0,64,64);
-
-
 
         return player;
     }

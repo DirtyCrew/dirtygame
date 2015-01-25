@@ -35,11 +35,12 @@ public class BetterThanBrandonsTimer {
 
     private final Map<TimerListener, Pair> timers;
     private final Map<TimerListener, Pair> recur;
-
+    private final Map<TimerListener, Pair> recur2;
 
     public BetterThanBrandonsTimer() {
         timers = new HashMap<TimerListener, Pair>();
         recur = new HashMap<TimerListener, Pair>();
+        recur2 = new HashMap<TimerListener, Pair>();
     }
 
     public void startTimer(long duration, TimerListener callback) {
@@ -51,10 +52,14 @@ public class BetterThanBrandonsTimer {
         recur.clear();
     }
 
+    public void startRecurringTimer(long duration, TimerListener callback) {
+        recur2.put(callback, new Pair(duration, System.currentTimeMillis()));
+    }
+
+
     public void startRecurringRandomTimer(int upper, int lower, TimerListener callback) {
         recur.put(callback, new Pair(new Random().nextInt(upper - lower) + lower, System.currentTimeMillis(), lower, upper));
     }
-
 
     public void update(float delta) {
         List<TimerListener> toRemove = new ArrayList<TimerListener>();
@@ -79,5 +84,12 @@ public class BetterThanBrandonsTimer {
             }
         }
 
+        for(Map.Entry<TimerListener, Pair> entry : recur2.entrySet()) {
+            Pair p = entry.getValue();
+            if(System.currentTimeMillis() - p.start > p.duration) {
+                entry.getKey().onTimerExpired();
+                p.start = System.currentTimeMillis();
+            }
+        }
     }
 }

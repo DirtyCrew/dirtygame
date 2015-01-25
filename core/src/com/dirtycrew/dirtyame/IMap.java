@@ -12,6 +12,7 @@ interface IMap {
     void drawMap(OrthographicCamera camera);
     List<Vector2> getMonsterSpawnLocations();
     List<Vector2> getBeeSpawnLocations();
+    List<MovingPlatformData> getMovingPlatformSpawns();
     Vector2 getPlayerSpawnLocation();
     float getWidth();
     float getHeight();

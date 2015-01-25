@@ -82,6 +82,11 @@ public class PlayState implements IGameState {
     public void update(Dirty game, float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             game.gameManager.changeState(GameManager.GameState.Start);
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+
+            }
         }
 
         timer.update(delta);
@@ -304,7 +309,7 @@ public class PlayState implements IGameState {
         camera.update();
 
         //Setting the correct level
-        DLog.debug("{}", mapNumber);
+        DLog.debug("MpaNumber: {}", mapNumber);
         switch (this.mapNumber){
             case 1:{
                 map = new Map("Lonely_Trees.tmx", world);
@@ -324,7 +329,7 @@ public class PlayState implements IGameState {
             }
         }
 
-
+        DLog.debug("NumPlayers: {}", numPlayers);
         player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer, numPlayers);
         entityList.add(player);
         renderList.add(player.sprite);

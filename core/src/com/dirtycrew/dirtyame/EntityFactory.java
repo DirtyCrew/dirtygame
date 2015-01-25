@@ -122,11 +122,12 @@ public class EntityFactory {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
         }
-        if(Config.RANDOMIZE && numUsers > 1) {
+        if(numUsers > 1) {
             inputController.randomizeControls();
-        }else{
+        } else {
             inputController.inputSets.get(1).setAllInactive();
         }
+        
 
         // create player
         Texture playerTexture = new Texture("player.png");

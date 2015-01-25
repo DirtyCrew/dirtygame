@@ -27,6 +27,8 @@ public class FailState implements IGameState {
         hudBatch = new SpriteBatch();
 
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+
+        game.gameManager.numDeaths++;
     }
 
     @Override

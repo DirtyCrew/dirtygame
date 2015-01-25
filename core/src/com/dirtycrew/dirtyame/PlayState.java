@@ -112,7 +112,7 @@ public class PlayState implements IGameState {
 
         cleanUpOrphans();
 
-        deathTimer.update();
+//        deathTimer.update();
 
         for (Entity e : entityList) {
             e.update(delta);
@@ -165,17 +165,17 @@ public class PlayState implements IGameState {
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
 
-        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
-        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
-        String time = String.format("%d:%02d", minutes, seconds);
-        String timerString = "Death Timer: " + time;
-        BitmapFont.TextBounds deathTimerBounds = deathTimerFont.getBounds(timerString);
-        deathTimerFont.draw(hudBatch,
-                timerString,
-                -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
-                (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
+//        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
+//        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
+//        String time = String.format("%d:%02d", minutes, seconds);
+//        String timerString = "Death Timer: " + time;
+//        BitmapFont.TextBounds deathTimerBounds = deathTimerFont.getBounds(timerString);
+//        deathTimerFont.draw(hudBatch,
+//                timerString,
+//                -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
+//                (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
 
-        String deathCounterString = "Deaths: " + 9999;
+        String deathCounterString = "Deaths: " + game.gameManager.numDeaths;
         BitmapFont.TextBounds deathCounterBounds = deathTimerFont.getBounds(deathCounterString);
         deathTimerFont.draw(hudBatch,
                 deathCounterString,
@@ -361,11 +361,11 @@ public class PlayState implements IGameState {
 
         hudBatch = new SpriteBatch();
 
-        EventHandler.Event event = new deathTimer();
-        event.setState("Death Timer");
-        Listener listener = new Listener();
-        eventHandler.subscribe(event, listener);
-        deathTimer = new Timer(timeForLevel, eventHandler, event);
+//        EventHandler.Event event = new deathTimer();
+//        event.setState("Death Timer");
+//        Listener listener = new Listener();
+//        eventHandler.subscribe(event, listener);
+//        deathTimer = new Timer(timeForLevel, eventHandler, event);
 
         world.setContactListener(new ContactListener() {
             @Override

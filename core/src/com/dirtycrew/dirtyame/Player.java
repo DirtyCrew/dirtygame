@@ -32,6 +32,7 @@ public class Player extends Entity {
     private boolean canJump = true;
     private boolean isAttacking;
     private int attackingFrame;
+    private int walkingFrame;
     public Long lastAttackTime;
     public InputController inputController;
     public BetterThanBrandonsTimer timer;
@@ -71,14 +72,22 @@ public class Player extends Entity {
         if (deltaTime == 0) return;
 
         boolean stop = true;
-
+        int framesPerImage = 6;
         if(body.getLinearVelocity().x > 1f || body.getLinearVelocity().x < -1f)
         {
-            currentAnimateX += 1;
-            if (currentAnimateX == 9)
-            {
-                currentAnimateX = 0;
+            if (Math.abs(body.getLinearVelocity().x) > MAX_HORIZONTAL_VELOCITY * .9){
+                framesPerImage = 1;
+            }else if (Math.abs(body.getLinearVelocity().x) > MAX_HORIZONTAL_VELOCITY * .5){
+            framesPerImage = 3;
+            } else {
+                framesPerImage = 6;
             }
+            walkingFrame += 1;
+            if (walkingFrame >= 9*framesPerImage)
+            {
+                walkingFrame = 0;
+            }
+            currentAnimateX = 0 + walkingFrame / framesPerImage;
         }
         else
         {
@@ -106,7 +115,7 @@ public class Player extends Entity {
             if (body.getLinearVelocity().x < 0){
                 if(facingRight)
                 {
-                    currentAnimateX = 0;
+                    walkingFrame = 0;
                 }
                 facingRight = false;
 
@@ -177,7 +186,7 @@ public class Player extends Entity {
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
 
-        final int framesPerImage = 3;
+        //final int framesPerImage = 3;
         if(attackingFrame > 0){
             if (attackingFrame <= framesPerImage*1) {
                 sprite.setRegion(5 * 64, 13 * 64, 64, 64);

@@ -24,6 +24,7 @@ public class KoopaKoopa extends Entity {
     private boolean changeMovement = false;
     BetterThanBrandonsTimer timer2;
     Random random;
+    private int walkingFrame;
 
 
     public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2)
@@ -39,7 +40,7 @@ public class KoopaKoopa extends Entity {
                 changeMovement = !changeMovement;
             }
         });
-
+        walkingFrame = 0;
     }
 
     @Override
@@ -81,7 +82,52 @@ public class KoopaKoopa extends Entity {
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
 
-
+        final int framesPerImage = 10;
+        int imageWidth = 70;
+        int imageHeight = 90;
+        int rowNumber = 3;
+        if (body.getLinearVelocity().x == 0) {
+            walkingFrame = 0;
+        } else if (walkingFrame == 0){
+            walkingFrame = 1;
+        }
+        if(walkingFrame > 0){
+            if (walkingFrame <= framesPerImage*1) {
+                sprite.setRegion(0 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            } else if (walkingFrame <= framesPerImage*2) {
+                sprite.setRegion(1 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            } else if (walkingFrame <= framesPerImage*3) {
+                sprite.setRegion(2 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            } else if (walkingFrame <= framesPerImage*4) {
+                sprite.setRegion(3 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            }
+            else if (walkingFrame <= framesPerImage*5) {
+                sprite.setRegion(4 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            }
+            else if (walkingFrame <= framesPerImage*6) {
+                sprite.setRegion(5 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            }
+            else if (walkingFrame <= framesPerImage*7) {
+                sprite.setRegion(6 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            }
+            else if (walkingFrame <= framesPerImage*8) {
+                sprite.setRegion(7 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+                walkingFrame++;
+            }
+            if (body.getLinearVelocity().x > 0){
+                sprite.flip(true,false);
+            }
+            if (walkingFrame == framesPerImage*8+1){
+                walkingFrame = 1;
+            }
+        }
     }
 
 }

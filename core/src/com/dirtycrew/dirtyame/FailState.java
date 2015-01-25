@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -25,6 +27,8 @@ public class FailState implements IGameState {
         hudBatch = new SpriteBatch();
 
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+
+        game.gameManager.numDeaths++;
     }
 
     @Override
@@ -63,8 +67,16 @@ public class FailState implements IGameState {
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
+
+        Texture texture = new Texture("restart_image.png");
+        Sprite backgroundSprite = new Sprite(texture);
+        backgroundSprite.setSize(10, 5);
+        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.draw(hudBatch);
+
         font.setScale(0.5f);
         font.draw(hudBatch, "Fail", 0, 0);
+
         hudBatch.end();
     }
 

@@ -571,9 +571,10 @@ public class PlayState implements IGameState {
                     if (e1 == player || e2 == player) {
                         if (e1 instanceof MovingPlatform || e2 instanceof MovingPlatform) {
                             MovingPlatform plat = (MovingPlatform) e2;
-                            if (Math.abs(player.body.getLinearVelocity().x) < Math.abs(plat.body.getLinearVelocity().x)) {
-                                player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x * .8f, player.body.getLinearVelocity().y);
-                            }
+//                            if (Math.abs(player.body.getLinearVelocity().x) < Math.abs(plat.body.getLinearVelocity().x)*.8f) {
+//                                player.body.applyForceToCenter(plat.body.getLinearVelocity().x, 0, false);
+//                                //player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x * .8f, player.body.getLinearVelocity().y);
+//                            }
                         }
                     }
                 }

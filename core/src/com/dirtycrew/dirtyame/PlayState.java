@@ -468,11 +468,20 @@ public class PlayState implements IGameState {
                         Vector2 down = new Vector2(0, -1);
 
                         float d =  l.dot(down);
+                        DLog.debug("{}", d);
+                        if(d >= 0.75f) {
+                            if(e instanceof  KoopaKoopa) {
+                                ((KoopaKoopa) e).decrementHitPoints();
+                                if(((KoopaKoopa) e).isDead()) {
+                                    killEntity(e);
+                                    player.dieSound.play();
+                                }
+                            } else {
+                                killEntity(e);
+                                player.dieSound.play();
+                            }
 
-                        if(d > 0.50) {
-                            killEntity(e);
-                            player.dieSound.play();
-                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
+                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 1.5f, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
 
                         } else {
                             gameManager.changeState(GameManager.GameState.Fail);

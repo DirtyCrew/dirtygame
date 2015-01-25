@@ -37,14 +37,14 @@ public class FinishState implements IGameState {
         if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             game.gameManager.changeState(GameManager.GameState.Start);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch(Exception e) {
 
             }
         } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             game.gameManager.changeState(GameManager.GameState.Play, game.map);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch(Exception e) {
 
             }

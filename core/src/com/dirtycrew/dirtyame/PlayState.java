@@ -1,5 +1,6 @@
 package com.dirtycrew.dirtyame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
@@ -39,11 +40,18 @@ public class PlayState implements IGameState {
     InputController inputController;
     EventHandler eventHandler;
 
-    BitmapFont font;
+    BitmapFont deathTimerFont;
+    BitmapFont playerControlFont;
     Timer deathTimer;
     long timeForLevel;
     GameManager gameManager;
     FinishState finishState;
+
+    private final static int hudCameraZoom = 32;
+    private final static String left = "Left";
+    private final static String right = "Right";
+    private final static String jump = "Jump";
+    private final static String attack = "Attack";
 
     public PlayState(GameManager gameManager, long time){
         this.gameManager = gameManager;
@@ -85,7 +93,6 @@ public class PlayState implements IGameState {
 
         player.sprite.draw(game.batch);
 
-//        font.draw(game.batch, "Hello World", 0, 0);
         for(Sprite s : renderList) {
             s.draw(game.batch);
         }
@@ -97,12 +104,55 @@ public class PlayState implements IGameState {
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
-        font.setScale(0.2f);
+
         long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
         long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
-        String str = String.format("m %d s %02d", minutes, seconds);
-        String timerString = "Death Timer: " + str;
-        font.draw(hudBatch, timerString, -(Constants.VIEWPORT_WIDTH / 2.0f), (Constants.VIEWPORT_HEIGHT / 2.0f));
+        String time = String.format("%d:%02d", minutes, seconds);
+        String timerString = "Death Timer: " + time;
+        BitmapFont.TextBounds deathTimerBounds = deathTimerFont.getBounds(timerString);
+        deathTimerFont.draw(hudBatch,
+                timerString,
+                -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
+                (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
+
+
+        BitmapFont.TextBounds playerControlBoundsJump = playerControlFont.getBounds(jump);
+        BitmapFont.TextBounds playerControlBoundsLeft = playerControlFont.getBounds(left);
+        BitmapFont.TextBounds playerControlBoundsRight = playerControlFont.getBounds(right);
+        BitmapFont.TextBounds playerControlBoundsAttack = playerControlFont.getBounds(attack);
+
+        float playerControlHeight = (-(Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom) + playerControlBoundsJump.height;
+
+        playerControlFont.setColor(Color.GREEN);
+        playerControlFont.draw(hudBatch, jump,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom),
+                playerControlHeight);
+        playerControlFont.setColor(Color.RED);
+        playerControlFont.draw(hudBatch, left,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + 20,
+                playerControlHeight);
+        playerControlFont.setColor(Color.GREEN);
+        playerControlFont.draw(hudBatch, right,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + playerControlBoundsLeft.width + 80,
+                playerControlHeight);
+        playerControlFont.setColor(Color.RED);
+        playerControlFont.draw(hudBatch, attack,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) + playerControlBoundsJump.width + playerControlBoundsLeft.width + playerControlBoundsRight.width + 40,
+                playerControlHeight);
+
+        playerControlFont.draw(hudBatch, jump,
+                ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - playerControlBoundsLeft.width - playerControlBoundsRight.width,
+                playerControlHeight);
+        playerControlFont.draw(hudBatch, left,
+                ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - playerControlBoundsLeft.width - 40,
+                playerControlHeight);
+        playerControlFont.draw(hudBatch, right,
+                ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width - playerControlBoundsJump.width - 80,
+                playerControlHeight);
+        playerControlFont.draw(hudBatch, attack,
+                ((Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom) - playerControlBoundsAttack.width,
+                playerControlHeight);
+
         hudBatch.end();
     }
 
@@ -224,9 +274,13 @@ public class PlayState implements IGameState {
 
 
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        hudCamera.zoom += hudCameraZoom;//16
 
-        font = new BitmapFont();
-        font.setColor(Color.RED);
+        deathTimerFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        deathTimerFont.setColor(Color.RED);
+
+        playerControlFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        playerControlFont.setColor(Color.RED);
 
         hudBatch = new SpriteBatch();
 

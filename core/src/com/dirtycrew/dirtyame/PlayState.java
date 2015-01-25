@@ -53,20 +53,26 @@ public class PlayState implements IGameState {
 
         deathTimer.update();
 
-        for(Entity e : entityList) {
+        for (Entity e : entityList) {
             e.update(delta);
+            if (e instanceof Attack && ((Attack) e).destroy) {
+                killEntity(e);
+            }
+        }
+        if (player.isAttacking()) {
+            createAttack(world, player);
+            player.lastAttackTime = System.currentTimeMillis();
+            player.setAttacking(false);
         }
 
         camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
-        //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
 
-        if (camera.position.x < Constants.VIEWPORT_WIDTH / 2){
+        if (camera.position.x < Constants.VIEWPORT_WIDTH / 2) {
             camera.position.set(Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
         }
-        if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2){
+        if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2) {
             camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
         }
-
         camera.update();
     }
 
@@ -100,9 +106,36 @@ public class PlayState implements IGameState {
         hudBatch.end();
     }
 
+    Attack createAttack(World world, Player player) {
+        //Creating Enemy
+        BodyDef attackBodyDef = new BodyDef();
+        attackBodyDef.fixedRotation = true;
+        attackBodyDef.type = BodyDef.BodyType.DynamicBody;
+        attackBodyDef.position.set(player.body.getPosition().x + 1f, player.body.getPosition().y);
+        Body attackBody = world.createBody(attackBodyDef);
+        attackBody.setGravityScale(0);
+        PolygonShape attackBox = new PolygonShape();
+        attackBox.setAsBox(Conversions.convertToMeters(32) / 10.f, Conversions.convertToMeters(32) / 10.f);
 
+        FixtureDef attackfixtureDef = new FixtureDef();
+        attackfixtureDef.shape = attackBox;
+        attackfixtureDef.density = 0.0f;
+        attackfixtureDef.friction = 0.001f;
+        attackfixtureDef.restitution = 0; // Make it bounce a little bit
+        attackBody.createFixture(attackfixtureDef);
 
+        Texture attackTexture = new Texture("badlogic.jpg");
+        Attack attack = new Attack(attackBody,eventHandler);
+        attack.sprite = new Sprite(attackTexture);
+        attack.sprite.setPosition(attackBody.getPosition().x, attackBody.getPosition().y);
+        attack.sprite.setSize(.2f,.2f);
 
+        entityList.add(attack);
+        renderList.add(attack.sprite);
+
+        attackBody.setUserData(attack);
+        return attack;
+    }
 
     private void cleanUpOrphans() {
         for(Entity e : toRemove) {
@@ -200,6 +233,8 @@ public class PlayState implements IGameState {
                         } else if(left.dot(contactNormal) > 0) {
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
+
+                    } else if(e instanceof  KoopaKoopa) {
 
                     }
                 }

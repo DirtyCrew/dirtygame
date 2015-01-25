@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Player extends Entity {
     public Body body;
     public Sprite sprite;
+    private static final float SHOT_COOLDOWN = 1000f;
     private static final float JUMP_IMPULSE = 8;
     private static final float MAX_HORIZONTAL_VELOCITY = 15;
     private static final float AIR_HORIZONTAL_FORCE = 7;
@@ -23,12 +24,15 @@ public class Player extends Entity {
     private static final float AIR_SLOWDOWN_MULTIPLIER = .96f;
     private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
     private boolean canJump = true;
+    private boolean isAttacking;
+    public Long lastAttackTime;
     public InputController inputController;
 
 
     public Player (Body newBody, InputController newInputController) {
         body = newBody;
         inputController = newInputController;
+        isAttacking = false;
     }
 
 
@@ -92,10 +96,25 @@ public class Player extends Entity {
                 //body.applyForceToCenter(0,JUMP_FORCE,false);
             }
         }
+        if (inputController.isAttackPressed()){
+            if (lastAttackTime == null) {
+                isAttacking = true;
+            }else if (System.currentTimeMillis() - lastAttackTime > SHOT_COOLDOWN ){
+                isAttacking = true;
+            }
+        }
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
     }
     public boolean onGround(){
         return (body.getLinearVelocity().y == 0);
+    }
+
+    public boolean isAttacking() {
+        return isAttacking;
+    }
+
+    public void setAttacking(boolean attack) {
+        this.isAttacking = attack;
     }
 }

@@ -35,7 +35,7 @@ public class EntityFactory {
         koopaBody.createFixture(koopafixtureDef);
 
         Texture koopaTexture = new Texture("knight_6.png");
-        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer);
+        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer, 2);
         koopa.sprite = new Sprite(koopaTexture);
         koopa.sprite.setPosition(pos.x, pos.y);
         koopa.sprite.setSize(2.f, 2.f);
@@ -116,8 +116,12 @@ public class EntityFactory {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
         }
-
-        inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
+        if(Controllers.getControllers().size == 1) {
+            inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
+        } else {
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
+                    XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
+        }
         if(Config.RANDOMIZE) {
             inputController.randomizeControls();
         }else{

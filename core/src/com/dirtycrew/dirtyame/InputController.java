@@ -26,7 +26,6 @@ public class InputController {
                 return false;
             }
         }
-        DLog.debug("Right pressed");
         return true;
     }
 
@@ -65,6 +64,16 @@ public class InputController {
             if(!set.isAttackActive() && set.isAttackPressed()) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    public boolean isVolumePressed(){
+        for (InputSet set:inputSets){
+            if(!set.isVolumePressed()) {
+                return false;
+            }
+
         }
         return true;
     }

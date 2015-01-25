@@ -73,6 +73,9 @@ public class Player extends Entity {
 
         boolean stop = true;
         int framesPerImage = 6;
+        if (onGround()){
+            isJumping = false;
+        }
         if(body.getLinearVelocity().x > 1f || body.getLinearVelocity().x < -1f)
         {
             if (Math.abs(body.getLinearVelocity().x) > MAX_HORIZONTAL_VELOCITY * .9){

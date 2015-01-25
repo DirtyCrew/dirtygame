@@ -57,6 +57,9 @@ public class PlayState implements IGameState {
     long timeForLevel;
     GameManager gameManager;
     int mapNumber;
+    InputController inputController;
+    private boolean volume;
+    private boolean volumePressed;
 
     private final static int hudCameraZoom = 32;
     private final static String left = "Left";
@@ -67,6 +70,8 @@ public class PlayState implements IGameState {
     public PlayState(GameManager gameManager, long time, int mapNumber){
         this.gameManager = gameManager;
         timeForLevel = time;
+        inputController = new InputController();
+        inputController.inputSets.add(new InputSet(Input.Keys.SPACE));
         music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
         this.mapNumber = mapNumber;
     }
@@ -74,6 +79,25 @@ public class PlayState implements IGameState {
     @Override
     public void update(Dirty game, float delta) {
         timer.update(delta);
+
+        if(inputController.isVolumePressed())
+        {
+            if(!volumePressed)
+            {
+                if (volume) {
+                    music.pause();
+                    volume = false;
+                } else {
+                    music.play();
+                    volume = true;
+                }
+            }
+            volumePressed = true;
+        }
+        else
+        {
+            volumePressed = false;
+        }
 
         cleanUpOrphans();
 
@@ -124,10 +148,7 @@ public class PlayState implements IGameState {
         }
 
         game.batch.end();
-
-
-        debugRenderer.render(world, camera.combined);
-
+        
 
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
@@ -346,10 +367,24 @@ public class PlayState implements IGameState {
                 if(e1 != player && e2 != player) {
                     if(e1 instanceof Attack || e2 instanceof Attack){
                         if (e1 instanceof KoopaKoopa || e1 instanceof Bee){
-                            killEntity(e1);
+                            if(e1 instanceof KoopaKoopa) {
+                                ((KoopaKoopa) e1).decrementHitPoints();
+                                if(((KoopaKoopa) e1).isDead()) {
+                                    killEntity(e1);
+                                }
+                            } else {
+                                killEntity(e1);
+                            }
                         }
                         if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
-                            killEntity(e2);
+                            if(e2 instanceof KoopaKoopa) {
+                                ((KoopaKoopa) e2).decrementHitPoints();
+                                if(((KoopaKoopa) e2).isDead()) {
+                                    killEntity(e2);
+                                }
+                            } else {
+                                killEntity(e2);
+                            }
                         }
                     }
                     // other things colliding
@@ -405,6 +440,8 @@ public class PlayState implements IGameState {
         //Begin Music
         music.setLooping(true);
         music.setVolume(50);
+        volume = true;
+        volumePressed = false;
         music.play();
     }
 

@@ -44,6 +44,40 @@ public class EntityFactory {
         return koopa;
     }
 
+    public static Bee createBee(World world, Vector2 pos, EventHandler eventHandler) {
+        //Creating Enemy
+        BodyDef beeBodyDef = new BodyDef();
+        beeBodyDef.fixedRotation = true;
+        beeBodyDef.type = BodyDef.BodyType.DynamicBody;
+        beeBodyDef.position.set(pos.x, pos.y);
+        Body beeBody = world.createBody(beeBodyDef);
+        beeBody.setGravityScale(0);
+        Vector2[] beeVect = new Vector2[4];
+        beeVect[0] = new Vector2(-.5f,.5f);
+        beeVect[1] = new Vector2(.5f,.5f);
+        beeVect[2] = new Vector2(-.5f,-1f);
+        beeVect[3] = new Vector2(.5f,-1f);
+        PolygonShape beeBox = new PolygonShape();
+        beeBox.set(beeVect);
+
+        FixtureDef beefixtureDef = new FixtureDef();
+        beefixtureDef.shape = beeBox;
+        beefixtureDef.density = 0.5f;
+        beefixtureDef.friction = 0.001f;
+        beefixtureDef.restitution = 0; // Make it bounce a little bit
+        beeBody.createFixture(beefixtureDef);
+
+        Texture beeTexture = new Texture("bee.png");
+        Bee bee = new Bee(beeBody,eventHandler);
+        bee.sprite = new Sprite(beeTexture);
+        bee.sprite.setPosition(pos.x, pos.y);
+        bee.sprite.setSize(2.f, 2.f);
+        bee.sprite.setRegion(0, 0, 80, 80);
+        bee.sprite.flip(true,false);
+
+        return bee;
+    }
+
     public static Player createPlayer(World world, Vector2 playerSpawnLocation) {
         Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);

@@ -30,6 +30,7 @@ public class Map {
     Vector2 mapDims;
 
     public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
+    public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
     public class Tile extends Entity {
@@ -73,11 +74,12 @@ public class Map {
                 if(spawnCell != null) {
                     if(spawnCell == 1) {
                         this.playerSpawnLocation = tilePos;
-                    } else if(spawnCell >= 2) {
+                    } else if(spawnCell == 2) {
                         this.monsterSpawnLocations.add(tilePos);
+                    } else if (spawnCell == 3) {
+                        this.beeSpawnLocations.add(tilePos);
                     }
                 }
-
                 if(collidableCell != null){
                     Tile tile = new Tile();
                     if(deathTile != null) {

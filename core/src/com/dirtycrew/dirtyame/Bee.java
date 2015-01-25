@@ -7,30 +7,23 @@ import com.badlogic.gdx.physics.box2d.Body;
 import java.util.Random;
 
 /**
- * Created by Kern on 1/24/2015.
+ * Created by z084254 on 1/24/15.
  */
-public class KoopaKoopa extends Entity {
-
+public class Bee extends Entity{
     public Body body;
     public Sprite sprite;
-    private static final float MAX_JUMP_VELOCITY = 30;
-    private static final float JUMP_FORCE = 1000;
-    private static final float MAX_HORIZONTAL_VELOCITY = 5;
-    private static final float HORIZONTAL_FORCE = 2;
-    private static final float GRAVITY = 10;
-    private boolean canJump = true;
-    public static final int PLAYER_WIDTH = 50;
-    public static final int PLAYER_HEIGHT = 50;
+    private static final float MAX_HORIZONTAL_VELOCITY = 3;
+    private static final float HORIZONTAL_FORCE = 1;
     private boolean changeMovement = false;
     EventHandler eventHandler;
     Timer timer;
 
 
-    public KoopaKoopa(Body body, EventHandler e)
+    public Bee(Body body, EventHandler e)
     {
         this.body = body;
         eventHandler = e;
-        KoopaTimedEvent event = new KoopaTimedEvent();
+        BeeTimedEvent event = new BeeTimedEvent();
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);
@@ -48,7 +41,7 @@ public class KoopaKoopa extends Entity {
         if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement)
         {
 
-          //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
+            //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
             body.applyLinearImpulse(-HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
 
         }
@@ -64,7 +57,7 @@ public class KoopaKoopa extends Entity {
     }
 
 
-    private class KoopaTimedEvent extends EventHandler.Event{
+    private class BeeTimedEvent extends EventHandler.Event{
 
     }
 

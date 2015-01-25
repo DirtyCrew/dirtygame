@@ -76,6 +76,12 @@ public class PlayState implements IGameState {
         if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2) {
             camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
         }
+        if (camera.position.y < Constants.VIEWPORT_HEIGHT / 2){
+            camera.position.y = Constants.VIEWPORT_HEIGHT / 2;
+        }
+        if (camera.position.y > map.getHeight() - Constants.VIEWPORT_HEIGHT / 2) {
+            camera.position.set(camera.position.x, map.getHeight() - Constants.VIEWPORT_HEIGHT / 2, camera.position.z);
+        }
         camera.update();
     }
 
@@ -95,7 +101,7 @@ public class PlayState implements IGameState {
 
         game.batch.end();
 
-        game.debugRenderer.render(game.world, camera.combined);
+        //game.debugRenderer.render(game.world, camera.combined);
 
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
@@ -109,12 +115,16 @@ public class PlayState implements IGameState {
         hudBatch.end();
     }
 
-    Attack createAttack(World world, Player playemr) {
+    Attack createAttack(World world, Player player) {
         //Creating Enemy
         BodyDef attackBodyDef = new BodyDef();
         attackBodyDef.fixedRotation = true;
         attackBodyDef.type = BodyDef.BodyType.DynamicBody;
-        attackBodyDef.position.set(player.body.getPosition().x + 1f, player.body.getPosition().y);
+        if (player.facingRight) {
+            attackBodyDef.position.set(player.body.getPosition().x + 1f, player.body.getPosition().y);
+        }else{
+            attackBodyDef.position.set(player.body.getPosition().x - 1f, player.body.getPosition().y);
+        }
         Body attackBody = world.createBody(attackBodyDef);
         attackBody.setGravityScale(0);
         PolygonShape attackBox = new PolygonShape();
@@ -128,7 +138,7 @@ public class PlayState implements IGameState {
         attackBody.createFixture(attackfixtureDef);
 
         Texture attackTexture = new Texture("badlogic.jpg");
-        Attack attack = new Attack(attackBody, timer);
+        Attack attack = new Attack(attackBody, timer, player.facingRight);
         attack.sprite = new Sprite(attackTexture);
         attack.sprite.setPosition(attackBody.getPosition().x, attackBody.getPosition().y);
         attack.sprite.setSize(.2f,.2f);
@@ -214,6 +224,14 @@ public class PlayState implements IGameState {
                 Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
+                    if(e1 instanceof Attack || e2 instanceof Attack){
+                        if (e1 instanceof KoopaKoopa){
+                            killEntity(e1);
+                        }
+                        if (e2 instanceof KoopaKoopa){
+                            killEntity(e2);
+                        }
+                    }
                     // other things colliding
                 } else {
                     Player p = e1 == player ? (Player)e1 : (Player)e2;

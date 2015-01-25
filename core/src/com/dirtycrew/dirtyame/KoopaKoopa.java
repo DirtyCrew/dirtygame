@@ -33,7 +33,7 @@ public class KoopaKoopa extends Entity {
         Listener listener = new Listener();
         e.subscribe(event, listener);
         timer = new Timer(2000,eventHandler,event);
-
+        changeMovement = !changeMovement;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Player extends Entity {
     BetterThanBrandonsTimer.TimerListener listener = new BetterThanBrandonsTimer.TimerListener() {
         @Override
         public void onTimerExpired() {
-            DLog.debug("RANDOMIZEING");
+            DLog.debug("RANDOMIZING");
             inputController.randomizeControls();
         }
     };;
@@ -48,7 +48,8 @@ public class Player extends Entity {
         facingRight = true;
         this.timer = timer;
         random = new Random();
-        timer.startRecurringTimer(random.nextInt(1000) + 10000, listener);
+
+        timer.startRecurringRandomTimer(15000, 5000, listener);
     }
 
 

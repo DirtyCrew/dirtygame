@@ -62,7 +62,7 @@ public class EventHandler {
         for(EventListener listener : eventHandlers.get(event.getClass()))
         {
             listener.onEvent(event);
-            DLog.debug("On Event {}", event);
+
             //eventHandlers.get(event.getClass()).remove(listener);
         }
     }

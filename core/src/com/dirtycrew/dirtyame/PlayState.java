@@ -220,6 +220,7 @@ public class PlayState implements IGameState {
                 renderList.remove(k.sprite);
                 world.destroyBody(k.body);
                 entityList.remove(e);
+                timer.clearTimer(k.listener);
             } else if(e instanceof Attack) {
                 Attack at = (Attack) e;
                 renderList.remove(at.sprite);
@@ -252,14 +253,14 @@ public class PlayState implements IGameState {
         map = new Map("Lonely_Trees.tmx", game.world);
 
 
-        player = EntityFactory.createPlayer(game.world, map.playerSpawnLocation);
+        player = EntityFactory.createPlayer(game.world, map.playerSpawnLocation, timer);
         entityList.add(player);
         renderList.add(player.sprite);
         player.body.setUserData(player);
 
         //End Creating Enemy
         for(Vector2 pos : map.monsterSpawnLocations) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler);
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);

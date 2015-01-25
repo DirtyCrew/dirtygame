@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Jared on 1/23/15.
  */
-public class EugenesAmazingBetterThanBrandonsMap {
+public class EugenesAmazingBetterThanBrandonsMap implements IMap {
 
     //Attributes
     TiledMap tiledMap;
@@ -22,9 +22,9 @@ public class EugenesAmazingBetterThanBrandonsMap {
     Vector2 tileMeterDims;
     Vector2 mapDims;
 
-    public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
-    public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
-    public Vector2 playerSpawnLocation = new Vector2(0, 0);
+    private List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
+    private List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
+    private Vector2 playerSpawnLocation = new Vector2(0, 0);
 
 
     //Methods
@@ -172,5 +172,17 @@ public class EugenesAmazingBetterThanBrandonsMap {
     public void drawMap(OrthographicCamera camera) {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+    }
+
+    public List<Vector2> getMonsterSpawnLocations(){
+        return monsterSpawnLocations;
+    }
+
+    public List<Vector2> getBeeSpawnLocations(){
+        return beeSpawnLocations;
+    }
+
+    public Vector2 getPlayerSpawnLocation(){
+        return playerSpawnLocation;
     }
 }

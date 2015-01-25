@@ -77,11 +77,11 @@ public class StartState implements IGameState {
         mapTileBatch.begin();
         Texture mapTileBorder = new Texture("white_square.png");
         Texture map1Image = new Texture("Lonely_Trees_Map_Tile.png");
-        Texture map2Image = new Texture("white_square.png");
+        Texture map2Image = new Texture("Better_That_Lonely_Tree_Map_Tile.png");
         Texture map3Image = new Texture("white_square.png");
         Texture map4Image = new Texture("white_square.png");
         mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
-        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, 3.75f, -5.5f, 6, 6);
         mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
         mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
         mapTileBatch.draw(map1Image, -7.5f, -5f, 5, 5);

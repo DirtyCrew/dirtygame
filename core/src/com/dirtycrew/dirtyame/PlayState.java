@@ -35,7 +35,7 @@ import java.util.logging.FileHandler;
  * Created by sturm on 1/24/15.
  */
 public class PlayState implements IGameState {
-    EugenesAmazingBetterThanBrandonsMap map;
+    IMap map;
     Player player;
     List<Entity> entityList = new ArrayList<Entity>();
     List<Entity> toRemove = new ArrayList<Entity>();
@@ -56,6 +56,7 @@ public class PlayState implements IGameState {
     Timer deathTimer;
     long timeForLevel;
     GameManager gameManager;
+    int mapNumber;
 
     private final static int hudCameraZoom = 32;
     private final static String left = "Left";
@@ -63,10 +64,11 @@ public class PlayState implements IGameState {
     private final static String jump = "Jump";
     private final static String attack = "Attack";
 
-    public PlayState(GameManager gameManager, long time){
+    public PlayState(GameManager gameManager, long time, int mapNumber){
         this.gameManager = gameManager;
         timeForLevel = time;
         music = Gdx.audio.newMusic(Gdx.files.getFileHandle("01 A Night Of Dizzy Spells.mp3", Files.FileType.Internal));
+        this.mapNumber = mapNumber;
     }
 
     @Override
@@ -273,24 +275,42 @@ public class PlayState implements IGameState {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
-       // map = new Map("Lonely_Trees.tmx", game.world);
-        map = new EugenesAmazingBetterThanBrandonsMap(world);
+
+        //Setting the correct level
+        switch (this.mapNumber){
+            case 1:{
+                map = new Map("Lonely_Trees.tmx", world);
+                break;
+            }
+            case 2:{
+                map = new EugenesAmazingBetterThanBrandonsMap(world);
+                break;
+            }
+            case 3:{
+                map = new Map("Lonely_Trees.tmx", world);
+                break;
+            }
+            case 4:{
+                map = new Map("Lonely_Trees.tmx", world);
+                break;
+            }
+        }
 
 
-        player = EntityFactory.createPlayer(world, map.playerSpawnLocation, timer);
+        player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer);
         entityList.add(player);
         renderList.add(player.sprite);
         player.body.setUserData(player);
 
         //End Creating Enemy
-        for(Vector2 pos : map.monsterSpawnLocations) {
+        for(Vector2 pos : map.getMonsterSpawnLocations()) {
             KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);
         }
         //End Creating Enemy
-        for(Vector2 pos : map.beeSpawnLocations) {
+        for(Vector2 pos : map.getBeeSpawnLocations()) {
             Bee bee = EntityFactory.createBee(world, pos, timer);
             renderList.add(bee.sprite);
             entityList.add(bee);

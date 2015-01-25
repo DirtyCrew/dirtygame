@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Jared on 1/23/15.
  */
-public class Map {
+public class Map implements IMap {
 
     //Attributes
     TiledMap tiledMap;
@@ -184,5 +184,17 @@ public class Map {
     public void drawMap(OrthographicCamera camera) {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+    }
+
+    public List<Vector2> getMonsterSpawnLocations(){
+        return monsterSpawnLocations;
+    }
+
+    public List<Vector2> getBeeSpawnLocations(){
+        return beeSpawnLocations;
+    }
+
+    public Vector2 getPlayerSpawnLocation(){
+        return playerSpawnLocation;
     }
 }

@@ -43,17 +43,20 @@ public class Dirty extends ApplicationAdapter {
 
 	private void doUpdate() {
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			gameManager.changeState(GameManager.GameState.Start);
+			gameManager.changeState(GameManager.GameState.Play, 1);
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			gameManager.changeState(GameManager.GameState.Play);
+			gameManager.changeState(GameManager.GameState.Play, 2);
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.changeState(GameManager.GameState.Finish);
+			gameManager.changeState(GameManager.GameState.Play, 3);
 		}
 
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			gameManager.changeState(GameManager.GameState.Play, 4);
+		}
 
 		gameManager.update();
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());

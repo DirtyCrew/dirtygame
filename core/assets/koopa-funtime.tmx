@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <tile id="202">
+   <properties>
+    <property name="spawn" value="1"/>
+   </properties>
+  </tile>
+  <tile id="206">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="320">
+   <properties>
+    <property name="spawn" value="2"/>
+    <property name="time" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt0UEJADAMBLCblUqt8v6mYFAGeURB6iQFAAAAAAAAAAAAAAAAAAAAAJ9oru0LAADeG3loxNc=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="100" height="50" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJzt0TEKgEAMAEF9mu+3uC/ZCXYiiovOQMoL4XaaAAAAAAAAAAAAgK8Ybx/AgR4terTo0aJHix4terTo0aJHix4terTo0aJHix4tf++xzG9fcFTqsd687+pfn3n3VMdSDzo9htkHAIDv2QDiVkaP
+  </data>
+ </layer>
+</map>

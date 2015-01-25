@@ -28,8 +28,8 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
 
 
     //Methods
-    public EugenesAmazingBetterThanBrandonsMap(World world) {
-        tiledMap = new TmxMapLoader().load("better-that-lonely-tree.tmx");
+    public EugenesAmazingBetterThanBrandonsMap(String s, World world) {
+        tiledMap = new TmxMapLoader().load(s);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.FROM_PIXELS_TO_METER);
 
         TiledMapTileSet tileset =  tiledMap.getTileSets().getTileSet("Block Tileset");

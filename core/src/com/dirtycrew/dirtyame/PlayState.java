@@ -304,17 +304,18 @@ public class PlayState implements IGameState {
         camera.update();
 
         //Setting the correct level
+        DLog.debug("{}", mapNumber);
         switch (this.mapNumber){
             case 1:{
                 map = new Map("Lonely_Trees.tmx", world);
                 break;
             }
             case 2:{
-                map = new EugenesAmazingBetterThanBrandonsMap(world);
+                map = new EugenesAmazingBetterThanBrandonsMap("better-that-lonely-tree.tmx", world);
                 break;
             }
             case 3:{
-                map = new Map("Lonely_Trees.tmx", world);
+                map = new EugenesAmazingBetterThanBrandonsMap("koopa-funtime.tmx", world);
                 break;
             }
             case 4:{
@@ -407,6 +408,12 @@ public class PlayState implements IGameState {
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
+                        Vector2 pos;
+                        if(e instanceof KoopaKoopa) {
+                            pos = ((KoopaKoopa) e).body.getPosition();
+                        } else {
+                            pos = ((KoopaKoopa) e).body.getPosition();
+                        }
                         Vector2 up = new Vector2(0, 1);
                         Vector2 down = new Vector2(0, -1);
                         Vector2 right = new Vector2(1,0);

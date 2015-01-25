@@ -140,4 +140,33 @@ public class EntityFactory {
 
         return player;
     }
+
+    public static Chest createChest(World world, Vector2 pos)
+    {
+        BodyDef chestBodyDef = new BodyDef();
+        chestBodyDef.fixedRotation = true;
+        chestBodyDef.type = BodyDef.BodyType.StaticBody;
+        chestBodyDef.position.set(pos.x, pos.y);
+        Body chestBody = world.createBody(chestBodyDef);
+        beeBody.setGravityScale(0);
+        PolygonShape chestBox = new PolygonShape();
+        chestBox.setAsBox(30,30);
+
+        FixtureDef chestfixtureDef = new FixtureDef();
+        chestfixtureDef.shape = chestBox;
+        chestfixtureDef.density = 0.5f;
+        chestfixtureDef.friction = 0.001f;
+        chestfixtureDef.restitution = 0; // Make it bounce a little bit
+        beeBody.createFixture(chestfixtureDef);
+
+        Texture beeTexture = new Texture("chest.bmp");
+        Chest chest = new Chest(chestBody);
+        chest.sprite = new Sprite(beeTexture);
+        chest.sprite.setPosition(pos.x, pos.y);
+        chest.sprite.setSize(1.5f, 1.5f);
+        chest.sprite.setRegion(0, 0, 80, 80);
+        chest.sprite.flip(true, false);
+
+        return bee;
+    }
 }

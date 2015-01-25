@@ -24,6 +24,7 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
 
     private List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
     private List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
+    private Vector2 chestSpawnLocation = new Vector2();
     private Vector2 playerSpawnLocation = new Vector2(0, 0);
 
 
@@ -67,6 +68,9 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
                         this.monsterSpawnLocations.add(tilePos);
                     } else if (spawnCell == 3) {
                         this.beeSpawnLocations.add(tilePos);
+                    }
+                    else if (spawnCell == 10){
+                        this.chestSpawnLocation = tilePos;
                     }
                 }
                 if(collidableCell != null){

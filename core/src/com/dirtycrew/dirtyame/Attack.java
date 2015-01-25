@@ -13,7 +13,7 @@ public class Attack extends Entity {
     public boolean right;
     public Sprite sprite;
     public static final float SHOT_VELOCITY = 1000;
-    private static final long SHOT_DURATION_MILLE = 500;
+    private static final long SHOT_DURATION_MILLE = 250;
     public boolean destroy;
     public static final int SHOT_WIDTH = 10;
     public static final int SHOT_HEIGHT = 10;

@@ -226,6 +226,11 @@ public class PlayState implements IGameState {
                 renderList.remove(at.sprite);
                 world.destroyBody(at.getBody());
                 entityList.remove(e);
+            } else if(e instanceof Bee) {
+                Bee bee = (Bee) e;
+                renderList.remove(bee.sprite);
+                world.destroyBody(bee.body);
+                entityList.remove(e);
             } else {
                 continue;
             }
@@ -255,11 +260,17 @@ public class PlayState implements IGameState {
 
         //End Creating Enemy
         for(Vector2 pos : map.monsterSpawnLocations) {
-//            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
-//            renderList.add(koopaKoopa.sprite);
-//            entityList.add(koopaKoopa);
-//            koopaKoopa.body.setUserData(koopaKoopa);
-
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
+            renderList.add(koopaKoopa.sprite);
+            entityList.add(koopaKoopa);
+            koopaKoopa.body.setUserData(koopaKoopa);
+        }
+        //End Creating Enemy
+        for(Vector2 pos : map.beeSpawnLocations) {
+            Bee bee = EntityFactory.createBee(game.world, pos, eventHandler);
+            renderList.add(bee.sprite);
+            entityList.add(bee);
+            bee.body.setUserData(bee);
         }
 
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
@@ -324,8 +335,8 @@ public class PlayState implements IGameState {
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
 
-                    } else if(e instanceof  KoopaKoopa) {
-
+                    } else if(e instanceof Bee) {
+                        gameManager.changeState(GameManager.GameState.Finish);
                     }
                 }
             }

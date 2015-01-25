@@ -51,34 +51,27 @@ public class PlayState implements IGameState {
     public void update(Dirty game, float delta) {
         cleanUpOrphans();
 
-        player.update(delta);
-        if (player.isAttacking()) {
-            createAttack(world, player);
-            player.lastAttackTime = System.currentTimeMillis();
-            player.setAttacking(false);
-        }
-
         deathTimer.update();
-
-        for (Entity e : entityList) {
-            e.update(delta);
-        }
-
-        camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
-        //DLog.debug("Pos: {} {} {}", camera.position.x, camera.position.y, map.getWidth());
-
-        if (camera.position.x < Constants.VIEWPORT_WIDTH / 2) {
-            camera.position.set(Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
-        }
-        if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2) {
-            camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
-        }
 
         for (Entity e : entityList) {
             e.update(delta);
             if (e instanceof Attack && ((Attack) e).destroy) {
                 killEntity(e);
             }
+        }
+        if (player.isAttacking()) {
+            createAttack(world, player);
+            player.lastAttackTime = System.currentTimeMillis();
+            player.setAttacking(false);
+        }
+
+        camera.position.set(player.body.getPosition().x, player.body.getPosition().y, camera.position.z);
+
+        if (camera.position.x < Constants.VIEWPORT_WIDTH / 2) {
+            camera.position.set(Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
+        }
+        if (camera.position.x > map.getWidth() - Constants.VIEWPORT_WIDTH / 2) {
+            camera.position.set(map.getWidth() - Constants.VIEWPORT_WIDTH / 2, camera.position.y, camera.position.z);
         }
         camera.update();
     }

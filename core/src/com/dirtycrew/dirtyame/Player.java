@@ -16,13 +16,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Player extends Entity {
     public Body body;
     public Sprite sprite;
-    private static final float SHOT_COOLDOWN = 1000f;
+    public boolean facingRight;
+    private static final float SHOT_COOLDOWN = 500f;
     private static final float JUMP_IMPULSE = 8;
     private static final float MAX_HORIZONTAL_VELOCITY = 15;
     private static final float AIR_HORIZONTAL_FORCE = 7;
     private static final float GROUND_HORIZONTAL_FORCE = 14;
     private static final float AIR_SLOWDOWN_MULTIPLIER = .96f;
     private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
+    private static final float GROUND_FLOATING = .1f;
     private boolean canJump = true;
     private boolean isAttacking;
     public Long lastAttackTime;
@@ -33,6 +35,7 @@ public class Player extends Entity {
         body = newBody;
         inputController = newInputController;
         isAttacking = false;
+        facingRight = true;
     }
 
 
@@ -50,16 +53,19 @@ public class Player extends Entity {
             if (body.getLinearVelocity().x >= MAX_HORIZONTAL_VELOCITY * -1) {
                 if (body.getLinearVelocity().x > 0){
                     if (onGround()){
-                        body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                        body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                     }else{
-                        body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                        body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                     }
                 }
                 if (onGround()) {
-                    body.applyForceToCenter(-GROUND_HORIZONTAL_FORCE, 0.0f, true);
+                    body.applyForceToCenter(-GROUND_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }else{
-                    body.applyForceToCenter(-AIR_HORIZONTAL_FORCE, 0.0f, true);
+                    body.applyForceToCenter(-AIR_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }
+            }
+            if (body.getLinearVelocity().x < 0){
+                facingRight = false;
             }
             stop = false;
         }
@@ -67,19 +73,22 @@ public class Player extends Entity {
         if (inputController.isRightPressed()) {
             if (body.getLinearVelocity().x < 0){
                 if (onGround()){
-                    body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                    body.setLinearVelocity(body.getLinearVelocity().x * GROUND_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                 }else{
-                    body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y);
+                    body.setLinearVelocity(body.getLinearVelocity().x * AIR_SLOWDOWN_MULTIPLIER, body.getLinearVelocity().y+GROUND_FLOATING);
                 }
             }
             if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY) {
                 if (onGround()) {
-                    body.applyForceToCenter(GROUND_HORIZONTAL_FORCE, 0.0f, true);
+                    body.applyForceToCenter(GROUND_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }else{
-                    body.applyForceToCenter(AIR_HORIZONTAL_FORCE, 0.0f, true);
+                    body.applyForceToCenter(AIR_HORIZONTAL_FORCE, GROUND_FLOATING, true);
                 }
             }
             stop = false;
+            if (body.getLinearVelocity().x > 0){
+                facingRight = true;
+            }
         }
         if (stop){
             if (onGround()){

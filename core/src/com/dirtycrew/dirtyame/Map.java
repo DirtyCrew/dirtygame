@@ -141,6 +141,10 @@ public class Map {
         return mapDims.x * tileMeterDims.x;
     }
 
+    public float getHeight(){
+        return mapDims.y * tileMeterDims.y;
+    }
+
     public void drawMap(OrthographicCamera camera) {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();

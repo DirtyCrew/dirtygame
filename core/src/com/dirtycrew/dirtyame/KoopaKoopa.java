@@ -34,7 +34,9 @@ public class KoopaKoopa extends Entity {
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);
+
         timer = new Timer(new Random().nextInt(5000) + 1000,eventHandler,event);
+        changeMovement = !changeMovement;
 
     }
 

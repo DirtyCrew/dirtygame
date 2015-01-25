@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class Attack extends Entity {
 
     private Body body;
+    public boolean right;
     public Sprite sprite;
     public static final float SHOT_VELOCITY = 500;
     private static final long SHOT_DURATION_MILLE = 1000;
@@ -19,7 +20,7 @@ public class Attack extends Entity {
 
     private boolean changeMovement = false;
 
-    public Attack(Body body, BetterThanBrandonsTimer timer)
+    public Attack(Body body, BetterThanBrandonsTimer timer, boolean right)
     {
         this.body = body;
 
@@ -29,7 +30,7 @@ public class Attack extends Entity {
                 destroy = true;
             }
         });
-
+        this.right = right;
         destroy = false;
     }
 
@@ -37,7 +38,11 @@ public class Attack extends Entity {
     public void update(float delta)
     {
         if (body.getLinearVelocity().x == 0) {
-            body.applyForceToCenter(SHOT_VELOCITY, 0, true);
+            if (right){
+                body.applyForceToCenter(SHOT_VELOCITY, 0, true);
+            }else{
+                body.applyForceToCenter(-SHOT_VELOCITY, 0, true);
+            }
         }
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);

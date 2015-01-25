@@ -97,26 +97,30 @@ public class StartState implements IGameState {
         Texture mapTileBorder = new Texture("white_square.png");
         Texture map1Image = new Texture("Lonely_Trees_Map_Tile.png");
         Texture map2Image = new Texture("Better_That_Lonely_Tree_Map_Tile.png");
-        Texture map3Image = new Texture("white_square.png");
-        Texture map4Image = new Texture("white_square.png");
+        Texture map3Image = new Texture("Lonely_Trees_Map_Tile.png");
+        Texture map4Image = new Texture("Lonely_Trees_Map_Tile.png");
         mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
         mapTileBatch.draw(mapTileBorder, 3.75f, -5.5f, 6, 6);
-        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
-        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, -8f, -11.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, 3.75f, -11.5f, 6, 6);
         mapTileBatch.draw(map1Image, -7.5f, -5f, 5, 5);
         mapTileBatch.draw(map2Image, 4.25f, -5f, 5, 5);
         mapTileBatch.draw(map3Image, -7.5f, -11f, 5, 5);
         mapTileBatch.draw(map4Image, 4.25f, -11f, 5, 5);
+
+        Texture titleTexture = new Texture("Dirtyame Logo.png");
+        mapTileBatch.draw(titleTexture, -(Constants.VIEWPORT_WIDTH/2), 4, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT/4);
+
         mapTileBatch.end();
 
         titleCamera.update();
         titleBatch.setProjectionMatrix(titleCamera.projection);
         titleBatch.begin();
         BitmapFont.TextBounds titleBounds = titleFont.getBounds(gameTitle);
-        titleFont.draw(titleBatch, gameTitle,
-                (0 - titleBounds.width / 2),
-                ((Constants.SCREEN_HEIGHT / 2) - 250));
-//                (0 + titleBounds.height / 2));
+//        titleFont.draw(titleBatch, gameTitle,
+//                (0 - titleBounds.width / 2),
+//                ((Constants.SCREEN_HEIGHT / 2) - 250));
+////                (0 + titleBounds.height / 2));
         BitmapFont.TextBounds infoBounds = titleFont.getBounds(gameStartInfo);
         titleFont.draw(titleBatch, gameStartInfo,
                 (0 - infoBounds.width / 2),

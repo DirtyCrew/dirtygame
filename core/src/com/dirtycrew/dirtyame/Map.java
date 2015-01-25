@@ -39,6 +39,7 @@ public class Map implements IMap {
         public int id;
         public boolean isDeath = false;
         public boolean isWin = false;
+        public boolean isBouncy = false;
         @Override
         public void update(float delta) {
             // noop
@@ -103,6 +104,9 @@ public class Map implements IMap {
                         tile.isWin = true;
                     }
                     tile.id = tileId;
+                    if (tile.id == Constants.MUSHROOM){
+                        tile.isBouncy = true;
+                    }
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();

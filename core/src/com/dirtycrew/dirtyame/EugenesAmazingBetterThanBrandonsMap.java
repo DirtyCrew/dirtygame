@@ -87,6 +87,9 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
                     if(isWin) {
                         tile.isWin = true;
                     }
+                    if(isBouncy) {
+                        tile.isBouncy = true;
+                    }
                     tile.id = tileId;
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 

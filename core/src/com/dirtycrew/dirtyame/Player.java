@@ -1,6 +1,9 @@
 package com.dirtycrew.dirtyame;
 
 
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -39,6 +42,10 @@ public class Player extends Entity {
     public Random random;
     int jumpAnimationX;
     int jumpAnimationY;
+    public Music jumpSound;
+    public Music dieSound;
+    public Music shootSound;
+    public Music emergingSound;
 
     public Player (Body newBody, InputController newInputController) {
         body = newBody;
@@ -50,6 +57,14 @@ public class Player extends Entity {
         jumpAnimationY =  (jumpAnimate[1]);
         jumpAnimationX =  (jumpAnimate[0]);
         attackingFrame = 0;
+        jumpSound = Gdx.audio.newMusic(Gdx.files.getFileHandle("SFX_Jump_07.wav", Files.FileType.Internal));
+        jumpSound.setVolume(20f);
+        shootSound = Gdx.audio.newMusic(Gdx.files.getFileHandle("Laser_Shoot5.wav",Files.FileType.Internal));
+        shootSound.setVolume(20f);
+        emergingSound = Gdx.audio.newMusic(Gdx.files.getFileHandle("Emerge1.wav",Files.FileType.Internal));
+        emergingSound.setVolume(1f);
+        dieSound = Gdx.audio.newMusic(Gdx.files.getFileHandle("Death 3.wav",Files.FileType.Internal));
+        dieSound.setVolume(100f);
     }
 
 
@@ -164,6 +179,7 @@ public class Player extends Entity {
                     jumpAnimationX = 5;
                     jumpAnimationY = 2;
                 }
+                jumpSound.play();
                 //body.applyForceToCenter(0,JUMP_FORCE,false);
             }
         }
@@ -171,9 +187,11 @@ public class Player extends Entity {
             if (lastAttackTime == null) {
                 isAttacking = true;
                 attackingFrame = 1;
+                shootSound.play();
             }else if (System.currentTimeMillis() - lastAttackTime > SHOT_COOLDOWN ){
                 isAttacking = true;
                 attackingFrame = 1;
+                shootSound.play();
             }
         }
 
@@ -228,5 +246,11 @@ public class Player extends Entity {
     public void setAttacking(boolean attack) {
         this.isAttacking = attack;
     }
-    
+
+    public void musicCleanup(){
+        jumpSound.dispose();
+        dieSound.dispose();
+        shootSound.dispose();
+        emergingSound.dispose();
+    }
 }

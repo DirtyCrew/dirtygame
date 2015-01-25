@@ -91,17 +91,17 @@ public class EntityFactory {
         playerBodyDef.linearDamping = 0f;
         Body playerBody = world.createBody(playerBodyDef);
          Vector2[] playerVect = new Vector2[4];
-        playerVect[0] = new Vector2(-.5f,.5f);
-        playerVect[1] = new Vector2(.5f,.5f);
-        playerVect[2] = new Vector2(-.5f,-1f);
-        playerVect[3] = new Vector2(.5f,-1f);
+        playerVect[0] = new Vector2(-.3f,.5f);
+        playerVect[1] = new Vector2(.25f,.5f);
+        playerVect[2] = new Vector2(-.3f,-.8f);
+        playerVect[3] = new Vector2(.25f,-.8f);
         PolygonShape playerBox = new PolygonShape();
         playerBox.set(playerVect);
 
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape = playerBox;
-        fixtureDef.density = 0.3f;
+        fixtureDef.density = 0.6f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);

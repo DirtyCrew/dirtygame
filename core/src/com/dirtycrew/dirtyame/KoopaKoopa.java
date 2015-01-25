@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import java.util.Random;
+
 /**
  * Created by Kern on 1/24/2015.
  */
@@ -32,8 +34,10 @@ public class KoopaKoopa extends Entity {
         event.setState("Timer");
         Listener listener = new Listener();
         e.subscribe(event, listener);
-        timer = new Timer(2000,eventHandler,event);
+
+        timer = new Timer(new Random().nextInt(5000) + 1000,eventHandler,event);
         changeMovement = !changeMovement;
+
     }
 
     @Override

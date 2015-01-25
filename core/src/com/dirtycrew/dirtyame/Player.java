@@ -17,7 +17,7 @@ public class Player extends Entity {
     public Body body;
     public Sprite sprite;
     public boolean facingRight;
-    private static final float SHOT_COOLDOWN = 1000f;
+    private static final float SHOT_COOLDOWN = 500f;
     private static final float JUMP_IMPULSE = 8;
     private static final float MAX_HORIZONTAL_VELOCITY = 15;
     private static final float AIR_HORIZONTAL_FORCE = 7;

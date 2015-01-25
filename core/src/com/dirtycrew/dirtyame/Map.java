@@ -73,7 +73,7 @@ public class Map {
                 if(spawnCell != null) {
                     if(spawnCell == 1) {
                         this.playerSpawnLocation = tilePos;
-                    } else if(spawnCell == 2) {
+                    } else if(spawnCell >= 2) {
                         this.monsterSpawnLocations.add(tilePos);
                     }
                 }

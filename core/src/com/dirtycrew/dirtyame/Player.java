@@ -27,15 +27,14 @@ public class Player extends Entity {
     private boolean isAttacking;
     public Long lastAttackTime;
     public InputController inputController;
-    public OrthographicCamera camera;
 
 
-    public Player (Body newBody, InputController newInputController, OrthographicCamera camera) {
+    public Player (Body newBody, InputController newInputController) {
         body = newBody;
         inputController = newInputController;
-        this.camera = camera;
         isAttacking = false;
     }
+
 
     @Override
     public void onCollide(Entity e) {

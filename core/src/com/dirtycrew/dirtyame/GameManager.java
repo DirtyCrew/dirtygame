@@ -13,48 +13,47 @@ public class GameManager {
         Finish
     }
     //Attributes
-    IGameState currentState;
+    IGameState currentStateObj;
+    GameState currentState;
+    GameState nextState;
     Dirty game;
 
     //Methods
     public GameManager(Dirty game){
-        this.currentState = new StartState();
-        this.currentState.init(game);
+        this.currentState = GameState.Start;
+        this.nextState = GameState.Start;
+        this.currentStateObj = new StartState();
         this.game = game;
     }
 
     public IGameState getState(){
-        return this.currentState;
+        return this.currentStateObj;
     }
 
     public void changeState(GameState state) {
-        IGameState nextState = null;
-        switch(state) {
-            case Play:
-                if(currentState.getClass() == PlayState.class) {
-                    return;
-                }
-
-                nextState = new PlayState(this, 10000);
-                break;
-            case Start:
-                if(currentState.getClass() == StartState.class) {
-                    return;
-                }
-
-                nextState = new StartState();
-                break;
-            case Finish:
-                if(currentState.getClass() == FinishState.class) {
-                    return;
-                }
-
-                nextState = new FinishState();
-                break;
+        if(currentState == state) {
+           return;
         }
+        nextState = state;
+    }
 
-        currentState.shutdown();
-        nextState.init(game);
-        currentState = nextState;
+    public void update() {
+        if(nextState != currentState) {
+            currentStateObj.shutdown();
+            switch(nextState) {
+                case Play:
+                    currentStateObj = new PlayState(this, 180000);
+
+                    break;
+                case Start:
+                    currentStateObj = new StartState();
+                    break;
+                case Finish:
+                    currentStateObj = new FinishState();
+                    break;
+            }
+            currentStateObj.init(game);
+            currentState = nextState;
+        }
     }
 }

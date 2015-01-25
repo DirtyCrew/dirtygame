@@ -56,13 +56,15 @@ public class Dirty extends ApplicationAdapter {
 			gameManager.changeState(GameManager.GameState.Finish);
 		}
 
+
+		gameManager.update();
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
+
 		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 		//world.clearForces();
 	}
 
 	private void doRender() {
-
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameManager.getState().render(this);

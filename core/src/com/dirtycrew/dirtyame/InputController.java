@@ -69,6 +69,16 @@ public class InputController {
         return true;
     }
 
+    public boolean isVolumePressed(){
+        for (InputSet set:inputSets){
+            if(!set.isVolumePressed()) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
     public void randomizeControls(){
         for (InputSet set:inputSets){
             set.setAllInactive();

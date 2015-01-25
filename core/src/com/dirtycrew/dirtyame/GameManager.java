@@ -18,6 +18,7 @@ public class GameManager {
     GameState currentState;
     GameState nextState;
     Dirty game;
+    int mapNumber;
 
     //Methods
     public GameManager(Dirty game){
@@ -31,9 +32,18 @@ public class GameManager {
         return this.currentStateObj;
     }
 
-    public void changeState(GameState state) {
+    public void changeState(GameState state, int mapNumber) {
+        this.mapNumber = mapNumber;
         if(currentState == state) {
-           return;
+            return;
+        }
+        nextState = state;
+    }
+
+    public void changeState(GameState state) {
+        this.mapNumber = -1;
+        if(currentState == state) {
+            return;
         }
         nextState = state;
     }
@@ -43,7 +53,7 @@ public class GameManager {
             currentStateObj.shutdown();
             switch(nextState) {
                 case Play:
-                    currentStateObj = new PlayState(this, 180000);
+                    currentStateObj = new PlayState(this, 180000, mapNumber);
                     break;
                 case Start:
                     currentStateObj = new StartState(this, game);

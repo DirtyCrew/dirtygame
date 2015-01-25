@@ -23,4 +23,6 @@ public class Constants {
 
     
     public final static Vector2 GRAVITY = new Vector2(0, -30);
+
+    public final static int MUSHROOM = 369;
 }

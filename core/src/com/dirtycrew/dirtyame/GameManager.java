@@ -1,7 +1,6 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Game;
-import com.sun.tools.javadoc.Start;
 
 /**
  * Created by sturm on 1/24/15.

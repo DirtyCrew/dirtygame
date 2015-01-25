@@ -221,6 +221,21 @@ public class PlayState implements IGameState {
         BitmapFont.TextBounds playerControlBoundsAttack = playerControlFont.getBounds(attack);
 
         float playerControlHeight = (-(Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom) + playerControlBoundsJump.height;
+
+        Texture controlBorder = new Texture("white_square.png");
+        hudBatch.draw(controlBorder,
+                -(Constants.SCREEN_WIDTH / 2.0f) - 10,
+                -(Constants.SCREEN_HEIGHT / 2) - 10,
+                Constants.SCREEN_WIDTH + 20,
+                playerControlBoundsJump.height + 20);
+
+        controlBorder = new Texture("blackbox.jpeg");
+        hudBatch.draw(controlBorder,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom),
+                -(Constants.SCREEN_HEIGHT / 2),
+                Constants.SCREEN_WIDTH,
+                playerControlBoundsJump.height);
+
         InputSet first = player.inputController.inputSets.get(0);
         InputSet second = player.inputController.inputSets.get(1);
         playerControlFont.setColor(first.isJumpActive() ? Color.GREEN : Color.RED);

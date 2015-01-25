@@ -34,6 +34,8 @@ public class PlayState implements IGameState {
     SpriteBatch hudBatch;
     //Map map;
     World world;
+    Box2DDebugRenderer debugRenderer;
+
     BetterThanBrandonsTimer timer;
 
     EventHandler eventHandler;
@@ -91,6 +93,8 @@ public class PlayState implements IGameState {
             camera.position.set(camera.position.x, map.getHeight() - Constants.VIEWPORT_HEIGHT / 2, camera.position.z);
         }
         camera.update();
+
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
 
     @Override
@@ -109,7 +113,7 @@ public class PlayState implements IGameState {
         game.batch.end();
 
 
-        game.debugRenderer.render(game.world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
 
         hudCamera.update();
@@ -250,9 +254,10 @@ public class PlayState implements IGameState {
 
     @Override
     public void init(final Dirty game) {
-
+        world = new World(Constants.GRAVITY, false);
+        debugRenderer = new Box2DDebugRenderer();
         timer = new BetterThanBrandonsTimer();
-        world = game.world;
+
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
@@ -261,21 +266,21 @@ public class PlayState implements IGameState {
         map = new EugenesAmazingBetterThanBrandonsMap(world);
 
 
-        player = EntityFactory.createPlayer(game.world, map.playerSpawnLocation, timer);
+        player = EntityFactory.createPlayer(world, map.playerSpawnLocation, timer);
         entityList.add(player);
         renderList.add(player.sprite);
         player.body.setUserData(player);
 
         //End Creating Enemy
         for(Vector2 pos : map.monsterSpawnLocations) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(game.world, pos, eventHandler, timer);
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);
         }
         //End Creating Enemy
         for(Vector2 pos : map.beeSpawnLocations) {
-            Bee bee = EntityFactory.createBee(game.world, pos, timer);
+            Bee bee = EntityFactory.createBee(world, pos, timer);
             renderList.add(bee.sprite);
             entityList.add(bee);
             bee.body.setUserData(bee);
@@ -298,7 +303,7 @@ public class PlayState implements IGameState {
         eventHandler.subscribe(event, listener);
         deathTimer = new Timer(timeForLevel, eventHandler, event);
 
-        game.world.setContactListener(new ContactListener() {
+        world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
                 if(contact.isTouching() == false) {
@@ -325,6 +330,9 @@ public class PlayState implements IGameState {
                         if (((Map.Tile) e).isDeath) {
                             gameManager.changeState(GameManager.GameState.Fail);
                         }
+                        else if (((Map.Tile) e).isWin) {
+                            gameManager.changeState(GameManager.GameState.Finish);
+                        }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
                         Vector2 up = new Vector2(0, 1);
@@ -337,7 +345,7 @@ public class PlayState implements IGameState {
                             gameManager.changeState(GameManager.GameState.Fail);
                         } else if (down.dot(contactNormal) > 0) { // player on entity
                             killEntity(e);
-                            player.body.applyLinearImpulse(0f,player.JUMP_IMPULSE*2,player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
+                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
                         } else if(right.dot(contactNormal) > 0) { // entity hit player on right
                             gameManager.changeState(GameManager.GameState.Fail);
                         } else if(left.dot(contactNormal) > 0) { // entity hit player on left
@@ -371,6 +379,7 @@ public class PlayState implements IGameState {
         }
         cleanUpOrphans();
         entityList.clear();
+
     }
 
     private class deathTimer extends EventHandler.Event{

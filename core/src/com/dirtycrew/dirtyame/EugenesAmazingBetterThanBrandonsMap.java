@@ -55,6 +55,7 @@ public class EugenesAmazingBetterThanBrandonsMap {
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
                 boolean isBouncy = properties.get("bouncy") != null ? true : false;
+                boolean isWin = properties.get("win") != null ? true : false;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -72,6 +73,9 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     Map.Tile tile = new Map.Tile();
                     if(deathTile != null) {
                         tile.isDeath = true;
+                    }
+                    if(isWin) {
+                        tile.isWin = true;
                     }
                     tile.id = tileId;
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);

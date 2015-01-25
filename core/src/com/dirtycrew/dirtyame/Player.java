@@ -23,9 +23,9 @@ public class Player extends Entity {
     private int currentAnimateY = 0;
     private static final float SHOT_COOLDOWN = 500f;
     public static final float JUMP_IMPULSE = 8;
-    private static final float MAX_HORIZONTAL_VELOCITY = 15;
-    private static final float AIR_HORIZONTAL_FORCE = 7;
-    private static final float GROUND_HORIZONTAL_FORCE = 14;
+    private static final float MAX_HORIZONTAL_VELOCITY = 12;
+    private static final float AIR_HORIZONTAL_FORCE = 5;
+    private static final float GROUND_HORIZONTAL_FORCE = 10;
     private static final float AIR_SLOWDOWN_MULTIPLIER = .96f;
     private static final float GROUND_SLOWDOWN_MULTIPLIER = .93f;
     private static final float GROUND_FLOATING = .1f;

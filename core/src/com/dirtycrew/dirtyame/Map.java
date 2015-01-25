@@ -36,6 +36,7 @@ public class Map {
     public static class Tile extends Entity {
         public int id;
         public boolean isDeath = false;
+        public boolean isWin = false;
         @Override
         public void update(float delta) {
             // noop

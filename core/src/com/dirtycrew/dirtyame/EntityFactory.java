@@ -101,7 +101,7 @@ public class EntityFactory {
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape = playerBox;
-        fixtureDef.density = 0.6f;
+        fixtureDef.density = 0.625f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);

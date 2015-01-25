@@ -306,6 +306,7 @@ public class PlayState implements IGameState {
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
+        boolean jumpyKoopas = false;
         //Setting the correct level
         DLog.debug("MpaNumber: {}", mapNumber);
         switch (this.mapNumber){
@@ -319,6 +320,7 @@ public class PlayState implements IGameState {
             }
             case 3:{
                 map = new EugenesAmazingBetterThanBrandonsMap("koopa-funtime.tmx", world);
+                jumpyKoopas = true;
                 break;
             }
             case 4:{
@@ -335,7 +337,7 @@ public class PlayState implements IGameState {
 
         //End Creating Enemy
         for(Vector2 pos : map.getMonsterSpawnLocations()) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer);
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer, jumpyKoopas);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);

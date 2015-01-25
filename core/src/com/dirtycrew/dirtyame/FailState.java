@@ -54,6 +54,15 @@ public class FailState implements IGameState {
             }
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.gameManager.changeState(GameManager.GameState.Start, game.map);
+            try {
+                Thread.sleep(100);
+            } catch(Exception e) {
+
+            }
+        }
+
 
     }
 

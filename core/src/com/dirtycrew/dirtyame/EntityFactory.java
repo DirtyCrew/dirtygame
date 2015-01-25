@@ -116,7 +116,7 @@ public class EntityFactory {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
         }
-        if(Controllers.getControllers().size == 1) {
+        if(Controllers.getControllers().size <= 1) {
             inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
         } else {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,

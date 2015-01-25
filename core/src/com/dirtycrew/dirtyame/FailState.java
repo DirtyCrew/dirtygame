@@ -77,14 +77,14 @@ public class FailState implements IGameState {
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
 
-        Texture texture = new Texture("restart_image.png");
+        Texture texture = new Texture("death_screen.png");
         Sprite backgroundSprite = new Sprite(texture);
-        backgroundSprite.setSize(10, 5);
-        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.setSize(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        backgroundSprite.setPosition(-Constants.VIEWPORT_WIDTH/2, -Constants.VIEWPORT_HEIGHT/2);
         backgroundSprite.draw(hudBatch);
 
-        font.setScale(0.5f);
-        font.draw(hudBatch, "Fail", 0, 0);
+//        font.setScale(0.5f);
+//        font.draw(hudBatch, "Fail", 0, 0);
 
         hudBatch.end();
     }

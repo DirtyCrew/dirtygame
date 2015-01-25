@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="generic_platformer_tiles" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <tile id="0">
+   <properties>
+    <property name="moving" value="1"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="moving" value="1"/>
+    <property name="oppositeStart" value="true"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="movementDuration" value="5000"/>
+    <property name="moving" value="1"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="moving" value="1"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="bouncy" value="1"/>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="colliable" value="1"/>
+    <property name="win" value="1"/>
+   </properties>
+  </tile>
+  <tile id="69">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="368">
+   <properties>
+    <property name="spawn" value="1"/>
+   </properties>
+  </tile>
+  <tile id="422">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="death" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Top" width="200" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztl01u1EAQhe1jwIqj5DhIASSWICFBQGyASNyADbtkpCxZMprJ4EggcYcchLYyI1VaVdVlI/KK+C0+Tey0+/d93fZR13VHJA2vepIJdB4I/cgMOg+EfmQGnQdCPzKDzgOhH5lB54HQj8yg80DoR2bQeSD0IzP/av3QOftfQeeBMMeZQeeB0I/MoPNA6Edm0Hkg9CMz6DwQ+pEZdB4I/cgMOg+EfmQGnQdCPzKDzgOhH5lB54HQj8yg80DoR2bQeSDL9eN7YZ2gHx7oPBD6ge6HBzoPhH6g++GBzgOhH+h+eKDzQJbnx3XXvT4rv5LrBP3SQOeBLM+PVdc9qv0o976g+6WBzgNZnh8j0pGsboyg80CW6cfI6MgcNx4UHt5RH9F5IMv1Yy4vCi/vqC10Hgj9yAw6D4R+ZAadB0I/MoPOA6EfmUHngdCPzKDzQOhHZtB5IPQjM+g8EPqRGXQeCP3IDDoPhH5kBp0HQj8yg84DoR+ZQeeB0I/MoPNAbvNmz0nhreBd4X3h8T1y6Hl/A7ofHug8LIHjwpPC0wCfDFbJczSHz2VMz5KPC52dJfCh8HGf82+d/ztyrrAufL1nXBROE/SD4Dnr4378VBj92BR2hR+FYQLymU2DbeFy/0y03KHuK+XerrqWZX/3N35Y/6+pxy/LbkRb9Xi3Sp+0drTxePclWj/qPmj1bIz7rV9vzmW5ev6mrGWkzBCo3xqj/HuKHxrSD9nOZa/nYmeU19bZ88fKo5UTWd6a08Pz45ycOmus5dHzo3akxnLQmgvt+qoxLq2eQSk/J6NzytbPtNZVzns054PSTmvf/Bs/Du9U8nrd62PT7g397fX18uFlI5IX77q1H0s/NB+s5zXntXHWea3nyBqzt1dre5CWC629uh7PYS1XXsasfdNrU3sPaZ2nmjeRvS3qR4tz5dp6v4ruk3XZ1r4RHZP3PhXZx8c5WRlr7Z13W6fOqePxzgErL1q7Wj1aP63+RvaryDkSnXvrnJN+t1yr9+jWueqViZ4fowvyu1z7/tDGa+0VmivaflaPw9pfPLR5tto++PHL6YP3HuF5HnXbmz/Lofrdc8p+oI3T87F2JvqdIedtyp4gn7PWv1VPq49W5qLnxx9zKV6A
+  </data>
+ </layer>
+ <layer name="Collision" width="200" height="50" opacity="0.25">
+  <properties>
+   <property name="spawn" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt2EEOgjAQBVBZ6D2MxoUH8T6eymsaE5uoKFRRpq3vJbMlP2Q+BRYLAAAAAAAAAAAAAAAAAAAAAAAAAGq0iQ5QCPcBgDGH67ziLCHXOjrAD4z1A8hT0llSUhaAbXSASkQ8u50XAIxxVtRpGR2gQHaZZ71o8V9vFB2DezpRj/TfahWaon52Hj6nP23zzfEefSjfsYtOAECp9jfz6DAwLdldh/82tO+5+99aNy5a7Dzv+8YetLhH6b6cOvPPk3Zh6i5FZX9l6rVznxtTc5akxsxzqO38mGMnvV+R1NaPOegHiX706QeJfvTpB0nuHpwBdxyRJA==
+  </data>
+ </layer>
+</map>

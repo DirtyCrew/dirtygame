@@ -322,7 +322,7 @@ public class PlayState implements IGameState {
                 break;
             }
             case 4:{
-                map = new Map("Lonely_Trees.tmx", world);
+                map = new EugenesAmazingBetterThanBrandonsMap("Platform_Map.tmx", world);
                 break;
             }
         }
@@ -491,6 +491,9 @@ public class PlayState implements IGameState {
 //                            gameManager.changeState(GameManager.GameState.Fail);
 //                        }
 
+                    } else if (e instanceof MovingPlatform){
+                        MovingPlatform plat = (MovingPlatform)e;
+                        player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x*.8f, player.body.getLinearVelocity().y);
                     }
                 }
             }
@@ -506,6 +509,22 @@ public class PlayState implements IGameState {
 
             @Override
             public void postSolve(Contact contact, ContactImpulse impulse) {
+                if(contact.isTouching() == false) {
+                    return;
+                }
+
+                Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
+                Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
+                Player p = e1 == player ? (Player)e1 : (Player)e2;
+                Entity e = p == e1 ? e2 : e1;
+                if(e1 == player || e2 == player){
+                    if (e1 instanceof MovingPlatform || e2 instanceof MovingPlatform){
+                        MovingPlatform plat = (MovingPlatform)e2;
+                        if (Math.abs(player.body.getLinearVelocity().x) < Math.abs(plat.body.getLinearVelocity().x)) {
+                            player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x *.8f, player.body.getLinearVelocity().y);
+                        }
+                    }
+                }
 
             }
         });

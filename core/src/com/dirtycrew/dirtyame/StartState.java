@@ -66,24 +66,28 @@ public class StartState implements IGameState {
         Gdx.gl.glClearColor(135 / 255f, 206 / 255f, 235 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Texture texture = new Texture("generic_platformer_tiles.png");
-        game.batch.draw(texture, 0, -285);
+        Sprite backgroundSprite = new Sprite(texture);
+        backgroundSprite.setAlpha(0.3f);
+        backgroundSprite.setPosition(0, -285);
+        backgroundSprite.draw(game.batch);
         game.batch.end();
 
         mapTileCamera.update();
         mapTileBatch.setProjectionMatrix(mapTileCamera.projection);
         mapTileBatch.begin();
-        Texture map1Image = new Texture("white_square.png");
+        Texture mapTileBorder = new Texture("white_square.png");
+        Texture map1Image = new Texture("Lonely_Trees_Map_Tile.png");
         Texture map2Image = new Texture("white_square.png");
         Texture map3Image = new Texture("white_square.png");
         Texture map4Image = new Texture("white_square.png");
-        Sprite map1Sprite = new Sprite(map1Image);
-        Sprite map2Sprite = new Sprite(map2Image);
-        Sprite map3Sprite = new Sprite(map3Image);
-        Sprite map4Sprite = new Sprite(map4Image);
-        mapTileBatch.draw(map1Sprite, -7.5f, -5f, 5, 5);
-        mapTileBatch.draw(map2Sprite, 4.25f, -5f, 5, 5);
-        mapTileBatch.draw(map3Sprite, -7.5f, -11f, 5, 5);
-        mapTileBatch.draw(map4Sprite, 4.25f, -11f, 5, 5);
+        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(mapTileBorder, -8f, -5.5f, 6, 6);
+        mapTileBatch.draw(map1Image, -7.5f, -5f, 5, 5);
+        mapTileBatch.draw(map2Image, 4.25f, -5f, 5, 5);
+        mapTileBatch.draw(map3Image, -7.5f, -11f, 5, 5);
+        mapTileBatch.draw(map4Image, 4.25f, -11f, 5, 5);
         mapTileBatch.end();
 
         titleCamera.update();
@@ -97,7 +101,7 @@ public class StartState implements IGameState {
         BitmapFont.TextBounds infoBounds = titleFont.getBounds(gameStartInfo);
         titleFont.draw(titleBatch, gameStartInfo,
                 (0 - infoBounds.width / 2),
-                ((Constants.SCREEN_HEIGHT / 2) - 350));
+                ((Constants.SCREEN_HEIGHT / 2) - 325));
 
         titleFont.draw(titleBatch, "1", -100, 0);
         titleFont.draw(titleBatch, "2", 100, 0);

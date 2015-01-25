@@ -301,10 +301,10 @@ public class PlayState implements IGameState {
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {
                     if(e1 instanceof Attack || e2 instanceof Attack){
-                        if (e1 instanceof KoopaKoopa){
+                        if (e1 instanceof KoopaKoopa || e2 instanceof Bee){
                             killEntity(e1);
                         }
-                        if (e2 instanceof KoopaKoopa){
+                        if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
                             killEntity(e2);
                         }
                     }

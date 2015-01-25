@@ -78,7 +78,7 @@ public class EntityFactory {
         return bee;
     }
 
-    public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer) {
+    public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer, int numUsers) {
         Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
@@ -122,7 +122,7 @@ public class EntityFactory {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
         }
-        if(Config.RANDOMIZE) {
+        if(Config.RANDOMIZE && numUsers > 1) {
             inputController.randomizeControls();
         }else{
             inputController.inputSets.get(1).setAllInactive();

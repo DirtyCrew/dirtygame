@@ -17,6 +17,7 @@ public class ConfigState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
+        game.setNumPlayers(1);
         game.gameManager.changeState(GameManager.GameState.Start);
     }
 

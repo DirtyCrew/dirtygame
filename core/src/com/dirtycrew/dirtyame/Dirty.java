@@ -23,6 +23,12 @@ public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 	GameManager gameManager;
 
+	int numPlayers = 1;
+
+	public void setNumPlayers(int players) {
+
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -35,26 +41,6 @@ public class Dirty extends ApplicationAdapter {
 	}
 
 	private void doUpdate() {
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-			Gdx.app.exit();
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			gameManager.changeState(GameManager.GameState.Play, 1);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			gameManager.changeState(GameManager.GameState.Play, 2);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.changeState(GameManager.GameState.Play, 3);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.changeState(GameManager.GameState.Play, 4);
-		}
-
 		gameManager.update();
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
 

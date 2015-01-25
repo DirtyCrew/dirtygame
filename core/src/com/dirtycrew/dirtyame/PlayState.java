@@ -60,6 +60,7 @@ public class PlayState implements IGameState {
     InputController inputController;
     private boolean volume;
     private boolean volumePressed;
+    int numPlayers;
 
     private final static int hudCameraZoom = 32;
     private final static String left = "Left";
@@ -67,7 +68,8 @@ public class PlayState implements IGameState {
     private final static String jump = "Jump";
     private final static String attack = "Attack";
 
-    public PlayState(GameManager gameManager, long time, int mapNumber){
+    public PlayState(GameManager gameManager, long time, int mapNumber, int numPlayers){
+        this.numPlayers = numPlayers;
         this.gameManager = gameManager;
         timeForLevel = time;
         inputController = new InputController();
@@ -78,6 +80,10 @@ public class PlayState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            game.gameManager.changeState(GameManager.GameState.Start);
+        }
+
         timer.update(delta);
 
         if(inputController.isVolumePressed())
@@ -318,7 +324,7 @@ public class PlayState implements IGameState {
         }
 
 
-        player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer);
+        player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer, numPlayers);
         entityList.add(player);
         renderList.add(player.sprite);
         player.body.setUserData(player);

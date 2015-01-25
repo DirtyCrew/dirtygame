@@ -58,7 +58,7 @@ public class GameManager {
             case Config:
                 return new ConfigState();
             case Play:
-                return new PlayState(this, 180000, mapNumber);
+                return new PlayState(this, 180000, mapNumber, game.numPlayers);
             case Start:
                 return new StartState(this, game);
             case Finish:

@@ -1,10 +1,13 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -20,9 +23,7 @@ public class FinishState implements IGameState {
     public void init(Dirty game){
         font = new BitmapFont();
         font.setColor(Color.RED);
-
         hudBatch = new SpriteBatch();
-
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
     }
 
@@ -33,6 +34,22 @@ public class FinishState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta){
+        if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            game.gameManager.changeState(GameManager.GameState.Start);
+            try {
+                Thread.sleep(100);
+            } catch(Exception e) {
+
+            }
+        } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            game.gameManager.changeState(GameManager.GameState.Play, game.map);
+            try {
+                Thread.sleep(100);
+            } catch(Exception e) {
+
+            }
+        }
+
 
     }
 
@@ -46,6 +63,13 @@ public class FinishState implements IGameState {
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
+
+        Texture texture = new Texture("restart_image.png");
+        Sprite backgroundSprite = new Sprite(texture);
+        backgroundSprite.setSize(10, 5);
+        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.draw(hudBatch);
+
         font.setScale(0.5f);
         font.draw(hudBatch, "Winner", 0, 0);
         hudBatch.end();

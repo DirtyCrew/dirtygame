@@ -73,8 +73,10 @@ public class Map implements IMap {
                 String movingString = properties.get("moving", String.class);
                 Integer moving = movingString != null ? Integer.valueOf(movingString) : null ;
                 String movementDurationString = properties.get("movementDuration", String.class);
-                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : null ;
+                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : 2000 ;
                 boolean oppositeStart = properties.get("oppositeStart") != null ? true : false ;
+                boolean isWin = properties.get("win") != null ? true : false;
+
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -96,6 +98,9 @@ public class Map implements IMap {
                     Tile tile = new Tile();
                     if(deathTile != null) {
                         tile.isDeath = true;
+                    }
+                    if(isWin) {
+                        tile.isWin = true;
                     }
                     tile.id = tileId;
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);

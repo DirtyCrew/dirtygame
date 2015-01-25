@@ -82,7 +82,7 @@ public class EntityFactory {
         //Creating Enemy
         BodyDef platformBodyDef = new BodyDef();
         platformBodyDef.fixedRotation = true;
-        platformBodyDef.type = BodyDef.BodyType.DynamicBody;
+        platformBodyDef.type = BodyDef.BodyType.KinematicBody;
         platformBodyDef.position.set(data.position);
         Body platformBody = world.createBody(platformBodyDef);
         platformBody.setGravityScale(0);
@@ -96,7 +96,7 @@ public class EntityFactory {
 
         FixtureDef platformfixtureDef = new FixtureDef();
         platformfixtureDef.shape = platformBox;
-        platformfixtureDef.density = 0.5f;
+        platformfixtureDef.density = 0.9f;
         platformfixtureDef.friction = 0.001f;
         platformfixtureDef.restitution = 0; // Make it bounce a little bit
         platformBody.createFixture(platformfixtureDef);
@@ -110,7 +110,8 @@ public class EntityFactory {
         return platform;
     }
     
-    public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer) {
+
+    public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer, int numUsers) {
         Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
@@ -154,11 +155,12 @@ public class EntityFactory {
             inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
                     XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
         }
-        if(Config.RANDOMIZE) {
+        if(numUsers > 1) {
             inputController.randomizeControls();
-        }else{
+        } else {
             inputController.inputSets.get(1).setAllInactive();
         }
+        
 
         // create player
         Texture playerTexture = new Texture("player.png");
@@ -167,8 +169,6 @@ public class EntityFactory {
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);
         player.sprite.setRegion(0,0,64,64);
-
-
 
         return player;
     }

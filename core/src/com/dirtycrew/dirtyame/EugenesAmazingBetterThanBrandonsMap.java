@@ -29,8 +29,8 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
 
 
     //Methods
-    public EugenesAmazingBetterThanBrandonsMap(World world) {
-        tiledMap = new TmxMapLoader().load("better-that-lonely-tree.tmx");
+    public EugenesAmazingBetterThanBrandonsMap(String s, World world) {
+        tiledMap = new TmxMapLoader().load(s);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.FROM_PIXELS_TO_METER);
 
         TiledMapTileSet tileset =  tiledMap.getTileSets().getTileSet("Block Tileset");
@@ -60,7 +60,7 @@ public class EugenesAmazingBetterThanBrandonsMap implements IMap {
                 String movingString = properties.get("moving", String.class);
                 Integer moving = movingString != null ? Integer.valueOf(movingString) : null ;
                 String movementDurationString = properties.get("movementDuration", String.class);
-                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : null ;
+                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : 2000 ;
                 boolean oppositeStart = properties.get("oppositeStart") != null ? true : false ;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;

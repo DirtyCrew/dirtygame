@@ -60,6 +60,7 @@ public class PlayState implements IGameState {
     InputController inputController;
     private boolean volume;
     private boolean volumePressed;
+    int numPlayers;
 
     private final static int hudCameraZoom = 32;
     private final static String left = "Left";
@@ -67,7 +68,8 @@ public class PlayState implements IGameState {
     private final static String jump = "Jump";
     private final static String attack = "Attack";
 
-    public PlayState(GameManager gameManager, long time, int mapNumber){
+    public PlayState(GameManager gameManager, long time, int mapNumber, int numPlayers){
+        this.numPlayers = numPlayers;
         this.gameManager = gameManager;
         timeForLevel = time;
         inputController = new InputController();
@@ -78,6 +80,15 @@ public class PlayState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            game.gameManager.changeState(GameManager.GameState.Start);
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+
+            }
+        }
+
         timer.update(delta);
 
         if(inputController.isVolumePressed())
@@ -101,7 +112,7 @@ public class PlayState implements IGameState {
 
         cleanUpOrphans();
 
-        deathTimer.update();
+//        deathTimer.update();
 
         for (Entity e : entityList) {
             e.update(delta);
@@ -154,17 +165,17 @@ public class PlayState implements IGameState {
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
 
-        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
-        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
-        String time = String.format("%d:%02d", minutes, seconds);
-        String timerString = "Death Timer: " + time;
-        BitmapFont.TextBounds deathTimerBounds = deathTimerFont.getBounds(timerString);
-        deathTimerFont.draw(hudBatch,
-                timerString,
-                -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
-                (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
+//        long minutes = deathTimer.timeRemainingInMilliseconds() / (60 * 1000);
+//        long seconds = (deathTimer.timeRemainingInMilliseconds() / 1000) % 60;
+//        String time = String.format("%d:%02d", minutes, seconds);
+//        String timerString = "Death Timer: " + time;
+//        BitmapFont.TextBounds deathTimerBounds = deathTimerFont.getBounds(timerString);
+//        deathTimerFont.draw(hudBatch,
+//                timerString,
+//                -(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom, // - deathTimerBounds.width/2
+//                (Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom); // + deathTimerBounds.height/2
 
-        String deathCounterString = "Deaths: " + 9999;
+        String deathCounterString = "Deaths: " + game.gameManager.numDeaths;
         BitmapFont.TextBounds deathCounterBounds = deathTimerFont.getBounds(deathCounterString);
         deathTimerFont.draw(hudBatch,
                 deathCounterString,
@@ -303,17 +314,18 @@ public class PlayState implements IGameState {
         camera.update();
 
         //Setting the correct level
+        DLog.debug("MpaNumber: {}", mapNumber);
         switch (this.mapNumber){
             case 1:{
                 map = new Map("Lonely_Trees.tmx", world);
                 break;
             }
             case 2:{
-                map = new EugenesAmazingBetterThanBrandonsMap(world);
+                map = new EugenesAmazingBetterThanBrandonsMap("better-that-lonely-tree.tmx", world);
                 break;
             }
             case 3:{
-                map = new Map("Lonely_Trees.tmx", world);
+                map = new EugenesAmazingBetterThanBrandonsMap("koopa-funtime.tmx", world);
                 break;
             }
             case 4:{
@@ -322,8 +334,8 @@ public class PlayState implements IGameState {
             }
         }
 
-
-        player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer);
+        DLog.debug("NumPlayers: {}", numPlayers);
+        player = EntityFactory.createPlayer(world, map.getPlayerSpawnLocation(), timer, numPlayers);
         entityList.add(player);
         renderList.add(player.sprite);
         player.body.setUserData(player);
@@ -361,11 +373,11 @@ public class PlayState implements IGameState {
 
         hudBatch = new SpriteBatch();
 
-        EventHandler.Event event = new deathTimer();
-        event.setState("Death Timer");
-        Listener listener = new Listener();
-        eventHandler.subscribe(event, listener);
-        deathTimer = new Timer(timeForLevel, eventHandler, event);
+//        EventHandler.Event event = new deathTimer();
+//        event.setState("Death Timer");
+//        Listener listener = new Listener();
+//        eventHandler.subscribe(event, listener);
+//        deathTimer = new Timer(timeForLevel, eventHandler, event);
 
         world.setContactListener(new ContactListener() {
             @Override
@@ -413,6 +425,12 @@ public class PlayState implements IGameState {
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
+                        Vector2 pos;
+                        if(e instanceof KoopaKoopa) {
+                            pos = ((KoopaKoopa) e).body.getPosition();
+                        } else {
+                            pos = ((KoopaKoopa) e).body.getPosition();
+                        }
                         Vector2 up = new Vector2(0, 1);
                         Vector2 down = new Vector2(0, -1);
                         Vector2 right = new Vector2(1,0);

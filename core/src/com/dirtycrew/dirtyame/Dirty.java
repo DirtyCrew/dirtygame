@@ -22,6 +22,18 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 	GameManager gameManager;
+	int map = 0;
+
+	int numPlayers = 1;
+
+
+	public void setMap(int map) {
+		this.map = map;
+	}
+	public void setNumPlayers(int players) {
+		numPlayers = players;
+	}
+
 
 	@Override
 	public void create () {
@@ -29,32 +41,12 @@ public class Dirty extends ApplicationAdapter {
 		if(Config.FULLSCREEN) {
 			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
 		} else {
-			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, true);
+			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, false);
 		}
-		gameManager = new GameManager(this);
+		gameManager = new GameManager(this, GameManager.GameState.Tutorial);
 	}
 
 	private void doUpdate() {
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-			Gdx.app.exit();
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			gameManager.changeState(GameManager.GameState.Play, 1);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			gameManager.changeState(GameManager.GameState.Play, 2);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.changeState(GameManager.GameState.Play, 3);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			gameManager.changeState(GameManager.GameState.Play, 4);
-		}
-
 		gameManager.update();
 		gameManager.getState().update(this, Gdx.graphics.getDeltaTime());
 

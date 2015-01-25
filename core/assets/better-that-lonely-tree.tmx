@@ -29,12 +29,24 @@
   </tile>
   <tile id="206">
    <properties>
-    <property name="colliadable" value="1"/>
+    <property name="collidable" value="1"/>
    </properties>
   </tile>
   <tile id="210">
    <properties>
     <property name="bouncy" value="1"/>
+    <property name="colliadable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="320">
+   <properties>
+    <property name="spawn" value="2"/>
+   </properties>
+  </tile>
+  <tile id="330">
+   <properties>
+    <property name="colliadable" value="1"/>
+    <property name="death" value="1"/>
    </properties>
   </tile>
   <tile id="362">
@@ -65,15 +77,15 @@
  </tileset>
  <layer name="Tile Layer 1" width="50" height="200">
   <data encoding="base64" compression="zlib">
-   eJzt2r9OwlAUB2A6+ig+gW/gn8ju6mYUNXHyCRxxNVEHFxdFVlcn42Di6BvoI2icvA0YsaG0QGmhfl/yC0NP7j2nLTcMNBoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAkfaj3wAAAAD1cxZyPkYuQi5HrHc/y2YL9JVx/aOULvjvFuX7kuW16gYK4nvfU5f3cl6fZ9b9nfZ6WbLu77TXgZ6VqhsoyFbVDRTkuOoGGMtqyFrIRko2Q06i4tMM6y5Ff7M6ZK9mzjmOosb2Tvjc7WcvkVav5mo9rDkq8yj0/RCn6j7qbjn6zSJrhf4PQg4XfI5ueOfbYYbTBZ/jtD9Hd8Qcrf5/jeJnFp9Tw2riM26wrmydsOfdkOfxFvKeUZN3rTLk2fs/z5H2/s3KpHP8/F5ojqj7nEXDY/Q4Sc04dbNQ1hw/Z9lgijzXBve+TUmemmTddSLPIe1EukPq4txkJGuOp5TkqUnWvSTSSZkjWRfnMSN1mWNwlm8C8saq
+   eJztmr9u1DAcxx0mGIDXgAU2CjxAoaKUjQITC0JHAekmngAkQL1nKOKPVChdu3aqWgmJkTcA+gTHyM9KwvmM7Th3zt3X1+/wVaXYcT6fxHbi+nqF2lqRXJSckRwrtXUk2Zb0MipD46EHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDDyweemDx0AOLhx5YPPTA4qEHFg89sHjogcVDj+Zzr5xSaklyVXJNcl2So8dd4V6X3JPclzzI1COHsq7adfXFHD1cfTFHj0XpV6Gyp4VSdVJ75DC3xnggzq2ue4vUr2LLXPc2Rw/0cU6Pk+WxYczrOs8l9rmuOmgeO8L0zsiu5dEv1EM5tm/WkXP2c/PQ58Z4uOb9eXv0J/Bwzfvz9pjkeaD3q5M2Ppqu2cUayyx/K1zvjXxwjA9XnbbX7GKNNY8+0HW/QuCpy1x9L0cPV9/L0WNR+lUqj2Wl1A3JqhqtwfSxW9Wxpnb3lH/tNuvnMZB3g10mx6LmyGEGHmdlzJ2TnA+sl9vwuOamLjz65ftQ1R6P5NgludblRB6uuSmlx2PpGy+L8WzIsdtynTXJnRYeerwswnz1Y0E8hgviMW2Z7pexHp7v6U7S1mPYwsOzHk0e7aHvb8hDl4cc99T4WtksPy7P7TzaY9jgMWzwGHo8tst2p47nnTaWSfpV7Dg/Ktv2Jrbfe9Z6U4+PWI/jchx5k3qMdOXh2Y/6l9RjJKXHkhp9f8d846QYP3VSeqwbHiuje++tHxo/EySZxwvDI1Sv/hsaP23T1fgI1VsrxsdKikzjsVb8/24JnVuvbVc80Wtc+7t+Fll1vCNDHvr/uXoN0qvyxIpei+j/N96UtkNJ1Xdi+lXsucK9r9MVz6w8UMtey3viTaJ19iRlbX6zEGrzsPpO0PuXz4py33KWHm1+sxDjofc1NsVhkMCjX4TXPF2U1R6DymM34FHvOetn1g+0a9abtYfei/rqeB4/pexXteYx64TaNeulYm3aA27yMNudp0fTHnAuHtP2q5DHcvVd8sp6Z9sef1T3cyCfx2Qe9u9s6nltWo/f1TrTvPYXT2Lq2PU+Wvkm2bSy66in87khn4ycLu/Z2LUPPYmpY9f7bmXH42HX0zloiHnNC0W5zszRw3T5CyWM188=
   </data>
  </layer>
- <layer name="Collision Layer" width="50" height="200" opacity="0.25">
+ <layer name="Collision Layer" width="50" height="200" opacity="0">
   <properties>
    <property name="spawn" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt10EOhCAMBVDuf7VZuPBCszfqFByxNu8lxAVE+w2gtAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARC2D7ex+FVTJQW5V5pkctVR5D1lz/Krrav8sVXJAdlXWihw8YfSs+48WrSViDTxvDd4rm7W9t3bm6107WS2b61tFckT2qe0eN9tRjmWnL3rGyZSjd0zPuDvclWP2t2Y0x95aiM7DT0+BQU/MqzfnuPK/l8lRNmr5AmvqdvI=
+   eJzt2UFywjAMAMDwtJ779B445EOcOqWpPZFaqGWzO6MDEwESxo6TbBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD3XRvwmZ7RjTcfX+/az/hn7iOaM1qpxD+RUs/J43NsDORWsNB7HaM2P6usu8Fpa61Fmjaq0jkXOH5n3jhLZt8/gs859+zofztrHWWQ+awX6WMsqv0PVPs7q+uvx/7JKH1DdKnNFH9+9XcYej6o2btl6Ivv2UZFxfN4Rud84i/trQzgz272Dnkc+txw5fyJ9RNepkWPb6+PaOBa9xqnURzYnk/cMr9xHbx5E/4cfmQKDRozHzH08Yt9XQa+3Z3i/tCOSc5aX/c5orOIG1Q241g==
   </data>
  </layer>
  <layer name="Meta" width="50" height="200" visible="0">

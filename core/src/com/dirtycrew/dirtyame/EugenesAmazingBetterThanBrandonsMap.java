@@ -26,14 +26,7 @@ public class EugenesAmazingBetterThanBrandonsMap {
     public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
-    public class Tile extends Entity {
-        public int id;
-        public boolean isDeath = false;
-        @Override
-        public void update(float delta) {
-            // noop
-        }
-    }
+
     //Methods
     public EugenesAmazingBetterThanBrandonsMap(World world) {
         tiledMap = new TmxMapLoader().load("better-that-lonely-tree.tmx");
@@ -76,7 +69,7 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     }
                 }
                 if(collidableCell != null){
-                    Tile tile = new Tile();
+                    Map.Tile tile = new Map.Tile();
                     if(deathTile != null) {
                         tile.isDeath = true;
                     }

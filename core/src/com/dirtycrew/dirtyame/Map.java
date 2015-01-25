@@ -33,7 +33,7 @@ public class Map {
     public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
-    public class Tile extends Entity {
+    public static class Tile extends Entity {
         public int id;
         public boolean isDeath = false;
         @Override

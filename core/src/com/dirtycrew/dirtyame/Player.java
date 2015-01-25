@@ -39,14 +39,8 @@ public class Player extends Entity {
     public Random random;
     int jumpAnimationX;
     int jumpAnimationY;
-    BetterThanBrandonsTimer.TimerListener listener = new BetterThanBrandonsTimer.TimerListener() {
-        @Override
-        public void onTimerExpired() {
-            inputController.randomizeControls();
-        }
-    };;
 
-    public Player (Body newBody, InputController newInputController, BetterThanBrandonsTimer timer) {
+    public Player (Body newBody, InputController newInputController) {
         body = newBody;
         inputController = newInputController;
         isAttacking = false;
@@ -56,9 +50,6 @@ public class Player extends Entity {
         jumpAnimationY =  (jumpAnimate[1]);
         jumpAnimationX =  (jumpAnimate[0]);
         attackingFrame = 0;
-        if(Config.RANDOMIZE) {
-            timer.startRecurringRandomTimer(15000, 5000, listener);
-        }
     }
 
 

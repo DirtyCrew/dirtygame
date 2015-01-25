@@ -47,9 +47,9 @@ public class BetterThanBrandonsTimer {
         timers.put(callback, new Pair(duration, System.currentTimeMillis()));
     }
 
-    public void clearTimer(TimerListener listener) {
-        timers.remove(listener);
-        recur.remove(listener);
+    public void clearAll() {
+        timers.clear();
+        recur.clear();
     }
 
     public void startRecurringTimer(long duration, TimerListener callback) {

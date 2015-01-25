@@ -140,7 +140,7 @@ public class EntityFactory {
         Fixture fixture = playerBody.createFixture(fixtureDef);
         playerBody.setFixedRotation(true);
 
-        InputController inputController = new InputController();
+        final InputController inputController = new InputController();
         if(Controllers.getControllers().size == 0)
         {
             inputController.inputSets.add(new InputSet(Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S));
@@ -157,14 +157,20 @@ public class EntityFactory {
         }
         if(numUsers > 1) {
             inputController.randomizeControls();
+            timer.startRecurringRandomTimer(15000, 5000, new BetterThanBrandonsTimer.TimerListener() {
+                @Override
+                public void onTimerExpired() {
+                    inputController.randomizeControls();
+                }
+            });
         } else {
             inputController.inputSets.get(1).setAllInactive();
         }
-        
+
 
         // create player
         Texture playerTexture = new Texture("player.png");
-        Player player = new Player(playerBody, inputController, timer);
+        Player player = new Player(playerBody, inputController);
         player.sprite = new Sprite(playerTexture);
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);

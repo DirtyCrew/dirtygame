@@ -148,7 +148,7 @@ public class PlayState implements IGameState {
     @Override
     public void render(Dirty game) {
         map.drawMap(camera);
-
+        
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 
@@ -275,7 +275,7 @@ public class PlayState implements IGameState {
                 renderList.remove(k.sprite);
                 world.destroyBody(k.body);
                 entityList.remove(e);
-                timer.clearTimer(k.listener);
+                timer.clearAll();
             } else if(e instanceof Attack) {
                 Attack at = (Attack) e;
                 renderList.remove(at.sprite);
@@ -425,28 +425,39 @@ public class PlayState implements IGameState {
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
-                        Vector2 pos;
+                        Vector2 enemyPos = new Vector2(0, 0);
                         if(e instanceof KoopaKoopa) {
-                            pos = ((KoopaKoopa) e).body.getPosition();
+                            enemyPos = ((KoopaKoopa) e).body.getPosition();
                         } else {
-                            pos = ((KoopaKoopa) e).body.getPosition();
+                            enemyPos = ((Bee) e).body.getPosition();
                         }
-                        Vector2 up = new Vector2(0, 1);
-                        Vector2 down = new Vector2(0, -1);
-                        Vector2 right = new Vector2(1,0);
-                        Vector2 left = new Vector2(-1,0);
+                        Vector2 playerPos = p.body.getPosition();
+                        Vector2 l = enemyPos.sub(playerPos).nor();
 
-                        Vector2 contactNormal = contact.getWorldManifold().getNormal();
-                        if(up.dot(contactNormal) > 0) { // entity landed ontop of player
-                            gameManager.changeState(GameManager.GameState.Fail);
-                        } else if (down.dot(contactNormal) > 0) { // player on entity
+                        Vector2 down = new Vector2(0, -1);
+
+                        float d =  l.dot(down);
+
+                        if(d > 0.50) {
                             killEntity(e);
                             player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
-                        } else if(right.dot(contactNormal) > 0) { // entity hit player on right
+
+                        } else {
                             gameManager.changeState(GameManager.GameState.Fail);
-                        } else if(left.dot(contactNormal) > 0) { // entity hit player on left
-                            gameManager.changeState(GameManager.GameState.Fail);
+
                         }
+
+//                        Vector2 contactNormal = contact.getWorldManifold().getNormal();
+//                        if(up.dot(contactNormal) > 0) { // entity landed ontop of player
+//                            gameManager.changeState(GameManager.GameState.Fail);
+//                        } else if (down.dot(contactNormal) > 0) { // player on entity
+//                            killEntity(e);
+//                            player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
+//                        } else if(right.dot(contactNormal) > 0) { // entity hit player on right
+//                            gameManager.changeState(GameManager.GameState.Fail);
+//                        } else if(left.dot(contactNormal) > 0) { // entity hit player on left
+//                            gameManager.changeState(GameManager.GameState.Fail);
+//                        }
 
                     }
                 }

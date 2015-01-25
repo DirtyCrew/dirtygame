@@ -81,16 +81,19 @@ public class StartState implements IGameState {
         game.batch.begin();
         Gdx.gl.glClearColor(135 / 255f, 206 / 255f, 235 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Texture texture = new Texture("generic_platformer_tiles.png");
-        Sprite backgroundSprite = new Sprite(texture);
-        backgroundSprite.setAlpha(0.3f);
-        backgroundSprite.setPosition(0, -285);
-        backgroundSprite.draw(game.batch);
         game.batch.end();
 
         mapTileCamera.update();
         mapTileBatch.setProjectionMatrix(mapTileCamera.projection);
         mapTileBatch.begin();
+
+        Texture texture = new Texture("generic_platformer_tiles.png");
+        Sprite backgroundSprite = new Sprite(texture);
+        backgroundSprite.setAlpha(0.3f);
+        backgroundSprite.setPosition(-(Constants.VIEWPORT_WIDTH/2), -(Constants.VIEWPORT_HEIGHT/2) - 20);
+        backgroundSprite.setSize(Constants.VIEWPORT_WIDTH + 20, Constants.VIEWPORT_HEIGHT + 20);
+        backgroundSprite.draw(mapTileBatch);
+
         Texture mapTileBorder = new Texture("white_square.png");
         Texture map1Image = new Texture("Lonely_Trees_Map_Tile.png");
         Texture map2Image = new Texture("Better_That_Lonely_Tree_Map_Tile.png");

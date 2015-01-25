@@ -148,7 +148,7 @@ public class EntityFactory {
         chestBodyDef.type = BodyDef.BodyType.StaticBody;
         chestBodyDef.position.set(pos.x, pos.y);
         Body chestBody = world.createBody(chestBodyDef);
-        beeBody.setGravityScale(0);
+        chestBody.setGravityScale(0);
         PolygonShape chestBox = new PolygonShape();
         chestBox.setAsBox(30,30);
 
@@ -157,16 +157,16 @@ public class EntityFactory {
         chestfixtureDef.density = 0.5f;
         chestfixtureDef.friction = 0.001f;
         chestfixtureDef.restitution = 0; // Make it bounce a little bit
-        beeBody.createFixture(chestfixtureDef);
+        chestBody.createFixture(chestfixtureDef);
 
-        Texture beeTexture = new Texture("chest.bmp");
+        Texture chestTexture = new Texture("chest.bmp");
         Chest chest = new Chest(chestBody);
-        chest.sprite = new Sprite(beeTexture);
+        chest.sprite = new Sprite(chestTexture);
         chest.sprite.setPosition(pos.x, pos.y);
-        chest.sprite.setSize(1.5f, 1.5f);
+        chest.sprite.setSize(1f, 1f);
         chest.sprite.setRegion(0, 0, 80, 80);
         chest.sprite.flip(true, false);
 
-        return bee;
+        return chest;
     }
 }

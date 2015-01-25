@@ -1,5 +1,6 @@
 package com.dirtycrew.dirtyame;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
@@ -7,7 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 public class Chest extends Entity {
 
-    Body chestBody;
+    public Body chestBody;
+    public Sprite sprite;
 
     public Chest(Body body)
     {

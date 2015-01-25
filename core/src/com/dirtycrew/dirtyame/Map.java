@@ -68,6 +68,7 @@ public class Map implements IMap {
                 Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
+                boolean isWin = properties.get("win") != null ? true : false;
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -85,6 +86,9 @@ public class Map implements IMap {
                     Tile tile = new Tile();
                     if(deathTile != null) {
                         tile.isDeath = true;
+                    }
+                    if(isWin) {
+                        tile.isWin = true;
                     }
                     tile.id = tileId;
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);

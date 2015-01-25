@@ -18,38 +18,55 @@ public class InputController {
 
     public boolean isRightPressed(){
         for (InputSet set:inputSets){
-            if (set.isRightPressed()){
-                return true;
+            if(set.isRightActive() && !set.isRightPressed()) {
+                return false;
+            }
+
+            if(!set.isRightActive() && set.isRightPressed()) {
+                return false;
             }
         }
-        return false;
+        DLog.debug("Right pressed");
+        return true;
     }
 
     public boolean isLeftPressed(){
         for (InputSet set:inputSets){
-            if (set.isLeftPressed()){
-                return true;
+            if(set.isLeftActive() && !set.isLeftPressed()) {
+                return false;
+            }
+
+            if(!set.isLeftActive() && set.isLeftPressed()) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isJumpPressed(){
         for (InputSet set:inputSets){
-            if (set.isJumpPressed()){
-                return true;
+            if(set.isJumpActive() && !set.isJumpPressed()) {
+                return false;
+            }
+
+            if(!set.isJumpActive() && set.isJumpPressed()) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isAttackPressed(){
         for (InputSet set:inputSets){
-            if (set.isAttackPressed()){
-                return true;
+            if(set.isAttackActive() && !set.isAttackPressed()) {
+                return false;
+            }
+
+            if(!set.isAttackActive() && set.isAttackPressed()) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void randomizeControls(){

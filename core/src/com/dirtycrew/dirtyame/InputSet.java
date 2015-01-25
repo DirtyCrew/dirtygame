@@ -98,8 +98,6 @@ public class InputSet{
     }
 
     public boolean isRightPressed(){
-        if (!rightActive)
-            return false;
         if (isController){
             return controller.getButton(right);
         } else {
@@ -107,9 +105,7 @@ public class InputSet{
         }
     }
 
-    public boolean isLeftPressed(){
-        if (!leftActive)
-            return false;
+    public boolean isLeftPressed(){;
         if (isController){
             return controller.getButton(left);
         } else {
@@ -118,8 +114,6 @@ public class InputSet{
     }
 
     public boolean isJumpPressed(){
-        if (!jumpActive)
-            return false;
         if (isController){
             return controller.getButton(jump);
         } else {
@@ -128,8 +122,6 @@ public class InputSet{
     }
 
     public boolean isAttackPressed() {
-        if (!attackActive)
-            return false;
         if (isController) {
             return controller.getButton(attack);
         } else {

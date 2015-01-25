@@ -10,7 +10,8 @@ public class GameManager {
     public enum GameState {
         Start,
         Play,
-        Finish
+        Finish,
+        Fail
     }
     //Attributes
     IGameState currentStateObj;
@@ -22,7 +23,7 @@ public class GameManager {
     public GameManager(Dirty game){
         this.currentState = GameState.Start;
         this.nextState = GameState.Start;
-        this.currentStateObj = new StartState();
+        this.currentStateObj = new StartState(this, game);
         this.game = game;
     }
 
@@ -45,7 +46,7 @@ public class GameManager {
                     currentStateObj = new PlayState(this, 180000);
                     break;
                 case Start:
-                    currentStateObj = new StartState();
+                    currentStateObj = new StartState(this, game);
                     break;
                 case Finish:
                     currentStateObj = new FinishState();

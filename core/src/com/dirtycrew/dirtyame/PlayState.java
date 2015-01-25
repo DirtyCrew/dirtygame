@@ -95,7 +95,7 @@ public class PlayState implements IGameState {
 
         game.batch.end();
 
-    //    game.debugRenderer.render(game.world, camera.combined);
+        game.debugRenderer.render(game.world, camera.combined);
 
         hudCamera.update();
         hudBatch.setProjectionMatrix(hudCamera.projection);
@@ -111,6 +111,7 @@ public class PlayState implements IGameState {
 
     Attack createAttack(World world, Player playemr) {
         //Creating Enemy
+
         BodyDef attackBodyDef = new BodyDef();
         attackBodyDef.fixedRotation = true;
         attackBodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -131,7 +132,7 @@ public class PlayState implements IGameState {
         Attack attack = new Attack(attackBody, timer);
         attack.sprite = new Sprite(attackTexture);
         attack.sprite.setPosition(attackBody.getPosition().x, attackBody.getPosition().y);
-        attack.sprite.setSize(.2f,.2f);
+        attack.sprite.setSize(.2f, .2f);
 
         entityList.add(attack);
         renderList.add(attack.sprite);

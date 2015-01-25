@@ -17,10 +17,15 @@ public class EntityFactory {
         BodyDef koopaBodyDef = new BodyDef();
         koopaBodyDef.fixedRotation = true;
         koopaBodyDef.type = BodyDef.BodyType.DynamicBody;
-        koopaBodyDef.position.set(Constants.VIEWPORT_WIDTH / 2.f, Constants.VIEWPORT_HEIGHT / 2.f);
+        koopaBodyDef.position.set(pos.x, pos.y);
         Body koopaBody = world.createBody(koopaBodyDef);
+        Vector2[] koopaVect = new Vector2[4];
+        koopaVect[0] = new Vector2(-.5f,.5f);
+        koopaVect[1] = new Vector2(.5f,.5f);
+        koopaVect[2] = new Vector2(-.5f,-1f);
+        koopaVect[3] = new Vector2(.5f,-1f);
         PolygonShape koopaBox = new PolygonShape();
-        koopaBox.setAsBox(Conversions.convertToMeters(32) / 2.f, Conversions.convertToMeters(32) / 2.f);
+        koopaBox.set(koopaVect);
 
         FixtureDef koopafixtureDef = new FixtureDef();
         koopafixtureDef.shape = koopaBox;
@@ -29,17 +34,18 @@ public class EntityFactory {
         koopafixtureDef.restitution = 0; // Make it bounce a little bit
         koopaBody.createFixture(koopafixtureDef);
 
-        Texture koopaTexture = new Texture("badlogic.jpg");
+        Texture koopaTexture = new Texture("knight_6.png");
         KoopaKoopa koopa = new KoopaKoopa(koopaBody,eventHandler);
         koopa.sprite = new Sprite(koopaTexture);
         koopa.sprite.setPosition(pos.x, pos.y);
-        koopa.sprite.setSize(1,1);
+        koopa.sprite.setSize(2.f, 2.f);
+        koopa.sprite.setRegion(0,0,64,64);
 
         return koopa;
     }
 
     public static Player createPlayer(World world, Vector2 playerSpawnLocation) {
-        Vector2 playerDims = new Vector2(1.f, 1.f);
+        Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
         Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims).sub(.05f, .05f);
@@ -50,13 +56,18 @@ public class EntityFactory {
         playerBodyDef.position.set(playerCenter);
         playerBodyDef.linearDamping = 0f;
         Body playerBody = world.createBody(playerBodyDef);
+         Vector2[] playerVect = new Vector2[4];
+        playerVect[0] = new Vector2(-.5f,.5f);
+        playerVect[1] = new Vector2(.5f,.5f);
+        playerVect[2] = new Vector2(-.5f,-1f);
+        playerVect[3] = new Vector2(.5f,-1f);
         PolygonShape playerBox = new PolygonShape();
-        playerBox.setAsBox(playerBodyDims.x, playerBodyDims.y);
+        playerBox.set(playerVect);
 
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape = playerBox;
-        fixtureDef.density = 0.6f;
+        fixtureDef.density = 0.3f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);
@@ -74,11 +85,13 @@ public class EntityFactory {
 
 
         // create player
-        Texture playerTexture = new Texture("badlogic.jpg");
+        Texture playerTexture = new Texture("player.png");
         Player player = new Player(playerBody, inputController);
         player.sprite = new Sprite(playerTexture);
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);
+        player.sprite.setRegion(0,0,64,64);
+
 
 
         return player;

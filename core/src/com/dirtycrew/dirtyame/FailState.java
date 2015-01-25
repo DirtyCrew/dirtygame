@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * Created by Jared on 1/24/15.
  */
-public class FinishState implements IGameState {
+public class FailState implements IGameState {
 
     SpriteBatch hudBatch;
     OrthographicCamera hudCamera;
@@ -47,7 +47,7 @@ public class FinishState implements IGameState {
         hudBatch.setProjectionMatrix(hudCamera.projection);
         hudBatch.begin();
         font.setScale(0.5f);
-        font.draw(hudBatch, "Winner", 0, 0);
+        font.draw(hudBatch, "Fail", 0, 0);
         hudBatch.end();
     }
 

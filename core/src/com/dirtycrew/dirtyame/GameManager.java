@@ -8,6 +8,8 @@ import com.badlogic.gdx.Game;
 public class GameManager {
 
     public enum GameState {
+        Tutorial,
+        Config,
         Start,
         Play,
         Finish,
@@ -21,10 +23,10 @@ public class GameManager {
     int mapNumber;
 
     //Methods
-    public GameManager(Dirty game){
-        this.currentState = GameState.Start;
-        this.nextState = GameState.Start;
-        this.currentStateObj = new StartState(this, game);
+    public GameManager(Dirty game, GameState startState){
+        this.currentState = startState;
+        this.nextState = startState;
+        this.currentStateObj = getState(startState);
         this.game = game;
     }
 
@@ -47,24 +49,29 @@ public class GameManager {
         }
         nextState = state;
     }
+    private IGameState getState(GameState state) {
 
+        switch(nextState) {
+            case Tutorial:
+                return new TutorialState();
+            case Config:
+                return new ConfigState();
+            case Play:
+                return new PlayState(this, 180000, mapNumber);
+            case Start:
+                return new StartState(this, game);
+            case Finish:
+                return new FinishState();
+            case Fail:
+                return new FailState();
+        }
+        return null;
+    }
     public void update() {
         if(nextState != currentState) {
+            currentStateObj = getState(nextState);
             currentStateObj.shutdown();
-            switch(nextState) {
-                case Play:
-                    currentStateObj = new PlayState(this, 180000, mapNumber);
-                    break;
-                case Start:
-                    currentStateObj = new StartState(this, game);
-                    break;
-                case Finish:
-                    currentStateObj = new FinishState();
-                    break;
-                case Fail:
-                    currentStateObj = new FailState();
-                    break;
-            }
+
             currentStateObj.init(game);
             currentState = nextState;
         }

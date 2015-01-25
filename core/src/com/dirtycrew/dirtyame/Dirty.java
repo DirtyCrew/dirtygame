@@ -31,7 +31,7 @@ public class Dirty extends ApplicationAdapter {
 		} else {
 			Gdx.graphics.setDisplayMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, true);
 		}
-		gameManager = new GameManager(this);
+		gameManager = new GameManager(this, GameManager.GameState.Tutorial);
 	}
 
 	private void doUpdate() {

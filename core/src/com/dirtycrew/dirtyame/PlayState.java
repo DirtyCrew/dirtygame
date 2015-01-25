@@ -169,8 +169,6 @@ public class PlayState implements IGameState {
                     return;
                 }
 
-
-
                 Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
                 Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
                 if(e1 != player && e2 != player) {

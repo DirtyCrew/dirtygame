@@ -42,7 +42,7 @@ public class EntityFactory {
         Vector2 playerDims = new Vector2(1.f, 1.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
-        Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims);
+        Vector2 playerBodyDims = Conversions.convertToBox2DSize(playerDims).sub(.05f, .05f);
 
         // First we create a body definition
         BodyDef playerBodyDef = new BodyDef();
@@ -56,7 +56,7 @@ public class EntityFactory {
         FixtureDef fixtureDef = new FixtureDef();
 
         fixtureDef.shape = playerBox;
-        fixtureDef.density = 0.5f;
+        fixtureDef.density = 0.6f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = .001f; // Make it bounce a little bit
         Fixture fixture = playerBody.createFixture(fixtureDef);

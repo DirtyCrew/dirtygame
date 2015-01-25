@@ -82,11 +82,18 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     // cant control tilemap sprite positions, so need to center body def so so thats its bottom left corner is the prigin
                     playerBodyDef.position.set(tilePos.add(new Vector2(tileMeterDims.x / 2.f, tileMeterDims.y / 2.f)));
                     Body groundBody = world.createBody(playerBodyDef);
-                    PolygonShape groundBox = new PolygonShape();
-                    groundBox.setAsBox(tileBodyDims.x, tileBodyDims.y);
+                    //PolygonShape groundBox = new PolygonShape();
+                    Vector2 ll = new Vector2(0 - tileBodyDims.x,0 - tileBodyDims.y);
+                    Vector2 lr = new Vector2(tileBodyDims.x,0 - tileBodyDims.y);
+                    Vector2 ur = new Vector2(tileBodyDims.x, tileBodyDims.y);
+                    Vector2 ul = new Vector2(0 - tileBodyDims.x, tileBodyDims.y);
+                   // groundBox.setAsBox(tileBodyDims.x, tileBodyDims.y);
+                    //Bottom
+                    EdgeShape es = new EdgeShape();
+                    es.set(ll,lr);
 
                     FixtureDef fixtureDef = new FixtureDef();
-                    fixtureDef.shape = groundBox;
+                    fixtureDef.shape = es;
                     fixtureDef.density = 0.0f;
                     fixtureDef.friction = 0.0f;
                     if (isBouncy){
@@ -96,6 +103,29 @@ public class EugenesAmazingBetterThanBrandonsMap {
                     }
                     groundBody.createFixture(fixtureDef);
                     groundBody.setUserData(tile);
+
+                    //Top
+                    es.set(ur,ul);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    //Left
+                    es.set(ul,ll);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    //Right
+                    es.set(lr,ur);
+
+                    fixtureDef.shape = es;
+                    groundBody.createFixture(fixtureDef);
+                    groundBody.setUserData(tile);
+
+                    es.dispose();
 
                 }
             }

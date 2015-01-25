@@ -17,6 +17,10 @@ public class Player extends Entity {
     public Body body;
     public Sprite sprite;
     public boolean facingRight;
+    private static final int leftAnimate = 9;
+    private static final int rightAnimate = 11;
+    private int currentAnimateX = 0;
+    private int currentAnimateY = 0;
     private static final float SHOT_COOLDOWN = 500f;
     private static final float JUMP_IMPULSE = 8;
     private static final float MAX_HORIZONTAL_VELOCITY = 15;
@@ -49,6 +53,21 @@ public class Player extends Entity {
         if (deltaTime == 0) return;
 
         boolean stop = true;
+
+        if(body.getLinearVelocity().x > 1f || body.getLinearVelocity().x < -1f)
+        {
+            currentAnimateX += 1;
+            if (currentAnimateX == 9)
+            {
+                currentAnimateX = 0;
+            }
+        }
+        else
+        {
+            currentAnimateX = 0;
+        }
+
+
         if (inputController.isLeftPressed()) {
             if (body.getLinearVelocity().x >= MAX_HORIZONTAL_VELOCITY * -1) {
                 if (body.getLinearVelocity().x > 0){
@@ -65,7 +84,12 @@ public class Player extends Entity {
                 }
             }
             if (body.getLinearVelocity().x < 0){
+                if(facingRight)
+                {
+                    currentAnimateX = 0;
+                }
                 facingRight = false;
+
             }
             stop = false;
         }
@@ -112,8 +136,18 @@ public class Player extends Entity {
                 isAttacking = true;
             }
         }
+
+        if(facingRight)
+        {
+            currentAnimateY = rightAnimate;
+        }
+        else
+        {
+            currentAnimateY = leftAnimate;
+        }
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+        sprite.setRegion(currentAnimateX * 64,currentAnimateY * 64,64,64);
     }
     public boolean onGround(){
         return (body.getLinearVelocity().y == 0);
@@ -125,5 +159,10 @@ public class Player extends Entity {
 
     public void setAttacking(boolean attack) {
         this.isAttacking = attack;
+    }
+
+    private void setAnimation(Vector2 velocity, Vector2 lastVelocity)
+    {
+
     }
 }

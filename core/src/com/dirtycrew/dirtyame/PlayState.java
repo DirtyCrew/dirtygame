@@ -170,6 +170,8 @@ public class PlayState implements IGameState {
                 renderList.remove(at.sprite);
                 world.destroyBody(at.getBody());
                 entityList.remove(e);
+            } else {
+                continue;
             }
         }
         toRemove.clear();;
@@ -286,7 +288,9 @@ public class PlayState implements IGameState {
 
     @Override
     public void shutdown() {
-        killEntity(player);
+        for(Entity e : entityList) {
+            killEntity(e);
+        }
         cleanUpOrphans();
         entityList.clear();
     }

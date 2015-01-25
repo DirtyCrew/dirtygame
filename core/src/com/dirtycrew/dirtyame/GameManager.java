@@ -43,7 +43,6 @@ public class GameManager {
             switch(nextState) {
                 case Play:
                     currentStateObj = new PlayState(this, 180000);
-
                     break;
                 case Start:
                     currentStateObj = new StartState();

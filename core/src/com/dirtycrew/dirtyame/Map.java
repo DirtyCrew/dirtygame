@@ -31,12 +31,15 @@ public class Map implements IMap {
 
     public List<Vector2> monsterSpawnLocations = new ArrayList<Vector2>();
     public List<Vector2> beeSpawnLocations = new ArrayList<Vector2>();
+    public List<MovingPlatformData> movingPlatformSpawns = new ArrayList<MovingPlatformData>();
+
     public Vector2 playerSpawnLocation = new Vector2(0, 0);
 
     public static class Tile extends Entity {
         public int id;
         public boolean isDeath = false;
         public boolean isWin = false;
+        public boolean isBouncy = false;
         @Override
         public void update(float delta) {
             // noop
@@ -68,7 +71,13 @@ public class Map implements IMap {
                 Object collidableCell = properties.get("collidable");
                 String sc = properties.get("spawn", String.class);
                 Object deathTile = properties.get("death");
+                String movingString = properties.get("moving", String.class);
+                Integer moving = movingString != null ? Integer.valueOf(movingString) : null ;
+                String movementDurationString = properties.get("movementDuration", String.class);
+                Integer movementDuration = movementDurationString != null ? Integer.valueOf(movementDurationString) : 2000 ;
+                boolean oppositeStart = properties.get("oppositeStart") != null ? true : false ;
                 boolean isWin = properties.get("win") != null ? true : false;
+
 
                 Integer spawnCell = sc != null ? Integer.valueOf(sc) : null ;
 
@@ -82,6 +91,10 @@ public class Map implements IMap {
                         this.beeSpawnLocations.add(tilePos);
                     }
                 }
+                if (moving != null){
+                    MovingPlatformData data = new MovingPlatformData(tilePos, movementDuration, moving==1, oppositeStart);
+                    this.getMovingPlatformSpawns().add(data);
+                }
                 if(collidableCell != null){
                     Tile tile = new Tile();
                     if(deathTile != null) {
@@ -91,6 +104,9 @@ public class Map implements IMap {
                         tile.isWin = true;
                     }
                     tile.id = tileId;
+                    if (tile.id == Constants.MUSHROOM){
+                        tile.isBouncy = true;
+                    }
                     Vector2 tileBodyDims = Conversions.convertToBox2DSize(tileMeterDims);
 
                     BodyDef playerBodyDef = new BodyDef();
@@ -197,6 +213,8 @@ public class Map implements IMap {
     public List<Vector2> getBeeSpawnLocations(){
         return beeSpawnLocations;
     }
+
+    public List<MovingPlatformData> getMovingPlatformSpawns() { return movingPlatformSpawns; }
 
     public Vector2 getPlayerSpawnLocation(){
         return playerSpawnLocation;

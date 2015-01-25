@@ -264,6 +264,7 @@ public class PlayState implements IGameState {
                 entityList.remove(e);
             } else if (e instanceof Player) {
                 Player k = (Player) e;
+                k.musicCleanup();
                 renderList.remove(k.sprite);
                 world.destroyBody(k.body);
                 entityList.remove(e);
@@ -278,7 +279,12 @@ public class PlayState implements IGameState {
                 renderList.remove(bee.sprite);
                 world.destroyBody(bee.body);
                 entityList.remove(e);
-            } else {
+            } else if(e instanceof MovingPlatform) {
+                MovingPlatform platform = (MovingPlatform) e;
+                renderList.remove(platform.sprite);
+                world.destroyBody(platform.body);
+                entityList.remove(e);
+            }else {
                 continue;
             }
         }
@@ -342,6 +348,13 @@ public class PlayState implements IGameState {
             bee.body.setUserData(bee);
         }
 
+        for(MovingPlatformData data : map.getMovingPlatformSpawns()){
+            MovingPlatform platform = EntityFactory.createMovingPlatform(world,data,timer);
+            renderList.add(platform.sprite);
+            entityList.add(platform);
+            platform.body.setUserData(platform);
+        }
+
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         hudCamera.zoom += hudCameraZoom;//16
 
@@ -375,9 +388,11 @@ public class PlayState implements IGameState {
                                 ((KoopaKoopa) e1).decrementHitPoints();
                                 if(((KoopaKoopa) e1).isDead()) {
                                     killEntity(e1);
+                                    player.dieSound.play();
                                 }
                             } else {
                                 killEntity(e1);
+                                player.dieSound.play();
                             }
                         }
                         if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
@@ -385,9 +400,11 @@ public class PlayState implements IGameState {
                                 ((KoopaKoopa) e2).decrementHitPoints();
                                 if(((KoopaKoopa) e2).isDead()) {
                                     killEntity(e2);
+                                    player.dieSound.play();
                                 }
                             } else {
                                 killEntity(e2);
+                                player.dieSound.play();
                             }
                         }
                     }
@@ -402,6 +419,9 @@ public class PlayState implements IGameState {
                         }
                         else if (((Map.Tile) e).isWin) {
                             gameManager.changeState(GameManager.GameState.Finish);
+                        }
+                        else if (((Map.Tile) e).isBouncy){
+                            player.jumpSound.play();
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {
@@ -420,6 +440,7 @@ public class PlayState implements IGameState {
 
                         if(d > 0.50) {
                             killEntity(e);
+                            player.dieSound.play();
                             player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 2, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
 
                         } else {
@@ -460,10 +481,11 @@ public class PlayState implements IGameState {
 
         //Begin Music
         music.setLooping(true);
-        music.setVolume(50);
+        music.setVolume(35);
         volume = true;
         volumePressed = false;
         music.play();
+        player.emergingSound.play();
     }
 
     @Override

@@ -236,7 +236,7 @@ public class Player extends Entity {
 
     }
     public boolean onGround(){
-        return (body.getLinearVelocity().y == 0);
+        return (Math.abs(body.getLinearVelocity().y) < 0.001f);
     }
 
     public boolean isAttacking() {

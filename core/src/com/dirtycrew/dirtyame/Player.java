@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+
+import java.util.Random;
 //import com.sun.javafx.tools.packager.Log;
 
 /**
@@ -29,13 +31,24 @@ public class Player extends Entity {
     private boolean isAttacking;
     public Long lastAttackTime;
     public InputController inputController;
+    public BetterThanBrandonsTimer timer;
+    public Random random;
+    BetterThanBrandonsTimer.TimerListener listener = new BetterThanBrandonsTimer.TimerListener() {
+        @Override
+        public void onTimerExpired() {
+            DLog.debug("RANDOMIZEING");
+            inputController.randomizeControls();
+        }
+    };;
 
-
-    public Player (Body newBody, InputController newInputController) {
+    public Player (Body newBody, InputController newInputController, BetterThanBrandonsTimer timer) {
         body = newBody;
         inputController = newInputController;
         isAttacking = false;
         facingRight = true;
+        this.timer = timer;
+        random = new Random();
+        timer.startRecurringTimer(random.nextInt(1000) + 10000, listener);
     }
 
 

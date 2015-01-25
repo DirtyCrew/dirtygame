@@ -44,7 +44,7 @@ public class EntityFactory {
         return koopa;
     }
 
-    public static Player createPlayer(World world, Vector2 playerSpawnLocation) {
+    public static Player createPlayer(World world, Vector2 playerSpawnLocation, BetterThanBrandonsTimer timer) {
         Vector2 playerDims = new Vector2(2.f, 2.f);
         Vector2 playerCenter = new Vector2(playerSpawnLocation);
         Vector2 playerPos = Conversions.createSpritePosition(playerCenter, playerDims);
@@ -86,7 +86,7 @@ public class EntityFactory {
 
         // create player
         Texture playerTexture = new Texture("player.png");
-        Player player = new Player(playerBody, inputController);
+        Player player = new Player(playerBody, inputController, timer);
         player.sprite = new Sprite(playerTexture);
         player.sprite.setPosition(playerPos.x, playerPos.y);
         player.sprite.setSize(playerDims.x, playerDims.y);

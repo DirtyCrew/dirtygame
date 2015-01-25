@@ -44,7 +44,7 @@ public class EntityFactory {
         return koopa;
     }
 
-    public static Bee createBee(World world, Vector2 pos, EventHandler eventHandler) {
+    public static Bee createBee(World world, Vector2 pos, BetterThanBrandonsTimer timer) {
         //Creating Enemy
         BodyDef beeBodyDef = new BodyDef();
         beeBodyDef.fixedRotation = true;
@@ -68,12 +68,12 @@ public class EntityFactory {
         beeBody.createFixture(beefixtureDef);
 
         Texture beeTexture = new Texture("bee.png");
-        Bee bee = new Bee(beeBody,eventHandler);
+        Bee bee = new Bee(beeBody,timer);
         bee.sprite = new Sprite(beeTexture);
         bee.sprite.setPosition(pos.x, pos.y);
         bee.sprite.setSize(2.f, 2.f);
         bee.sprite.setRegion(0, 0, 80, 80);
-        bee.sprite.flip(true,false);
+        bee.sprite.flip(true, false);
 
         return bee;
     }
@@ -118,7 +118,9 @@ public class EntityFactory {
         }
 
         inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
-        inputController.randomizeControls();
+        if(Config.RANDOMIZE) {
+            inputController.randomizeControls();
+        }
 
         // create player
         Texture playerTexture = new Texture("player.png");

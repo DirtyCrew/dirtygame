@@ -267,7 +267,7 @@ public class PlayState implements IGameState {
         }
         //End Creating Enemy
         for(Vector2 pos : map.beeSpawnLocations) {
-            Bee bee = EntityFactory.createBee(game.world, pos, eventHandler);
+            Bee bee = EntityFactory.createBee(game.world, pos, timer);
             renderList.add(bee.sprite);
             entityList.add(bee);
             bee.body.setUserData(bee);

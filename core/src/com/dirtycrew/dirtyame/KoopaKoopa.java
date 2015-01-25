@@ -24,7 +24,7 @@ public class KoopaKoopa extends Entity {
     private boolean changeMovement = false;
     BetterThanBrandonsTimer timer2;
     Random random;
-    Vector2 lastPos = new Vector2();
+
 
     public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2)
     {
@@ -36,7 +36,6 @@ public class KoopaKoopa extends Entity {
         timer2.startRecurringRandomTimer(3000, 1000, new BetterThanBrandonsTimer.TimerListener() {
             @Override
             public void onTimerExpired() {
-                DLog.debug("Koopa changed direction");
                 changeMovement = !changeMovement;
             }
         });
@@ -62,7 +61,6 @@ public class KoopaKoopa extends Entity {
 
 
         if(roll == 1) {
-            DLog.debug("Skadoosh");
             if (body.getLinearVelocity().x > 0)  {
                 body.applyLinearImpulse(MAX_HORIZONTAL_VELOCITY,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
             }
@@ -82,12 +80,7 @@ public class KoopaKoopa extends Entity {
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
-//        DLog.debug("lastPos {} spritePos{}", lastPos, spritePos);
-//        if(lastPos.x - spritePos.x > -0.001f && lastPos.x - spritePos.x < 0.001f) {
-//            DLog.debug("Stuck {} {}" , body.getLinearVelocity(), body.getLinearVelocity().x * -8);
-//            body.applyLinearImpulse(body.getLinearVelocity().x * -8,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
-//        }
-        lastPos = spritePos;
+
 
     }
 

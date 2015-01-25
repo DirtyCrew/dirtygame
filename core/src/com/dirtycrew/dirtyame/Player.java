@@ -40,7 +40,6 @@ public class Player extends Entity {
     BetterThanBrandonsTimer.TimerListener listener = new BetterThanBrandonsTimer.TimerListener() {
         @Override
         public void onTimerExpired() {
-            DLog.debug("RANDOMIZING");
             inputController.randomizeControls();
         }
     };;
@@ -55,7 +54,9 @@ public class Player extends Entity {
         jumpAnimationY =  (jumpAnimate[1]);
         jumpAnimationX =  (jumpAnimate[0]);
 
-       timer.startRecurringRandomTimer(15000, 5000, listener);
+        if(Config.RANDOMIZE) {
+            timer.startRecurringRandomTimer(15000, 5000, listener);
+        }
     }
 
 

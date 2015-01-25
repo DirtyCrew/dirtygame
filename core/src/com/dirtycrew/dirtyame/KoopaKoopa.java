@@ -61,89 +61,90 @@ public class KoopaKoopa extends Entity {
 
     @Override
     public void update(float delta) {
-        int roll = random.nextInt(100);
-        int roll2 = random.nextInt(250);
-        if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement) {
 
-          //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
-            body.applyLinearImpulse(-HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
-
-        }
-        else if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY && !changeMovement)
-        {
-            //body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
-            body.applyLinearImpulse(HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
-        }
-
-
-
-        if(roll == 1) {
-            if (body.getLinearVelocity().x > 0)  {
-                body.applyLinearImpulse(MAX_HORIZONTAL_VELOCITY,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
-            }
-            else if (body.getLinearVelocity().x < 0)
-            {
-                body.applyLinearImpulse(-MAX_HORIZONTAL_VELOCITY,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
-            }
-
-            if(random.nextInt(50) == 1) {
-                body.applyLinearImpulse(0f,8,body.getLocalCenter().x, body.getLocalCenter().y, true);
-            }
-        }
-
-        if(roll2 == 1) {
-            body.applyLinearImpulse(0f,8,body.getLocalCenter().x, body.getLocalCenter().y, true);
-        }
-
+//        int roll = random.nextInt(100);
+//        int roll2 = random.nextInt(250);
+//        if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement) {
+//
+//          //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
+//            body.applyLinearImpulse(-HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
+//
+//        }
+//        else if (body.getLinearVelocity().x < MAX_HORIZONTAL_VELOCITY && !changeMovement)
+//        {
+//            //body.applyForceToCenter(HORIZONTAL_FORCE, 0.0f, true);
+//            body.applyLinearImpulse(HORIZONTAL_FORCE,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
+//        }
+//
+//
+//
+//        if(roll == 1) {
+//            if (body.getLinearVelocity().x > 0)  {
+//                body.applyLinearImpulse(MAX_HORIZONTAL_VELOCITY,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
+//            }
+//            else if (body.getLinearVelocity().x < 0)
+//            {
+//                body.applyLinearImpulse(-MAX_HORIZONTAL_VELOCITY,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
+//            }
+//
+//            if(random.nextInt(50) == 1) {
+//                body.applyLinearImpulse(0f,8,body.getLocalCenter().x, body.getLocalCenter().y, true);
+//            }
+//        }
+//
+//        if(roll2 == 1) {
+//            body.applyLinearImpulse(0f,8,body.getLocalCenter().x, body.getLocalCenter().y, true);
+//        }
+//
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
-
-        final int framesPerImage = 10;
-        int imageWidth = 70;
-        int imageHeight = 90;
-        int rowNumber = 3;
-        if (body.getLinearVelocity().x == 0) {
-            walkingFrame = 0;
-        } else if (walkingFrame == 0){
-            walkingFrame = 1;
-        }
-        if(walkingFrame > 0){
-            if (walkingFrame <= framesPerImage*1) {
-                sprite.setRegion(0 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            } else if (walkingFrame <= framesPerImage*2) {
-                sprite.setRegion(1 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            } else if (walkingFrame <= framesPerImage*3) {
-                sprite.setRegion(2 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            } else if (walkingFrame <= framesPerImage*4) {
-                sprite.setRegion(3 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            }
-            else if (walkingFrame <= framesPerImage*5) {
-                sprite.setRegion(4 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            }
-            else if (walkingFrame <= framesPerImage*6) {
-                sprite.setRegion(5 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            }
-            else if (walkingFrame <= framesPerImage*7) {
-                sprite.setRegion(6 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            }
-            else if (walkingFrame <= framesPerImage*8) {
-                sprite.setRegion(7 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
-                walkingFrame++;
-            }
-            if (body.getLinearVelocity().x > 0){
-                sprite.flip(true,false);
-            }
-            if (walkingFrame == framesPerImage*8+1){
-                walkingFrame = 1;
-            }
-        }
+//
+//        final int framesPerImage = 10;
+//        int imageWidth = 70;
+//        int imageHeight = 90;
+//        int rowNumber = 3;
+//        if (body.getLinearVelocity().x == 0) {
+//            walkingFrame = 0;
+//        } else if (walkingFrame == 0){
+//            walkingFrame = 1;
+//        }
+//        if(walkingFrame > 0){
+//            if (walkingFrame <= framesPerImage*1) {
+//                sprite.setRegion(0 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            } else if (walkingFrame <= framesPerImage*2) {
+//                sprite.setRegion(1 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            } else if (walkingFrame <= framesPerImage*3) {
+//                sprite.setRegion(2 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            } else if (walkingFrame <= framesPerImage*4) {
+//                sprite.setRegion(3 * imageWidth, rowNumber * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            }
+//            else if (walkingFrame <= framesPerImage*5) {
+//                sprite.setRegion(4 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            }
+//            else if (walkingFrame <= framesPerImage*6) {
+//                sprite.setRegion(5 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            }
+//            else if (walkingFrame <= framesPerImage*7) {
+//                sprite.setRegion(6 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            }
+//            else if (walkingFrame <= framesPerImage*8) {
+//                sprite.setRegion(7 * imageWidth, 1 * imageHeight, imageWidth, imageHeight);
+//                walkingFrame++;
+//            }
+//            if (body.getLinearVelocity().x > 0){
+//                sprite.flip(true,false);
+//            }
+//            if (walkingFrame == framesPerImage*8+1){
+//                walkingFrame = 1;
+//            }
+//        }
     }
 
 }

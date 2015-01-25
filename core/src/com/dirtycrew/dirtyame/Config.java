@@ -5,5 +5,5 @@ package com.dirtycrew.dirtyame;
  */
 public class Config {
     public static boolean FULLSCREEN = false;
-    public static boolean RANDOMIZE = false;
+
 }

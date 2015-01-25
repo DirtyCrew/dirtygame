@@ -33,6 +33,7 @@ public class PlayState implements IGameState {
     SpriteBatch hudBatch;
     Map map;
     World world;
+    BetterThanBrandonsTimer timer;
 
     EventHandler eventHandler;
 
@@ -49,6 +50,8 @@ public class PlayState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
+        timer.update(delta);
+
         cleanUpOrphans();
 
         deathTimer.update();
@@ -106,7 +109,7 @@ public class PlayState implements IGameState {
         hudBatch.end();
     }
 
-    Attack createAttack(World world, Player player) {
+    Attack createAttack(World world, Player playemr) {
         //Creating Enemy
         BodyDef attackBodyDef = new BodyDef();
         attackBodyDef.fixedRotation = true;
@@ -125,7 +128,7 @@ public class PlayState implements IGameState {
         attackBody.createFixture(attackfixtureDef);
 
         Texture attackTexture = new Texture("badlogic.jpg");
-        Attack attack = new Attack(attackBody,eventHandler);
+        Attack attack = new Attack(attackBody, timer);
         attack.sprite = new Sprite(attackTexture);
         attack.sprite.setPosition(attackBody.getPosition().x, attackBody.getPosition().y);
         attack.sprite.setSize(.2f,.2f);
@@ -149,6 +152,11 @@ public class PlayState implements IGameState {
                 renderList.remove(k.sprite);
                 world.destroyBody(k.body);
                 entityList.remove(e);
+            } else if(e instanceof Attack) {
+                Attack at = (Attack) e;
+                renderList.remove(at.sprite);
+                world.destroyBody(at.getBody());
+                entityList.remove(e);
             }
         }
         toRemove.clear();;
@@ -160,6 +168,7 @@ public class PlayState implements IGameState {
 
     @Override
     public void init(final Dirty game) {
+        timer = new BetterThanBrandonsTimer();
         world = game.world;
         eventHandler = new EventHandler();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);

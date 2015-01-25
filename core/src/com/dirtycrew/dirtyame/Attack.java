@@ -18,26 +18,24 @@ public class Attack extends Entity {
     public static final int SHOT_HEIGHT = 10;
 
     private boolean changeMovement = false;
-    EventHandler eventHandler;
-    Timer timer;
 
-
-    public Attack(Body body, EventHandler e)
+    public Attack(Body body, BetterThanBrandonsTimer timer)
     {
         this.body = body;
-        eventHandler = e;
-        EventHandler.Event event = new EventHandler.Event();
-        event.setState("Timer");
-        Listener listener = new Listener();
-        e.subscribe(event, listener);
-        timer = new Timer(SHOT_DURATION_MILLE, eventHandler,event);
+
+        timer.startTimer(SHOT_DURATION_MILLE, new BetterThanBrandonsTimer.TimerListener() {
+            @Override
+            public void onTimerExpired() {
+                destroy = true;
+            }
+        });
+
         destroy = false;
     }
 
     @Override
     public void update(float delta)
     {
-        timer.update();
         if (body.getLinearVelocity().x == 0) {
             body.applyForceToCenter(SHOT_VELOCITY, 0, true);
         }
@@ -45,15 +43,6 @@ public class Attack extends Entity {
         sprite.setPosition(spritePos.x, spritePos.y);
 
     }
-
-    private class Listener implements EventHandler.EventListener{
-
-        @Override
-        public void onEvent(EventHandler.Event e)
-        {
-            destroy = true;
-        }
-    };
 
     public Body getBody() {
         return body;

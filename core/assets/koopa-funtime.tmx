@@ -18,21 +18,45 @@
     <property name="collidable" value="1"/>
    </properties>
   </tile>
+  <tile id="280">
+   <properties>
+    <property name="win" value="1"/>
+   </properties>
+  </tile>
+  <tile id="291">
+   <properties>
+    <property name="spawn3" value=""/>
+   </properties>
+  </tile>
   <tile id="320">
    <properties>
     <property name="spawn" value="2"/>
     <property name="time" value=""/>
    </properties>
   </tile>
+  <tile id="330">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="death" value="1"/>
+   </properties>
+  </tile>
+  <tile id="354">
+   <properties>
+    <property name="win" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1bFtAjEUxnFTkSJkiKuTJmSI9AyBIiRKGCWCCbJDJsgoMEHK2AIrxnr4bLjjGfgj/Qqw7868z37XDIxpAAAAAAAAAAAAAAAAAAAAgI7NrHdTh3kF9dA2tXX4qMTM6NcDANCfX/o87oTb6/4jjaWuHe65ecNBOe3/fkmboJYPJ/YXd49QSa1zrtGuUZ+2Uc2l/Z6TS2792vJInRk/pl2zrjxaK3NolDFHmhdn6HMs7TWlZ+CW8ni2JpEX68v8e7Xfx4Jv4Yz8mJ3UM33/OSeDa7M2ecYXziP1HsnJMHRsrtRftUn1k0yE30ryaMs77nFt45Kc+8Z99KmCDErz8OdBymMZOJaH8ybI3Qt9cetfVKSLPD4DqTxStLKJ169Ne38CAAAAffoDGppA1w==
+   eJztm0tOwzAQQJ1KqEWiB2DbVZHKBhC/ExS2lfgdBI7QI1SwhA134AQcBU6BrdbKdBjHaRrbk3oWTwKaxmaePTMOdFQoNRJaY6I5ZjCP3DjRnDoQHzx8zCL4OO8pdaG51FxprnvpY8EB62MGPMTwcafjf6950Dxqnlr2kdL3NmOn8hGa0L5DjZ0qXwluH3hviA8+PmR/pPcBHYiP9D6gCw7nj5x7YY4+tulPuLhsOg/sA37dxXyVss9tYx7QB67rXfQRmtD7D9fzXPrdpnENvf9gv5vT/uCS11w+8B4J5YNLveUK3h/Yx0Cz3+J4XNclF3zn87Z9CNVMiv99rvgQH4L44IjPx1hzFGku0nstfeB6bp0YH1PNTaS5NOm9ODlsYy4+H6nXSwiHnOfSdR+7AKzR0Ad+hpWrj1+1Tgwf1gm1P7r6PBHHkRNV8x4XZd+EfXT5eWLqmDdxYZgWZd+E81Uuz9t9xOzbrAuD6/99cq4fhqa90rYe7XkQ1o5QPjidFd51HvkIUKu37Xmxj5D9bt25xvYWq4+qswaovw+mzlcxz3hNanCovWVw7Y+u1vOqmPpi319hf94vNiMnHz8gboOKtWnjOyeuMfcwUPkQxxY7s+/N1Qdctya2FnhNlRdzrc0rOG5UPoSvU+/znTEoH03yGgcfB5pXtc6wxjXUddDHXrHEt66pWNa5Due6Xdkf1JnUjP2pSlyfc/wi1t+3WjJX63lutPIzKsr8s6mDGLEI5eNN1QOfe9ry4ZqXdUHVBLj2cb3H78M+XXuHiw/XfamzDjV2XR8+3zjH+V6nqHPfTTG59rYoc/GQgQ/4rAaP/QKo+lz2GUHdtZCS45WPCfje5+O5IW34WACqfFTB2Q3lYxGI1L9rFzDxP0Q+Us9JWPeTeg6C+OCK+OCF+OCF+OBFSB9/ymXF2A==
   </data>
  </layer>
- <layer name="Tile Layer 2" width="100" height="50" opacity="0.25">
+ <layer name="Tile Layer 2" width="100" height="50" opacity="0">
+  <properties>
+   <property name="spawn" value="3"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztmk0OgyAUBunRev4uuFIXboQYfxB8QzuTEBeCvnwTVAw5pZRtt1vqfC1pp1eW+mChDxb6YKEPFvpgoQ8W+mChDxb6YKEPFvpgoQ8W+mChDxb6YKEPFvpgoQ8W+mChDxb6OM/onHJ1lFj0wUIfJdE56KMkOgd9lETnEL1fNHq/LXHfLKUOAoQcZvPxfo27NiGH2XyMhJDDbD7qWnvOF0IOs/kYCSGH6O+rlnNH/fbmzN65f/Ex8h3ck2gfv7oebJ130TnUPj4nxxyto1rXW5Q8ou9/pY6tvls+zo4lEV3f2sedfwqz+6A8t3vVccUHte3V/TRP+aCiDxak/7uyQPJBqUMW9MFCHyz0wUIfLPTB4gus9BA3
+   eJztmk0SgjAMRssx3Lv0Eq49oWdywTm8heNKZPqTtEn5Sr83k4UILeS1sYBrCGFlNEcwbovoSHmwapPo8MgdfdTjkTf6qIc+sKAPLOgDC/rAgj6woA8s6AML+sCCPrCgDyzoQ8Z16dMPfWBBH1jM7sOiDlnWstl9oEEfWNAHFjP6uGfqfe67Hni8O/dodxboAwv6aKNU37RrYfrAgj6w8PovHJqP1nWT5viWvmZc78botc4t/Z7M5COVC0sXrc+yZvKxpeYce7wDObOP2nHvVbskeTmzDy8sr2/vnj5kfPOWmjeW82lUH0c/95OiPc8z3w/Wjgur8VTTjrePl/CYWEj2KZ3/W9C/N5o5Yl1bauZHbN+YD+mxOXrUudb7cy8fmki1k/pc2j4qCPMj107q83b7yPGMbEtxO/C5mNTHyOzHbukaj/bxWH4xi4/tNVsGKfPN/2X596FZO2r7Inn2effMGX3ooQ8s6AML+sCCPrDwzNkHMCEw9g==
   </data>
  </layer>
 </map>

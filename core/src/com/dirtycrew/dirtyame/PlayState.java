@@ -357,7 +357,7 @@ public class PlayState implements IGameState {
         }
 
         for(MovingPlatformData data : map.getMovingPlatformSpawns()){
-            MovingPlatform platform = EntityFactory.createMovingPlatform(world,data,timer);
+            MovingPlatform platform = EntityFactory.createMovingPlatform(world, data, timer);
             renderList.add(platform.sprite);
             entityList.add(platform);
             platform.body.setUserData(platform);
@@ -396,11 +396,23 @@ public class PlayState implements IGameState {
                                 ((KoopaKoopa) e1).decrementHitPoints();
                                 if(((KoopaKoopa) e1).isDead()) {
                                     killEntity(e1);
-                                    player.dieSound.play();
+                                    if(player.dieSound.isPlaying()){
+                                        player.dieSound.stop();
+                                        player.dieSound.play();
+                                    }
+                                    else {
+                                        player.dieSound.play();
+                                    }
                                 }
                             } else {
                                 killEntity(e1);
-                                player.dieSound.play();
+                                if(player.dieSound.isPlaying()){
+                                    player.dieSound.stop();
+                                    player.dieSound.play();
+                                }
+                                else {
+                                    player.dieSound.play();
+                                }
                             }
                         }
                         if (e2 instanceof KoopaKoopa || e2 instanceof Bee){
@@ -408,11 +420,23 @@ public class PlayState implements IGameState {
                                 ((KoopaKoopa) e2).decrementHitPoints();
                                 if(((KoopaKoopa) e2).isDead()) {
                                     killEntity(e2);
-                                    player.dieSound.play();
+                                    if(player.dieSound.isPlaying()){
+                                        player.dieSound.stop();
+                                        player.dieSound.play();
+                                    }
+                                    else {
+                                        player.dieSound.play();
+                                    }
                                 }
                             } else {
                                 killEntity(e2);
-                                player.dieSound.play();
+                                if(player.dieSound.isPlaying()){
+                                    player.dieSound.stop();
+                                    player.dieSound.play();
+                                }
+                                else {
+                                    player.dieSound.play();
+                                }
                             }
                         }
                     }
@@ -429,7 +453,14 @@ public class PlayState implements IGameState {
                             gameManager.changeState(GameManager.GameState.Finish);
                         }
                         else if (((Map.Tile) e).isBouncy){
-                            player.jumpSound.play();
+                            if(player.jumpSound.isPlaying()){
+                                player.jumpSound.stop();
+                                player.jumpSound.play();
+                            }
+                            else{
+                                player.jumpSound.play();
+                            }
+
                         }
 
                     } else if(e instanceof KoopaKoopa ||e instanceof Bee) {

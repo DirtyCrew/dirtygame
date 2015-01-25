@@ -1,6 +1,7 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,7 +34,12 @@ public class FailState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta){
-
+        if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            game.gameManager.changeState(GameManager.GameState.Start);
+        } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            game.gameManager.changeState(GameManager.GameState.Play, game.map);
+        }
+        
     }
 
     @Override

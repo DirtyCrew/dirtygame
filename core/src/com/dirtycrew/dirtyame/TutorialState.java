@@ -1,6 +1,7 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class TutorialState implements IGameState  {
     long start;
-    long duration = 3000;
+    long duration = 10000;
     OrthographicCamera titleCamera;
     SpriteBatch titleBatch;
 
@@ -35,7 +36,7 @@ public class TutorialState implements IGameState  {
 
     @Override
     public void update(Dirty game, float delta) {
-        if(System.currentTimeMillis() - start >= duration) {
+        if(System.currentTimeMillis() - start >= duration || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             game.gameManager.changeState(GameManager.GameState.Config);
         }
     }

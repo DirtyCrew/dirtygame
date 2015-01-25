@@ -56,18 +56,22 @@ public class StartState implements IGameState {
     @Override
     public void update(Dirty game, float delta){
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+            game.setMap(1);
             gameManager.changeState(GameManager.GameState.Play, 1);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+            game.setMap(2);
             gameManager.changeState(GameManager.GameState.Play, 2);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+            game.setMap(3);
             gameManager.changeState(GameManager.GameState.Play, 3);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+            game.setMap(4);
             gameManager.changeState(GameManager.GameState.Play, 4);
         }
 

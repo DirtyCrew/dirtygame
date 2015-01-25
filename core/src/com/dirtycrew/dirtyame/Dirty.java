@@ -22,12 +22,18 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Dirty extends ApplicationAdapter {
 	SpriteBatch batch;
 	GameManager gameManager;
+	int map = 0;
 
 	int numPlayers = 1;
 
-	public void setNumPlayers(int players) {
 
+	public void setMap(int map) {
+		this.map = map;
 	}
+	public void setNumPlayers(int players) {
+		numPlayers = players;
+	}
+
 
 	@Override
 	public void create () {

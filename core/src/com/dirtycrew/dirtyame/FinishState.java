@@ -1,6 +1,7 @@
 package com.dirtycrew.dirtyame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,9 +21,7 @@ public class FinishState implements IGameState {
     public void init(Dirty game){
         font = new BitmapFont();
         font.setColor(Color.RED);
-
         hudBatch = new SpriteBatch();
-
         hudCamera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
     }
 
@@ -33,7 +32,11 @@ public class FinishState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta){
-
+        if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            game.gameManager.changeState(GameManager.GameState.Start);
+        } else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            game.gameManager.changeState(GameManager.GameState.Play, game.map);
+        }
     }
 
     @Override

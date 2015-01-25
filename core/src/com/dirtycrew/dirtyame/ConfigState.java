@@ -23,12 +23,12 @@ public class ConfigState implements IGameState {
 
     @Override
     public void update(Dirty game, float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)){
             game.setNumPlayers(1);
             game.gameManager.changeState(GameManager.GameState.Start);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
             game.setNumPlayers(2);
             game.gameManager.changeState(GameManager.GameState.Start);
         }

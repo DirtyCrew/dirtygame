@@ -22,22 +22,14 @@ public class KoopaKoopa extends Entity {
     public static final int PLAYER_WIDTH = 50;
     public static final int PLAYER_HEIGHT = 50;
     private boolean changeMovement = false;
-    EventHandler eventHandler;
-    Timer timer;
     BetterThanBrandonsTimer timer2;
     Random random;
+    Vector2 lastPos = new Vector2();
 
-    public KoopaKoopa(Body body, EventHandler e, BetterThanBrandonsTimer timer2)
+    public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2)
     {
         random = new Random();
         this.body = body;
-        //eventHandler = e;
-        //KoopaTimedEvent event = new KoopaTimedEvent();
-        //event.setState("Timer");
-        //Listener listener = new Listener();
-        //e.subscribe(event, listener);
-
-        //timer = new Timer(new Random().nextInt(10000) + 1000,eventHandler,event);
         changeMovement = !changeMovement;
 
         this.timer2 = timer2;
@@ -45,9 +37,7 @@ public class KoopaKoopa extends Entity {
             @Override
             public void onTimerExpired() {
                 DLog.debug("Koopa changed direction");
-                if(random.nextInt(4) == 1) {
-                    changeMovement = !changeMovement;
-                }
+                changeMovement = !changeMovement;
             }
         });
 
@@ -92,20 +82,13 @@ public class KoopaKoopa extends Entity {
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));
         sprite.setPosition(spritePos.x, spritePos.y);
+//        DLog.debug("lastPos {} spritePos{}", lastPos, spritePos);
+//        if(lastPos.x - spritePos.x > -0.001f && lastPos.x - spritePos.x < 0.001f) {
+//            DLog.debug("Stuck {} {}" , body.getLinearVelocity(), body.getLinearVelocity().x * -8);
+//            body.applyLinearImpulse(body.getLinearVelocity().x * -8,0, body.getLocalCenter().x,body.getLocalCenter().y,true);
+//        }
+        lastPos = spritePos;
 
     }
 
-
-    private class KoopaTimedEvent extends EventHandler.Event{
-
-    }
-
-    private class Listener implements EventHandler.EventListener{
-
-        @Override
-        public void onEvent(EventHandler.Event e)
-        {
-            changeMovement = !changeMovement;
-        }
-    };
 }

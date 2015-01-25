@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public class EntityFactory {
 
-    public static KoopaKoopa createKoopaKoopa(World world, Vector2 pos, EventHandler eventHandler, BetterThanBrandonsTimer timer) {
+    public static KoopaKoopa createKoopaKoopa(World world, Vector2 pos, EventHandler eventHandler, BetterThanBrandonsTimer timer, boolean jumpyKoopas) {
         //Creating Enemy
         BodyDef koopaBodyDef = new BodyDef();
         koopaBodyDef.fixedRotation = true;
@@ -35,7 +35,7 @@ public class EntityFactory {
         koopaBody.createFixture(koopafixtureDef);
 
         Texture koopaTexture = new Texture("knight_6.png");
-        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer, 2);
+        KoopaKoopa koopa = new KoopaKoopa(koopaBody, timer, 2, jumpyKoopas);
         koopa.sprite = new Sprite(koopaTexture);
         koopa.sprite.setPosition(pos.x, pos.y);
         koopa.sprite.setSize(2.f, 2.f);

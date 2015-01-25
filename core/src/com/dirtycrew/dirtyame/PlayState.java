@@ -221,6 +221,21 @@ public class PlayState implements IGameState {
         BitmapFont.TextBounds playerControlBoundsAttack = playerControlFont.getBounds(attack);
 
         float playerControlHeight = (-(Constants.VIEWPORT_HEIGHT / 2.0f) * hudCameraZoom) + playerControlBoundsJump.height;
+
+        Texture controlBorder = new Texture("white_square.png");
+        hudBatch.draw(controlBorder,
+                -(Constants.SCREEN_WIDTH / 2.0f) - 10,
+                -(Constants.SCREEN_HEIGHT / 2) - 10,
+                Constants.SCREEN_WIDTH + 20,
+                playerControlBoundsJump.height + 20);
+
+        controlBorder = new Texture("blackbox.jpeg");
+        hudBatch.draw(controlBorder,
+                (-(Constants.VIEWPORT_WIDTH / 2.0f) * hudCameraZoom),
+                -(Constants.SCREEN_HEIGHT / 2),
+                Constants.SCREEN_WIDTH,
+                playerControlBoundsJump.height);
+
         InputSet first = player.inputController.inputSets.get(0);
         InputSet second = player.inputController.inputSets.get(1);
         playerControlFont.setColor(first.isJumpActive() ? Color.GREEN : Color.RED);
@@ -347,6 +362,7 @@ public class PlayState implements IGameState {
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
+        boolean jumpyKoopas = false;
         //Setting the correct level
         DLog.debug("MpaNumber: {}", mapNumber);
         switch (this.mapNumber){
@@ -360,6 +376,7 @@ public class PlayState implements IGameState {
             }
             case 3:{
                 map = new EugenesAmazingBetterThanBrandonsMap("koopa-funtime.tmx", world);
+                jumpyKoopas = true;
                 break;
             }
             case 4:{
@@ -376,7 +393,7 @@ public class PlayState implements IGameState {
 
         //End Creating Enemy
         for(Vector2 pos : map.getMonsterSpawnLocations()) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer);
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer, jumpyKoopas);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);
@@ -511,16 +528,8 @@ public class PlayState implements IGameState {
                         float d =  l.dot(down);
                         DLog.debug("{}", d);
                         if(d >= 0.75f) {
-                            if(e instanceof  KoopaKoopa) {
-                                ((KoopaKoopa) e).decrementHitPoints();
-                                if(((KoopaKoopa) e).isDead()) {
-                                    killEntity(e);
-                                    player.dieSound.play();
-                                }
-                            } else {
-                                killEntity(e);
-                                player.dieSound.play();
-                            }
+                            killEntity(e);
+                            player.dieSound.play();
 
                             player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 1.5f, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
 

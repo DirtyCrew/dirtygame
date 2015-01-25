@@ -71,7 +71,7 @@ public class EntityFactory {
         Bee bee = new Bee(beeBody,timer);
         bee.sprite = new Sprite(beeTexture);
         bee.sprite.setPosition(pos.x, pos.y);
-        bee.sprite.setSize(2.f, 2.f);
+        bee.sprite.setSize(1.5f, 1.5f);
         bee.sprite.setRegion(0, 0, 80, 80);
         bee.sprite.flip(true, false);
 

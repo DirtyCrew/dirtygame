@@ -26,12 +26,13 @@ public class KoopaKoopa extends Entity {
     Random random;
     private int walkingFrame;
     private int totalHitPoints = 1;
+    private boolean isSuperJumpy;
 
 
-
-    public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2, int totalHitPoints) {
+    public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2, int totalHitPoints, boolean superJumpy) {
         this(body, timer2);
         this.totalHitPoints = totalHitPoints;
+        this.isSuperJumpy = superJumpy;
 
     }
     public KoopaKoopa(Body body, BetterThanBrandonsTimer timer2)
@@ -41,7 +42,7 @@ public class KoopaKoopa extends Entity {
         //changeMovement = !changeMovement;
 
         this.timer2 = timer2;
-        timer2.startRecurringRandomTimer(3000, 1000, new BetterThanBrandonsTimer.TimerListener() {
+        timer2.startRecurringRandomTimer(3000, 500, new BetterThanBrandonsTimer.TimerListener() {
             @Override
             public void onTimerExpired() {
                 changeMovement = !changeMovement;
@@ -62,7 +63,14 @@ public class KoopaKoopa extends Entity {
     @Override
     public void update(float delta) {
         int roll = random.nextInt(100);
-        int roll2 = random.nextInt(250);
+        int roll2 = 0;
+        if(isSuperJumpy) {
+            roll2 = random.nextInt(50);
+            roll = random.nextInt(50);
+        } else {
+            roll2 = random.nextInt(250);
+        }
+
         if (body.getLinearVelocity().x > MAX_HORIZONTAL_VELOCITY * -1 && changeMovement) {
 
           //  body.applyForceToCenter(-HORIZONTAL_FORCE, 0.0f, true);
@@ -92,7 +100,7 @@ public class KoopaKoopa extends Entity {
         }
 
         if(roll2 == 1) {
-            body.applyLinearImpulse(0f,8,body.getLocalCenter().x, body.getLocalCenter().y, true);
+            body.applyLinearImpulse(0f,6 * (random.nextInt(3) == 1 ? -1 : 1),body.getLocalCenter().x, body.getLocalCenter().y, true);
         }
 
         Vector2 spritePos = Conversions.createSpritePosition(body.getPosition(), new Vector2(sprite.getWidth(), sprite.getHeight()));

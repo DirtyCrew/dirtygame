@@ -362,6 +362,7 @@ public class PlayState implements IGameState {
         camera.position.set(camera.viewportWidth / 2.f, camera.viewportHeight / 2.f, 0);
         camera.update();
 
+        boolean jumpyKoopas = false;
         //Setting the correct level
         DLog.debug("MpaNumber: {}", mapNumber);
         switch (this.mapNumber){
@@ -375,10 +376,11 @@ public class PlayState implements IGameState {
             }
             case 3:{
                 map = new EugenesAmazingBetterThanBrandonsMap("koopa-funtime.tmx", world);
+                jumpyKoopas = true;
                 break;
             }
             case 4:{
-                map = new Map("Lonely_Trees.tmx", world);
+                map = new EugenesAmazingBetterThanBrandonsMap("Platform_Map.tmx", world);
                 break;
             }
         }
@@ -391,7 +393,7 @@ public class PlayState implements IGameState {
 
         //End Creating Enemy
         for(Vector2 pos : map.getMonsterSpawnLocations()) {
-            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer);
+            KoopaKoopa koopaKoopa = EntityFactory.createKoopaKoopa(world, pos, eventHandler, timer, jumpyKoopas);
             renderList.add(koopaKoopa.sprite);
             entityList.add(koopaKoopa);
             koopaKoopa.body.setUserData(koopaKoopa);
@@ -526,16 +528,8 @@ public class PlayState implements IGameState {
                         float d =  l.dot(down);
                         DLog.debug("{}", d);
                         if(d >= 0.75f) {
-                            if(e instanceof  KoopaKoopa) {
-                                ((KoopaKoopa) e).decrementHitPoints();
-                                if(((KoopaKoopa) e).isDead()) {
-                                    killEntity(e);
-                                    player.dieSound.play();
-                                }
-                            } else {
-                                killEntity(e);
-                                player.dieSound.play();
-                            }
+                            killEntity(e);
+                            player.dieSound.play();
 
                             player.body.applyLinearImpulse(0f, player.JUMP_IMPULSE * 1.5f, player.body.getLocalCenter().x, player.body.getLocalCenter().y, true);
 
@@ -556,6 +550,9 @@ public class PlayState implements IGameState {
 //                            gameManager.changeState(GameManager.GameState.Fail);
 //                        }
 
+                    } else if (e instanceof MovingPlatform){
+                        MovingPlatform plat = (MovingPlatform)e;
+                        player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x*.8f, player.body.getLinearVelocity().y);
                     }
                 }
             }
@@ -571,6 +568,24 @@ public class PlayState implements IGameState {
 
             @Override
             public void postSolve(Contact contact, ContactImpulse impulse) {
+                if(contact.isTouching() == false) {
+                    return;
+                }
+
+                Entity e1 = (Entity)contact.getFixtureA().getBody().getUserData();
+                Entity e2 = (Entity)contact.getFixtureB().getBody().getUserData();
+                if(e1 == player || e2 == player) {
+                    Player p = e1 == player ? (Player) e1 : (Player) e2;
+                    Entity e = p == e1 ? e2 : e1;
+                    if (e1 == player || e2 == player) {
+                        if (e1 instanceof MovingPlatform || e2 instanceof MovingPlatform) {
+                            MovingPlatform plat = (MovingPlatform) e2;
+                            if (Math.abs(player.body.getLinearVelocity().x) < Math.abs(plat.body.getLinearVelocity().x)) {
+                                player.body.setLinearVelocity(player.body.getLinearVelocity().x + plat.body.getLinearVelocity().x * .8f, player.body.getLinearVelocity().y);
+                            }
+                        }
+                    }
+                }
 
             }
         });

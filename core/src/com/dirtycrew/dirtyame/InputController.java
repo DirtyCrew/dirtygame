@@ -26,7 +26,6 @@ public class InputController {
                 return false;
             }
         }
-        DLog.debug("Right pressed");
         return true;
     }
 

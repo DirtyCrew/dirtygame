@@ -76,7 +76,6 @@ public class BetterThanBrandonsTimer {
                 entry.getKey().onTimerExpired();
                 p.duration = new Random().nextInt(p.upper - p.lower) + p.lower;
                 p.start = System.currentTimeMillis();
-                DLog.debug("Next recurring timer in {}", p.duration);
             }
         }
 

@@ -141,19 +141,51 @@ public class EntityFactory {
         playerBody.setFixedRotation(true);
 
         final InputController inputController = new InputController();
+        //Controller 1
         if(Controllers.getControllers().size == 0)
         {
-            inputController.inputSets.add(new InputSet(Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S));
+            inputController.inputSets.add(new InputSet(
+                    Input.Keys.D,
+                    Input.Keys.A,
+                    Input.Keys.W,
+                    Input.Keys.S));
         }
-        else {
-            inputController.inputSets.add(new InputSet(Controllers.getControllers().first(), XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
-                    XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
+        else if(Controllers.getControllers().get(0).getName().equals(PS3Pad.ID)){
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().first(),
+                    PS3Pad.DPAD_RIGHT,
+                    PS3Pad.DPAD_LEFT,
+                    PS3Pad.BUTTON_CROSS,
+                    PS3Pad.BUTTON_CIRCLE));
         }
+        else if(Controllers.getControllers().get(0).getName().equals(XBox360Pad.ID)){
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().first(),
+                    XBox360Pad.DPAD_RIGHT,
+                    XBox360Pad.DPAD_LEFT,
+                    XBox360Pad.BUTTON_A,
+                    XBox360Pad.BUTTON_B));
+        }
+
+        //Controller 2
         if(Controllers.getControllers().size <= 1) {
-            inputController.inputSets.add(new InputSet(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN));
-        } else {
-            inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1) , XBox360Pad.DPAD_RIGHT, XBox360Pad.DPAD_LEFT,
-                    XBox360Pad.BUTTON_A, XBox360Pad.BUTTON_B));
+            inputController.inputSets.add(new InputSet(
+                    Input.Keys.RIGHT,
+                    Input.Keys.LEFT,
+                    Input.Keys.UP,
+                    Input.Keys.DOWN));
+        }
+        else if(Controllers.getControllers().get(1).getName().equals(PS3Pad.ID)) {
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1),
+                    PS3Pad.DPAD_RIGHT,
+                    PS3Pad.DPAD_LEFT,
+                    PS3Pad.BUTTON_CROSS,
+                    PS3Pad.BUTTON_CIRCLE));
+        }
+        else if(Controllers.getControllers().get(0).getName().equals(XBox360Pad.ID)) {
+            inputController.inputSets.add(new InputSet(Controllers.getControllers().get(1),
+                    XBox360Pad.DPAD_RIGHT,
+                    XBox360Pad.DPAD_LEFT,
+                    XBox360Pad.BUTTON_A,
+                    XBox360Pad.BUTTON_B));
         }
         if(numUsers > 1) {
             inputController.randomizeControls();

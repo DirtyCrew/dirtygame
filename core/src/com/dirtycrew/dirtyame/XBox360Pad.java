@@ -23,7 +23,7 @@ public class XBox360Pad
        Xbox Receiver for Windows (Wireless Controller)
        Xbox wireless receiver for windows (Controller)
      */
-    //public static final String ID = "XBOX 360 For Windows (Controller)";
+    public static final String ID = "XBOX 360 For Windows (Controller)";
     public static final int DPAD_LEFT = 2;
     public static final int DPAD_DOWN = 1;
     public static final int DPAD_UP = 0; //Actually DPAD UP Somehow
